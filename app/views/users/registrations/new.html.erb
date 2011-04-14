@@ -1,5 +1,19 @@
-<h2>Sign up</h2>
+<%# Title for HTML Head Title %>
+<% content_for :title do %>
+	Webula | Sign Up Webula
+<% end %>
 
+<%# Slogan for page %>
+<% content_for :slogan do %>
+  <%# Slogan must be written %>
+<% end %>
+
+<%# Title for window %>
+<% content_for :window_header do %>
+	<h1>Sign Up Webula</h1>
+<% end %>	
+
+<%# Body %>
 <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
   <%= devise_error_messages! %>
 
@@ -15,4 +29,15 @@
   <p><%= f.submit "Sign up" %></p>
 <% end %>
 
-<%= render :partial => "devise/shared/links" %>
+<%# Links to other auth functions %>
+<% content_for :window_footer do %>
+  <%# Link to authorization %>
+	<%- if controller_name != 'sessions' %>
+    <%= link_to "Sign in", new_session_path(resource_name) %> / 
+  <% end -%>
+
+  <%# Link to sending confirmation instructions %>
+  <%- if devise_mapping.confirmable? && controller_name != 'confirmations' %>
+    <%= link_to "Didn't receive confirmation instructions?", new_confirmation_path(resource_name) %>
+  <% end -%>
+<% end %>
