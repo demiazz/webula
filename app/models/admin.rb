@@ -23,7 +23,7 @@ class Admin
   		 :unlock_strategy => :both,
   		 :maximum_attempts => 5,
 	  	 :unlock_in => 7.days,
-		 # ==> Configuration for :recoverable
+		   # ==> Configuration for :recoverable
   		 :reset_password_keys => [ :email ]
 
 end
