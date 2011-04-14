@@ -15,8 +15,8 @@
 
 <%# Body %>
 <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
-  <p><%= f.label :email %><br />
-  <%= f.email_field :email %></p>
+  <p><%= f.label :username %><br />
+  <%= f.text_field :username %></p>
 
   <p><%= f.label :password %><br />
   <%= f.password_field :password %></p>
@@ -41,7 +41,7 @@
     <%= link_to "Forgot your password?", new_password_path(resource_name) %> /
   <% end -%>  
   <%# Link to unblock account %>
-  <%- if devise_mapping.lockable? && resource_class.unlock_strategy_enabled?(:email) && controller_name != 'unlocks' %>
+  <%- if devise_mapping.lockable? && resource_class.unlock_strategy_enabled?(:username) && controller_name != 'unlocks' %>
     <%= link_to "Unlock account?", new_unlock_path(resource_name) %>
   <% end -%>
 <% end %>
