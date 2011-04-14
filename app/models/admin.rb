@@ -1,5 +1,15 @@
 class Admin
   include Mongoid::Document
+
+  # ==> Model Fields
+  field :username, type: String
+  field :email, type: String
+  field :password, type: String
+
+  # ==> Accessible
+  attr_accessible :username
+  attr_accessible :email
+  attr_accessible :password
   
   devise :database_authenticatable,
   		 # ==> Modules
