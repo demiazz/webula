@@ -26,10 +26,6 @@
 
 <%# Links to other auth functions %>
 <% content_for :window_footer do %>
-  <%# Link to registration %>
-  <%- if devise_mapping.registerable? && controller_name != 'registrations' %>
-    <%= link_to "Sign up", new_registration_path(resource_name) %> / 
-  <% end -%>
   <%# Link to password recovery %>
   <%- if devise_mapping.recoverable? && controller_name != 'passwords' %>
     <%= link_to "Forgot your password?", new_password_path(resource_name) %> /
