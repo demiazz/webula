@@ -1,5 +1,15 @@
 class Admin
   include Mongoid::Document
+
+  # ==> Model Fields
+  field :username, type: String
+  field :email, type: String
+  field :password, type: String
+
+  # ==> Accessible
+  attr_accessible :username
+  attr_accessible :email
+  attr_accessible :password
   
   devise :database_authenticatable,
   		 # ==> Modules
@@ -9,8 +19,8 @@ class Admin
   		 :lockable,
   		 :timeoutable,
   		 # ==> Configuration for any authentication mechanism
-  		 :authentication_keys => [ :email ],
-  		 :case_insensitive_keys => [ :email ],
+  		 :authentication_keys => [ :username ],
+  		 :case_insensitive_keys => [ :username ],
   		 # ==> Configuration for :database_authenticatable
   		 :stretches => 10,
   		 # ==> Configuration for :validatable
@@ -19,11 +29,11 @@ class Admin
   		 :timeout_in => 5.minutes,
   		 # ==> Configuration for :lockable
   		 :lock_strategy => :failed_attempts,
-  		 :unlock_keys => [ :email ],
+  		 :unlock_keys => [ :username ],
   		 :unlock_strategy => :both,
   		 :maximum_attempts => 5,
 	  	 :unlock_in => 7.days,
 		   # ==> Configuration for :recoverable
-  		 :reset_password_keys => [ :email ]
+  		 :reset_password_keys => [ :username ]
 
 end

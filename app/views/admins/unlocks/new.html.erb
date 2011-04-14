@@ -17,8 +17,8 @@
 <%= form_for(resource, :as => resource_name, :url => unlock_path(resource_name), :html => { :method => :post }) do |f| %>
   <%= devise_error_messages! %>
 
-  <p><%= f.label :email %><br />
-  <%= f.email_field :email %></p>
+  <p><%= f.label :username %><br />
+  <%= f.text_field :username %></p>
 
   <p><%= f.submit "Resend unlock instructions" %></p>
 <% end %>
@@ -27,10 +27,6 @@
   <%# Link to authorization %>
   <%- if controller_name != 'sessions' %>
     <%= link_to "Sign in", new_session_path(resource_name) %> /
-  <% end -%>
-  <%# Link to registration %>
-  <%- if devise_mapping.registerable? && controller_name != 'registrations' %>
-    <%= link_to "Sign up", new_registration_path(resource_name) %> /
   <% end -%>
   <%# Link to password recovery %>
   <%- if devise_mapping.recoverable? && controller_name != 'passwords' %>

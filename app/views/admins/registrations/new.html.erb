@@ -17,6 +17,9 @@
 <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
   <%= devise_error_messages! %>
 
+  <p><%= f.label :username %><br />
+  <%= f.text_field :username %></p>
+
   <p><%= f.label :email %><br />
   <%= f.email_field :email %></p>
 
@@ -35,7 +38,6 @@
 	<%- if controller_name != 'sessions' %>
     <%= link_to "Sign in", new_session_path(resource_name) %> / 
   <% end -%>
-
   <%# Link to sending confirmation instructions %>
   <%- if devise_mapping.confirmable? && controller_name != 'confirmations' %>
     <%= link_to "Didn't receive confirmation instructions?", new_confirmation_path(resource_name) %>

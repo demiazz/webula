@@ -1,6 +1,16 @@
 class User
   include Mongoid::Document
 
+  # ==> Model Fields
+  field :username, type: String
+  field :email, type: String
+  field :password, type: String
+
+  # ==> Accessible
+  attr_accessible :username
+  attr_accessible :email
+  attr_accessible :password
+
   devise :database_authenticatable,
          # ==> Modules
          :registerable,
@@ -12,13 +22,13 @@ class User
          :lockable,
          :timeoutable,
          # ==> Configuration for any authentication mechanism
-         :authentication_keys => [ :email ],
-         :case_insensitive_keys => [ :email ],
+         :authentication_keys => [ :username ],
+         :case_insensitive_keys => [ :username ],
          # ==> Configuration for :database_authenticatable
          :stretches => 10,
          # ==> Configuration for :confirmable
          :confirm_within => 7.days,
-         :confirmation_keys => [ :email ],
+         :confirmation_keys => [ :username ],
          # ==> Configuration for :rememberable
          :remember_for => 7.days,
          :remember_across_browsers => true,
@@ -29,10 +39,10 @@ class User
          :timeout_in => 1.hour,
          # ==> Configuration for :lockable
          :lock_strategy => :failed_attempts,
-         :unlock_keys => [ :email ],
+         :unlock_keys => [ :username ],
          :unlock_strategy => :both,
          :maximum_attempts => 10,
          :unlock_in => 1.hour,
          # ==> Configuration for :recoverable
-         :reset_password_keys => [ :email ]
+         :reset_password_keys => [ :username ]
 end
