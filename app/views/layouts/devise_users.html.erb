@@ -1,0 +1,42 @@
+<!DOCTYPE html> 
+<html> 
+  <head> 
+    <title> 
+      <%= yield :title %>
+    </title> 
+    <%= stylesheet_link_tag "fonts" %>
+    <%= stylesheet_link_tag "devise_users" %>
+    <%= csrf_meta_tag %>
+  </head> 
+  <body> 
+    <header> 
+      <div class="content" align=center> 
+	      <%= image_tag "logo.png", :style => "margin-top: 5px;" %>
+      </div> 
+    </header> 
+    <nav> 
+      <div class="content"> 
+        <p><%= yield :slogan %></p> 
+      </div> 
+    </nav> 
+    <article> 
+      <div class="content"> 
+	      <div class="window"> 
+	        <div class="window-header"> 
+	          <%= yield :window_header %>
+	        </div> 
+	        <div class="window-content"> 
+	          <%= yield %>
+	        </div> 
+	        <div class="window-footer"> 
+	          <%= yield :window_footer %>
+	        </div> 
+        </div> 
+    </article> 
+    <footer> 
+      <div class="content"> 
+	      <p>Powered by Webula &copy; 2011 Alexey "demiazz" Plutalov</p> 
+      </div> 
+    </footer> 
+  </body> 
+</html> 
