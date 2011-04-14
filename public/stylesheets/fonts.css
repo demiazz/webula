@@ -1,0 +1,187 @@
+/*
+ * Google Fonts Local Collection
+ */
+ 
+/* 
+ * Name: PT Sans  
+ */
+
+/* PT Sans Normal */
+@font-face {
+  font-family: 'PT Sans';
+  font-style: normal;
+  font-weight: normal;
+  src: local('PT Sans'), local('PTSans-Regular'), url('../fonts/PT+Sans/PT_Sans-Web-Regular.ttf');
+}
+
+/* PT Sans Bold */
+@font-face {
+  font-family: 'PT Sans';
+  font-style: normal;
+  font-weight: bold;
+  src: local('PT Sans Bold'), local('PTSans-Bold'), url('../fonts/PT+Sans/PT_Sans-Web-Bold.ttf');
+}
+
+/* PT Sans Italic */
+@font-face {
+  font-family: 'PT Sans';
+  font-style: italic;
+  font-weight: normal;
+  src: local('PT Sans Italic'), local('PTSans-Italic'), url('../fonts/PT+Sans/PT_Sans-Web-Italic.ttf');
+}
+
+/* PT Sans Bold Italic */
+@font-face {
+  font-family: 'PT Sans';
+  font-style: italic;
+  font-weight: bold;
+  src: local('PT Sans Bold Italic'), local('PTSans-BoldItalic'), url('../fonts/PT+Sans/PT_Sans-Web-BoldItalic.ttf');
+}
+
+/*
+ * Name: PT Serif
+ */
+
+/* PT Serif Normal */
+@font-face {
+  font-family: 'PT Serif';
+  font-style: normal;
+  font-weight: normal;
+  src: local('PT Serif'), local('PTSerif-Regular'), url('../fonts/PT+Serif/PT_Serif-Web-Regular.ttf');
+}
+
+/* PT Serif Bold */
+@font-face {
+  font-family: 'PT Serif';
+  font-style: normal;
+  font-weight: bold;
+  src: local('PT Serif Bold'), local('PTSerif-Bold'), url('../fonts/PT+Serif/PT_Serif-Web-Bold.ttf');
+}
+
+/* PT Serif Italic */
+@font-face {
+  font-family: 'PT Serif';
+  font-style: italic;
+  font-weight: normal;
+  src: local('PT Serif Italic'), local('PTSerif-Italic'), url('../fonts/PT+Serif/PT_Serif-Web-Italic.ttf');
+}
+
+/* PT Serif Bold Italic */
+@font-face {
+  font-family: 'PT Serif';
+  font-style: italic;
+  font-weight: bold;
+  src: local('PT Serif Bold Italic'), local('PTSerif-BoldItalic'), url('../fonts/PT+Serif/PT_Serif-Web-BoldItalic.ttf');
+}
+
+/*
+ * Name: Ubuntu
+ */
+
+/* Ubuntu Normal */
+@font-face {
+  font-family: 'Ubuntu';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Ubuntu'), url('../fonts/Ubuntu/Ubuntu-Regular.ttf');
+}
+
+/* Ubuntu Bold */
+@font-face {
+  font-family: 'Ubuntu';
+  font-style: normal;
+  font-weight: bold;
+  src: local('Ubuntu Bold'), local('Ubuntu-Bold'), url('../fonts/Ubuntu/Ubuntu-Bold.ttf');
+}
+
+/* Ubuntu Italic */
+@font-face {
+  font-family: 'Ubuntu';
+  font-style: italic;
+  font-weight: normal;
+  src: local('Ubuntu Italic'), local('Ubuntu-Italic'), url('../fonts/Ubuntu/Ubuntu-Italic.ttf');
+}
+
+/* Ubuntu Bold Italic */
+@font-face {
+  font-family: 'Ubuntu';
+  font-style: italic;
+  font-weight: bold;
+  src: local('Ubuntu Bold Italic'), local('Ubuntu-BoldItalic'), url('../fonts/Ubuntu/Ubuntu-BoldItalic.ttf');
+}
+
+/*
+ * Name: Ubuntu Light 
+ */
+
+/* Ubuntu Light */
+@font-face {
+  font-family: 'Ubuntu';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Ubuntu Light'), local('Ubuntu-Light'), url('../fonts/Ubuntu/Ubuntu-Light.ttf');
+}
+
+/* Ubuntu Light Normal */
+@font-face {
+  font-family: 'Ubuntu';
+  font-style: italic;
+  font-weight: 300;
+  src: local('Ubuntu Light Italic'), local('Ubuntu-LightItalic'), url('../fonts/Ubuntu/Ubuntu-LightItalic.ttf');
+}
+
+/*
+ * Name: Ubuntu Medium 
+ */
+
+/* Ubuntu Medium */
+@font-face {
+  font-family: 'Ubuntu';
+  font-style: normal;
+  font-weight: 500;
+  src: local('Ubuntu Medium'), local('Ubuntu-Medium'), url('../fonts/Ubuntu/Ubuntu-Medium.ttf');
+}
+
+/* Ubuntu Medium Italic */
+@font-face {
+  font-family: 'Ubuntu';
+  font-style: italic;
+  font-weight: 500;
+  src: local('Ubuntu Medium Italic'), local('Ubuntu-MediumItalic'), url('../fonts/Ubuntu/Ubuntu-MediumItalic.ttf');
+}
+
+/*
+ * Anonyous Pro
+ */
+
+/* Anonymous Pro Normal */
+@font-face {
+  font-family: 'Anonymous Pro';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Anonymous Pro'), local('AnonymousPro'), url('../fonts/Anonymous+Pro/AnonymouPro-Regular.ttf');
+}
+
+/* Anonymous Pro Bold */
+@font-face {
+  font-family: 'Anonymous Pro';
+  font-style: normal;
+  font-weight: bold;
+  src: local('Anonymous Pro Bold'), local('AnonymousPro-Bold'), url('../fonts/Anonymous+Pro/AnonymouPro-Bold.ttf');
+}
+
+/* Anonymous Pro Italic */
+@font-face {
+  font-family: 'Anonymous Pro';
+  font-style: italic;
+  font-weight: normal;
+  src: local('Anonymous Pro Italic'), local('AnonymousPro-Italic'), url('../fonts/Anonymous+Pro/AnonymouPro-Italic.ttf');
+}
+
+/* Anonymous Pro Bold Italic */
+@font-face {
+  font-family: 'Anonymous Pro';
+  font-style: italic;
+  font-weight: bold;
+  src: local('Anonymous Pro Bold Italic'), local('AnonymousPro-BoldItalic'), url('../fonts/Anonymous+Pro/AnonymouPro-BoldItalic.ttf');
+}
