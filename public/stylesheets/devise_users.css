@@ -1,0 +1,203 @@
+* {
+    margin: 0px;
+    padding: 0px;
+    font-family: Ubuntu;
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    min-height: 100%;
+    position: relative;
+    margin: 0px;
+    padding: 0px;
+    width: 100%;
+}
+
+header {
+    width: 100%;
+    height: 100px;
+    background: -webkit-gradient(linear, left top, left bottom, from(#000), to(#222));
+    border-bottom: 1px solid #999; 
+    
+}
+
+header h1 {
+    color: #ccc;
+    font-size: 80px;
+    text-align: center;
+    text-shadow: #999 1px 1px 2px;
+    font-family: Ubuntu;
+}
+
+nav {
+    width: 100%;
+    height: 50px; 
+    background: -webkit-gradient(linear, left top, left bottom, from(#ccc), to(#ddd));
+    border-bottom: 1px solid #999;
+    box-shadow: 0px 1px 3px 1px #aaa;
+}
+
+nav p {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    padding-top: 10px;
+    color: #444;
+    text-shadow: #fff 1px 1px 1px;
+} 
+ 
+article {
+    padding-bottom: 100px;
+}
+
+.window {
+    margin-top: 50px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 400px;
+    box-shadow: 0px 0px 10px 1px #666;
+    border-radius: 10px;
+}
+
+.window-header {
+    background: -webkit-gradient(linear, left top, left bottom, from(#ddd), to(#ccc));
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom: 1px solid #999;
+    box-shadow: 0px 1px 3px 1px #bbb;
+    padding: 10px;
+}
+
+.window-header h1 {
+    text-align: center;
+    color: #444;
+    text-shadow: #fff 1px 1px 1px;
+}
+
+.window-content {
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+}
+
+.window-content label {
+    color: #222;
+    font-size: 16px;
+    font-weight: bold;
+    width: 316px;
+    display: inline-block;
+    text-align: left;
+    margin-top: 5px;
+    margin-bottom: -5px;
+} 
+ 
+.window-content input {
+    margin: 5px;
+    text-align: center;
+}
+
+.window-content input[type="text"],
+.window-content input[type="password"],
+.window-content input[type="email"] {
+    width: 300px;
+    color: #222;
+    border: 1px solid #ccc;
+    padding: 7px;
+    font-size: 18px;
+}
+
+.window-content input[type="text"]:focus,
+.window-content input[type="password"]:focus,
+.window-content input[type="email"]:focus {
+    color: #444;
+    border: 1px solid #aaa;
+    outline: none;
+    box-shadow: 0px 0px 5px 1px #aaa;
+}
+
+.window-content input[type="submit"],
+.window-content input[type="button"] {
+    width: 316px;
+    border: 1px solid #ccc;
+    border-bottom: 1px solid #bbb;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font-weight: bold;
+    color: #222;
+    text-shadow: #fff 1px 1px 1px;
+    font-size: 16px;
+    background: -webkit-gradient(linear, left top, left bottom, from(#ddd), to(#bbb));
+    cursor: pointer;
+}
+
+.window-content input[type="submit"]:active,
+.window-content input[type="button"]:active {
+    background: -webkit-gradient(linear, left top, left bottom, from(#999), to(#bbb));
+    text-shadow: #ccc 1px 1px 1px;
+}
+
+.window-footer {
+    background: -webkit-gradient(linear, left top, left bottom, from(#ccc), to(#ddd));
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-top: 1px solid #bbb;
+    padding: 10px;
+    font-size: 14px;
+    text-align: center;
+}
+
+footer {
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    height: 50px;
+    background: -webkit-gradient(linear, left top, left bottom, from(#222), to(#000));
+    border-top: 1px solid #999;
+    box-shadow: 0px -1px 3px 1px #aaa;
+}
+
+footer p {
+    padding: 15px;
+    color: #999;
+    font-size: 12px;
+    text-align: center;
+}
+
+.window-footer a {
+    color: #222;
+    text-decoration: none;
+
+}
+
+.window-footer a:hover {
+    text-decoration: underline;
+}
+
+.content {
+    width: 960px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#error_explanation {
+    border-radius: 10px;
+    background: #f99;
+    padding: 10px;
+    text-align: left;
+}
+
+#error_explanation h2 {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+#error_explanation li {
+    margin-left: 20px;
+    font-size: 12px;
+}
