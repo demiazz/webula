@@ -56,6 +56,7 @@ class User
 
     def create_profile
       self.user_profile = UserProfile.new
+      self.user_profile.step = true
     end
 
 end
