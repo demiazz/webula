@@ -1,21 +1,15 @@
 Webula::Application.routes.draw do
-  get "profile_master/main_edit"
 
-  get "profile_master/main_save"
-
-  get "profile_master/organization_edit"
-
-  get "profile_master/organization_save"
-
-  get "profile_master/contacts_edit"
-
-  get "profile_master/contacts_save"
-
-  get "profile_master/avatar_edit"
-
-  get "profile_master/avatar_save"
-
-  get "profile_master/finish"
+  # ProfileMaster Controller
+  get "master/step/1" => "profile_master#main_edit"
+  put "master/step/1" => "profile_master#main_save"
+  get "master/step/2" => "profile_master#organization_edit"
+  put "master/step/2" => "profile_master#organization_save"
+  get "master/step/3" => "profile_master#contacts_edit"
+  put "master/step/3" => "profile_master#contacts_save"
+  get "master/step/4" => "profile_master#avatar_edit"
+  put "master/step/4" => "profile_master#avatar_save"
+  get "master/step/finish" => "profile_master#finish"
 
   devise_for :admins, :path => "admin/auth"
 
