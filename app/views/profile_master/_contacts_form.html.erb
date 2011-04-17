@@ -1,0 +1,33 @@
+<%= form_tag({ :controller => "profile_master", :action => "contacts_save" }, :method => "put") do %>
+	<div class="field">
+		<%= label_tag(:home_phone, "Home phone:") %><br />
+		<%= text_field_tag(:home_phone) %>
+	</div>
+	<div class="field">
+		<%= label_tag(:work_phone, "Work phone:") %><br />
+		<%= text_field_tag(:work_phone) %>
+	</div>
+	<div class="field">
+		<%= label_tag(:mobile_phone, "Mobile phone:") %><br />
+		<%= text_field_tag(:mobile_phone) %>
+	</div>
+	<div class="field">
+		<%= label_tag(:mail, "Email:") %><br />
+		<%= text_field_tag(:mail) %>
+	</div>
+	<div class="field">
+		<%= label_tag(:icq, "ICQ:") %><br />
+		<%= text_field_tag(:icq) %>
+	</div>
+	<div class="field">
+		<%= label_tag(:xmpp, "XMPP:") %><br />
+		<%= text_field_tag(:xmpp) %>
+	</div>
+	<div class="field">
+		<%= label_tag(:twitter, "Twitter username:") %><br />
+		<%= text_field_tag(:twitter) %>
+	</div>
+	<div class="actions">
+    <%= submit_tag("Save") %>
+  </div>
+<% end %>

@@ -1,0 +1,29 @@
+<%= form_tag({ :controller => "profile_master", :action => "main_save" }, :method => "put") do %>
+  <div class="field">
+	<%= label_tag(:first_name, "First Name *:") %><br />
+	<%= text_field_tag(:first_name) %>
+  </div>
+  <div class="field">
+    <%= label_tag(:last_name, "Last Name *:") %><br />
+    <%= text_field_tag(:last_name) %>
+  </div>
+  <div class="field">
+    <%= label_tag(:birthday, "Birthday *:") %><br />
+    <%= select_date(Date.today, :prefix => 'birthday', :order => [:day, :month, :year]) %>
+  </div>
+  <div class="field">
+    <%= label_tag(:country, "Country *:") %><br />
+    <%= text_field_tag(:country) %>
+  </div>
+  <div class="field">
+    <%= label_tag(:state, "State *:") %><br />
+    <%= text_field_tag(:state) %>
+  </div>
+  <div class="field">
+    <%= label_tag(:city, "City *:") %><br />
+    <%= text_field_tag(:city) %>
+  </div>
+  <div class="actions">
+    <%= submit_tag("Next") %>
+  </div>
+<% end %>
