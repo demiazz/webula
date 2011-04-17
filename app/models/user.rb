@@ -14,6 +14,9 @@ class User
   attr_accessible :email
   attr_accessible :password
 
+  # ==> Callbacks
+  before_create :create_profile
+
   devise :database_authenticatable,
          # ==> Modules
          :registerable,
@@ -48,5 +51,11 @@ class User
          :unlock_in => 1.hour,
          # ==> Configuration for :recoverable
          :reset_password_keys => [ :username ]
+
+  protected
+
+    def create_profile
+      self.user_profile = UserProfile.new
+    end
 
 end
