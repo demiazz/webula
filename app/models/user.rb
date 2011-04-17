@@ -6,6 +6,9 @@ class User
   field :email, type: String
   field :password, type: String
 
+  # ==> Relations
+  embeds_one :user_profile
+
   # ==> Accessible
   attr_accessible :username
   attr_accessible :email
@@ -45,4 +48,5 @@ class User
          :unlock_in => 1.hour,
          # ==> Configuration for :recoverable
          :reset_password_keys => [ :username ]
+
 end
