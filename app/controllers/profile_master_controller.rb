@@ -96,7 +96,7 @@ class ProfileMasterController < ApplicationController
   
     respond_to do |format|
       if @user_profile.save
-        format.html
+        format.html { redirect_to :controller => "profile_master", :action => "finish" }
       else
         format.html { render :action => "avatar_edit" }
       end
