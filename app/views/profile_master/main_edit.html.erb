@@ -1,2 +1,22 @@
-<h1>ProfileMaster#main_edit</h1>
-<p>Find me in app/views/profile_master/main_edit.html.erb</p>
+<%# Title for HTML Head Title %>
+<% content_for :title do %>
+	Webula | Profile | Main Information
+<% end %>
+
+<%# Slogan for page %>
+<% content_for :slogan do %>
+  <span>Main Info</span> > <span class="not_complete_step">Organization Info</span> > <span class="not_complete_step">Contacts</span> > <span class="not_complete_step">Avatar</span> > <span class="not_complete_step">Finish</span>
+<% end %>
+
+<%# Title for window %>
+<% content_for :window_header do %>
+	<h1>Main Information</h1>
+<% end %>
+
+<%# Body %>
+<%= render "main_form" %>
+
+<%# Links to other auth functions %>
+<% content_for :window_footer do %>
+  
+<% end %>
