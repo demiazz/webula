@@ -1,4 +1,7 @@
 class ProfileMasterController < ApplicationController
+
+  before_filter :authenticate_user!
+
   def main_edit
   end
 
