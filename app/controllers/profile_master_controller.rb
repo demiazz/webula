@@ -92,7 +92,7 @@ class ProfileMasterController < ApplicationController
       file.write(uploaded_io.read)
     end
 
-    @user_profile.avatar = "images/avatars/" + params[:avatar].original_filename
+    @user_profile.avatar = "avatars/" + params[:avatar].original_filename
   
     respond_to do |format|
       if @user_profile.save
@@ -104,6 +104,11 @@ class ProfileMasterController < ApplicationController
   end
 
   def finish
+    @user_profile = current_user.user_profile
+
+    respond_to do |format|
+      format.html #avatar_edit.html.erb
+    end
   end
 
 end
