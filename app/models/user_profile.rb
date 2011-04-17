@@ -27,6 +27,8 @@ class UserProfile
   field :twitter, :type => String
   # Avatar
   field :avatar, :type => String
+  # Special Marker
+  field :new_profile, :type => Boolean
 
   # ==> Relations
   embedded_in :user
