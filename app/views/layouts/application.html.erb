@@ -1,14 +1,81 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Webula</title>
-  <%= stylesheet_link_tag :all %>
-  <%= javascript_include_tag :defaults %>
-  <%= csrf_meta_tag %>
-</head>
-<body>
+    <head>
+        <title>Webula | <%= @user_profile.first_name %> <%= @user_profile.last_name %> | <%= yield :title %></title>
+        <%= stylesheet_link_tag "fonts" %>
+        <%= stylesheet_link_tag "style" %>
+        <%= javascript_include_tag :defaults %>
+        <%= csrf_meta_tag %>
+    </head>
+    <body>
 
-<%= yield %>
+    	<!-- Header -->
+        <header>
+            <section class="content">
+            	<!-- Logo -->
+                <%= image_tag "logo.png", :class => "logo" %>
+                <a href="<%= url_for :controller => 'profiles', :action => 'index' %>"><%= image_tag @user_profile.avatar, :class => "avatar" %></a>
+                <p class="status">
+                	<a href="<%= url_for :controller => 'profiles', :action => 'index' %>">
+                		<%= @user_profile.first_name %> <%= @user_profile.last_name %>
+                	</a>
+                	[
+                	<a href="" class="options">Settings</a>
+                	 | 
+                	<a href="<%= url_for :controller => 'devise/sessions', :action => 'destroy' %>" class="exit">Exit</a>
+                	]
+                </p>
+            </section>
+        </header>
 
-</body>
+        <!-- Navigation -->
+        <nav>
+            <ul>
+                <%= yield :nav_menu %>
+            </ul>
+        </nav>
+
+        <!-- Page Content -->
+        <section id="page-wrapper">
+        	<section id="page">
+        	
+        		<!-- Left Side Bar -->
+            	<aside id="left-aside">
+                	<article class="avatar">
+                		<%= image_tag @user_profile.avatar, :id => "avatar" %>
+                	</article>
+                	<%= yield :left_aside %>
+            	</aside>
+
+            	<!-- Content -->
+            	<section id="content">
+            		
+            		<!-- Content Header -->
+            		<section id="content-header">
+            			<h1><%= @user_profile.first_name %> <%= @user_profile.last_name %> : <%= yield :title %></h1>
+            		</section>
+
+            		<!-- Content Body -->
+                	<section id="content-body">
+                    	<%= yield %>
+                    </section>
+                
+                	<!-- Content Footer -->
+                	<section id="content-footer">
+                    	<p class="links">
+                        	<%= yield :footer_links %>
+                    	</p>
+                    	<p class="copyright">Webula © 2011 Alexey "demiazz" Plutalov</p>
+                	</section>
+            	
+            	</section>
+
+            	<!-- Right Side Bar -->
+            	<aside id="right-aside">
+            		<%= yield :right_aside %>
+            	</aside>
+        
+        	</section>
+        </section>
+    </body>
 </html>
