@@ -1,6 +1,9 @@
-class ProfileMasterController < ApplicationController
+class ProfileMasterController < ActionController::Base
+
+  protect_from_forgery
 
   before_filter :authenticate_user!
+  before_filter :profile
 
   def main_edit
     respond_to do |format|
@@ -93,6 +96,7 @@ class ProfileMasterController < ApplicationController
     end
 
     @user_profile.avatar = "avatars/" + params[:avatar].original_filename
+    @user_profile.new_profile = false
   
     respond_to do |format|
       if @user_profile.save
@@ -110,5 +114,13 @@ class ProfileMasterController < ApplicationController
       format.html #avatar_edit.html.erb
     end
   end
+
+  private
+
+    def profile
+      if not current_user.user_profile.new_profile
+        redirect_to root_path
+      end
+    end
 
 end
