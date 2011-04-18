@@ -1,8 +1,9 @@
 Webula::Application.routes.draw do
 
-  get "profiles/index"
-
-  get "profiles/show"
+  # Profiles Controller
+  get "index" => "profiles#index"
+  get "show/:username" => "profiles#show"
+  get ":username" => "profiles#show"
 
   # ProfileMaster Controller
   get "master/step/1" => "profile_master#main_edit"
