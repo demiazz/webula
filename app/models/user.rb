@@ -6,10 +6,16 @@ class User
   field :email, type: String
   field :password, type: String
 
+  # ==> Relations
+  embeds_one :user_profile
+
   # ==> Accessible
   attr_accessible :username
   attr_accessible :email
   attr_accessible :password
+
+  # ==> Callbacks
+  before_create :create_profile
 
   devise :database_authenticatable,
          # ==> Modules
@@ -45,4 +51,12 @@ class User
          :unlock_in => 1.hour,
          # ==> Configuration for :recoverable
          :reset_password_keys => [ :username ]
+
+  protected
+
+    def create_profile
+      self.user_profile = UserProfile.new
+      self.user_profile.step = true
+    end
+
 end

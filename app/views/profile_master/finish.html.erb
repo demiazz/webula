@@ -1,0 +1,117 @@
+<%# Title for HTML Head Title %>
+<% content_for :title do %>
+	Webula | Profile | Finish
+<% end %>
+
+<%# Slogan for page %>
+<% content_for :slogan do %>
+  <span  class="complete_step">Main Info</span> > <span class="complete_step">Organization Info</span> > <span class="complete_step">Contacts</span> > <span class="complete_step">Avatar</span> > <span>Finish</span>
+<% end %>
+
+<%# Title for window %>
+<% content_for :window_header do %>
+	<h1>Profile</h1>
+<% end %>
+
+<%# Body %>
+<%= image_tag @user_profile.avatar, :height => 200, :width => 200, :style => "margin: 20px;" %>
+
+<h1>Main Info</h1>
+<table>
+	<tr>
+		<th>Name:</th>
+		<td><%= @user_profile.first_name %> <%= @user_profile.last_name %></td>
+	</tr>
+	<tr>
+		<th>Birthday:</th>
+		<td><%= @user_profile.birthday.strftime("%e %B %Y") %></td>
+	</tr>
+	<tr>
+		<th>Country:</th>
+		<td><%= @user_profile.country %></td>
+	</tr>
+	<tr>
+		<th>City:</th>
+		<td><%= @user_profile.city %>, <%= @user_profile.state %></td>
+	</tr>
+</table>
+
+<h1>Organization Info</h1>
+<table>
+	<tr>
+		<th>Name:</th>
+		<td><%= @user_profile.org_name %></td>
+	</tr>
+	<tr>
+		<th>Country:</th>
+		<td><%= @user_profile.org_country %></td>
+	</tr>
+	<tr>
+		<th>City:</th>
+		<td><%= @user_profile.org_city %>, <%= @user_profile.org_state %></td>
+	</tr>
+	<tr>
+		<th>Unit:</th>
+		<td><%= @user_profile.org_unit %></td>
+	</tr>
+	<tr>
+		<th>Position:</th>
+		<td><%= @user_profile.org_position %></td>
+	</tr>
+</table>
+
+<h1>Contacts</h1>
+<table>
+	<% if @user_profile.home_phone != "" %>
+		<tr>
+			<th>Home phone:</th>
+			<td><%= @user_profile.home_phone %></td>
+		</tr>
+	<% end %>
+	<% if @user_profile.work_phone != "" %>
+		<tr>
+			<th>Work phone:</th>
+			<td><%= @user_profile.work_phone %></td>
+		</tr>
+	<% end %>
+	<% if @user_profile.mobile_phone != "" %>
+		<tr>
+			<th>Mobile phone:</th>
+			<td><%= @user_profile.mobile_phone %></td>
+		</tr>
+	<% end %>
+	<% if @user_profile.mail != "" %>
+		<tr>
+			<th>Email:</th>
+			<td><%= @user_profile.mail %></td>
+		</tr>
+	<% end %>
+	<% if @user_profile.icq != "" %>
+		<tr>
+			<th>ICQ:</th>
+			<td><%= @user_profile.icq %></td>
+		</tr>
+	<% end %>
+	<% if @user_profile.xmpp != "" %>
+		<tr>
+			<th>XMPP:</th>
+			<td><%= @user_profile.xmpp %></td>
+		</tr>
+	<% end %>
+	<% if @user_profile.twitter != "" %>
+		<tr>
+			<th>Twitter:</th>
+			<td><%= @user_profile.twitter %></td>
+		</tr>
+	<% end %>
+</table>
+
+<%# TODO: Replace this on button_to on root_path %>
+<%= form_tag({ :controller => "profile_master", :action => "finish" }, :method => "get") do %>
+	<%= submit_tag("View your page") %>
+<% end %>
+
+<%# Links to other auth functions %>
+<% content_for :window_footer do %>
+  
+<% end %>

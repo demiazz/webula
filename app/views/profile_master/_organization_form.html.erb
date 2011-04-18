@@ -1,0 +1,29 @@
+<%= form_tag({ :controller => "profile_master", :action => "organization_save" }, :method => "put") do %>
+	<div class="field">
+		<%= label_tag(:org_name, "Name *:") %><br />
+		<%= text_field_tag(:org_name) %>
+	</div>
+	<div class="field">
+		<%= label_tag(:org_country, "Country *:") %><br />
+		<%= text_field_tag(:org_country) %>
+	</div>
+	<div class="field">
+		<%= label_tag(:org_state, "State *:") %><br />
+		<%= text_field_tag(:org_state) %>
+	</div>
+	<div class="field">
+		<%= label_tag(:org_city, "City *:") %><br />
+		<%= text_field_tag(:org_city) %>
+	</div>
+	<div class="field">
+		<%= label_tag(:org_unit, "Unit *:") %><br />
+		<%= text_field_tag(:org_unit) %>
+	</div>
+	<div class="field">
+		<%= label_tag(:org_position, "Position *:") %><br />
+		<%= text_field_tag(:org_position) %>
+	</div>
+	<div class="actions">
+    <%= submit_tag("Next") %>
+  </div>
+<% end %>

@@ -1,0 +1,9 @@
+<%= form_tag({ :controller => "profile_master", :action => "avatar_save" }, :multipart => true, :method => "put") do %>
+	<div class="field">
+		<%= label_tag(:avatar, "Avatar file:") %><br />
+		<%= file_field_tag(:avatar) %>
+	</div>
+	<div class="actions">
+    	<%= submit_tag("Finish") %>
+  	</div>
+<% end %>

@@ -1,0 +1,2 @@
+module ProfileMasterHelper
+end
