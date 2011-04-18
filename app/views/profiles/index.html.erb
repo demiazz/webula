@@ -1,0 +1,103 @@
+<% content_for :title do %>
+	Profile
+<% end %>
+
+<article class="user-profile">
+	<h1>Main Info</h1>
+	<table>
+		<tr>
+			<th>Birthday:</th>
+			<td><%= @user_profile.birthday.strftime("%e %B %Y") %></td>
+		</tr>
+		<tr>
+			<th>Country:</th>
+			<td><%= @user_profile.country %></td>
+		</tr>
+		<tr>
+			<th>City:</th>
+			<td><%= @user_profile.city %>, <%= @user_profile.state %></td>
+		</tr>
+	</table>
+	<h1>Organization Info</h1>
+	<table>
+		<tr>
+			<th>Name:</th>
+			<td><%= @user_profile.org_name %></td>
+		</tr>
+		<tr>
+			<th>Country:</th>
+			<td><%= @user_profile.org_country %></td>
+		</tr>
+		<tr>
+			<th>City:</th>
+			<td><%= @user_profile.org_city %>, <%= @user_profile.org_state %></td>
+		</tr>
+		<tr>
+			<th>Unit:</th>
+			<td><%= @user_profile.org_unit %></td>
+		</tr>
+		<tr>
+			<th>Position:</th>
+			<td><%= @user_profile.org_position %></td>
+		</tr>
+	</table>
+	<h1>Contacts</h1>
+	<table>
+		<tr>
+			<th>Home phone:</th>
+			<% if @user_profile.home_phone != "" %>
+				<td><%= @user_profile.home_phone %></td>
+			<% else %>
+				<td>None</td>
+			<% end %>
+		</tr>
+		<tr>
+			<th>Work phone:</th>
+			<% if @user_profile.work_phone != "" %>
+				<td><%= @user_profile.work_phone %></td>
+			<% else %>
+				<td>None</td>
+			<% end %>
+		</tr>
+		<tr>
+			<th>Mobile phone:</th>
+			<% if @user_profile.mobile_phone != "" %>
+				<td><%= @user_profile.mobile_phone %></td>
+			<% else %>
+				<td>None</td>
+			<% end %>
+		</tr>
+		<tr>
+			<th>Email:</th>
+			<% if @user_profile.mail != "" %>
+				<td><a href="mailto://<%= @user_profile.mail %>"><%= @user_profile.mail %></a></td>
+			<% else %>
+				<td>None</td>
+			<% end %>
+		</tr>
+		<tr>
+			<th>ICQ:</th>
+			<% if @user_profile.icq != "" %>
+				<td><%= @user_profile.icq %></td>
+			<% else %>
+				<td>None</td>
+			<% end %>
+		</tr>
+		<tr>
+			<th>XMPP:</th>
+			<% if @user_profile.xmpp != "" %>
+				<td><a href="xmpp://<%= @user_profile.xmpp %>"><%= @user_profile.xmpp %></a></td>
+			<% else %>
+				<td>None</td>
+			<% end %>
+		</tr>
+		<tr>
+			<th>Twitter:</th>
+			<% if @user_profile.twitter != "" %>
+				<td><a href="http://twitter.com/<%= @user_profile.twitter %>/">http://twitter.com/<%= @user_profile.twitter %>/</a></td>
+			<% else %>
+				<td>None</td>
+			<% end %>
+		</tr>
+	</table>
+</article>
