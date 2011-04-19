@@ -1,2 +1,20 @@
-<h1>Settings#avatar_edit</h1>
-<p>Find me in app/views/settings/avatar_edit.html.erb</p>
+<% content_for :title do %>
+	Change avatar
+<% end %>
+
+<%= render "links" %>
+
+<article class="settings-form">
+	<%= form_tag({ :controller => "settings", :action => "avatar_update" }, :multipart => true, :method => "put") do %>
+		<%= image_tag @user_profile.avatar, :height => 200, :width => 200, :id => "avatar" %>
+		<h1></h1>
+		<div class="field-wrapper">
+			<p><%= file_field_tag(:avatar) %></p>
+			<p class="description">Select your avatar file. Recommend size 200x200 pixels.</p>
+		</div>
+		<h1></h1>
+		<div class="field-wrapper">
+			<p><%= submit_tag("Update avatar") %></p>
+		</div>
+	<% end %>
+</article>
