@@ -1,0 +1,132 @@
+<% content_for :title do %>
+	Change profile
+<% end %>
+
+<%= render "links" %>
+
+<article>
+	<%= form_for(@user_profile, :url => url_for(:controller => "settings", :action => "profile_update"), :html => {:method => :put, :class => "settings-form" }) do |f| %>
+		<h1>Main Info</h1>
+		<div class="field-wrapper">
+			<p>
+				<span class="label"><%= f.label :first_name %> *:</span>
+				<span class="field"><%= f.text_field :first_name %></span>
+			</p>
+		</div>
+		<div class="field-wrapper">
+			<p>
+				<span class="label"><%= f.label :last_name %> *:</span>
+				<span class="field"><%= f.text_field :last_name %></span>
+			</p>
+		</div>
+		<div class="field-wrapper">
+			<p>
+				<span class="label"><%= f.label :birthday %> *:</span>
+				<span class="field"><%= f.date_select :birthday, :order => [:day, :month, :year] %></span>
+			</p>
+		</div>
+		<div class="field-wrapper">
+			<p>
+				<span class="label"><%= f.label :country %> *:</span>
+				<span class="field"><%= f.text_field :country %></span>
+			</p>
+		</div>
+		<div class="field-wrapper">
+			<p>
+				<span class="label"><%= f.label :state %> *:</span>
+				<span class="field"><%= f.text_field :state %></span>
+			</p>
+		</div>
+		<div class="field-wrapper">
+			<p>
+				<span class="label"><%= f.label :city %> *:</span>
+				<span class="field"><%= f.text_field :city %></span>
+			</p>
+		</div>
+
+		<h1>Organization Info</h1>
+		<div class="field-wrapper">
+			<p>
+				<span class="label"><%= f.label :org_name %> *:</span>
+				<span class="field"><%= f.text_field :org_name %></span>
+			</p>
+		</div>
+		<div class="field-wrapper">
+			<p>
+				<span class="label"><%= f.label :org_country %> *:</span>
+				<span class="field"><%= f.text_field :org_country %></span>
+			</p>
+		</div>
+		<div class="field-wrapper">
+			<p>
+				<span class="label"><%= f.label :org_state %> *:</span>
+				<span class="field"><%= f.text_field :org_state %></span>
+			</p>
+		</div>
+		<div class="field-wrapper">
+			<p>
+				<span class="label"><%= f.label :org_city %> *:</span>
+				<span class="field"><%= f.text_field :org_city %></span>
+			</p>
+		</div>
+		<div class="field-wrapper">
+			<p>
+				<span class="label"><%= f.label :org_unit %> *:</span>
+				<span class="field"><%= f.text_field :org_unit %></span>
+			</p>
+		</div>
+		<div class="field-wrapper">
+			<p>
+				<span class="label"><%= f.label :org_position %> *:</span>
+				<span class="field"><%= f.text_field :org_position %></span>
+			</p>
+		</div>
+		<h1>Contacts</h1>
+		<div class="field-wrapper">
+			<p>
+				<span class="label"><%= f.label :home_phone %>:</span>
+				<span class="field"><%= f.text_field :home_phone %></span>
+			</p>
+		</div>
+		<div class="field-wrapper">
+			<p>
+				<span class="label"><%= f.label :work_phone %>:</span>
+				<span class="field"><%= f.text_field :work_phone %></span>
+			</p>
+		</div>
+		<div class="field-wrapper">
+			<p>
+				<span class="label"><%= f.label :mobile_phone %>:</span>
+				<span class="field"><%= f.text_field :mobile_phone %></span>
+			</p>
+		</div>
+		<div class="field-wrapper">
+			<p>
+				<span class="label"><%= f.label :mail %>:</span>
+				<span class="field"><%= f.text_field :mail %></span>
+			</p>
+		</div>
+		<div class="field-wrapper">
+			<p>
+				<span class="label"><%= f.label :icq %>:</span>
+				<span class="field"><%= f.text_field :icq %></span>
+			</p>
+		</div>
+		<div class="field-wrapper">
+			<p>
+				<span class="label"><%= f.label :xmpp %>:</span>
+				<span class="field"><%= f.text_field :xmpp %></span>
+			</p>
+		</div>
+		<div class="field-wrapper">
+			<p>
+				<span class="label"><%= f.label :twitter %>:</span>
+				<span class="field"><%= f.text_field :twitter %></span>
+			</p>
+		</div>
+		<h1></h1>
+		<div class="field-wrapper">
+			<p><%= f.submit "Update profile" %></p>
+		</div>
+	<% end %>
+</article>

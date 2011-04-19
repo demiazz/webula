@@ -1,0 +1,258 @@
+/**************************************************************
+ * Webula Social Network                                      *
+ *                                                            *
+ * Copyright (c) 2011, Alexey Plutalov <demiazz.py@gmail.com> *
+ **************************************************************/
+
+/* Settings Menu */
+
+.settings-menu ul {
+	margin-top: 5px;
+	text-align: center;
+	border-bottom: 1px solid #ccc;
+	padding-bottom: 5px;
+	padding-top: 10px;
+	margin: 0px 0px 5px 0px;
+	background: -webkit-gradient(linear, left top, left bottom, from(#ddd), to(#eee));
+}
+
+.settings-menu li {
+	display: inline-block;
+	list-style: none;
+}
+
+.settings-menu a {
+	border: 1px solid #ccc;
+	padding: 5px;
+	background: white;
+}
+
+.settings-menu a:hover,
+.settings-menu a:focus {
+	background: -webkit-gradient(linear, left top, left bottom, from(#ddd), to(white));
+	text-decoration: none;
+	border-color: #999;
+	border-bottom-color: #ccc;
+}
+
+.settings-menu .selected {
+	border-bottom: 1px solid white;
+	padding-bottom: 5px;
+	background: white;
+}
+
+.settings-menu .selected:hover,
+.settings-menu .selected:focus {
+	border-bottom: 1px solid white;
+	padding-bottom: 5px;
+	
+}
+
+/* Settings error notice */
+
+.settings-error,
+#error_explanation {
+	background: #fcc;
+	margin: 5px 20px;
+	border-radius: 5px;
+	padding: 5px 10px;
+	text-align: left;
+}
+
+.settings-error h1,
+#error_explanation h2 {
+	font-size: 14px;
+}
+
+.settings-error ul,
+#error_explanation ul {
+	list-style: none;
+}
+
+.settings-error li,
+#error_explanation li {
+	font-size: 12px;
+	margin-left: 5px;
+}
+
+/* Settings info notice */
+
+.settings-ok {
+	background: #cfc;
+	margin: 5px 20px;
+	border-radius: 5px;
+	padding: 5px 10px;
+}
+
+.settings-ok h1 {
+	font-size: 14px;
+}
+
+.settings-ok ul {
+	list-style: none;
+}
+
+.settings-ok li {
+	font-size: 12px;
+	margin-left: 5px;
+}
+
+/* Settings form */
+
+.settings-form {
+	text-align: center;
+}
+
+.settings-form .field-wrapper {
+	margin: 7px;
+}
+
+.settings-form .field-wrapper .field span {
+	text-align: left;
+}
+
+.settings-form .field-wrapper .label {
+	width: 200px;
+	text-align: right;;
+	display: inline-block;
+	font-size: 12px;
+	color: #666;
+	font-weight: normal;
+	margin-left: -80px;
+}
+
+.settings-form .field-wrapper .label .field_with_errors {
+	color: #900;
+}
+
+.settings-form .field-wrapper .field_with_errors {
+	display: inherit;
+	font-size: inherit;
+	color: #900;
+}
+
+.settings-form .field-wrapper .description {
+	font-size: 12px;
+	color: #666;
+	text-align: center;	
+}
+
+.settings-form .field-wrapper .error {
+	font-size: 12px;
+	color: #900;
+	text-align: center;	
+}
+
+.settings-form .field-wrapper .info {
+	font-size: 12px;
+	color: #090;
+	text-align: center;	
+}
+
+.settings-form h1 {
+	font-size: 12px;
+	color: #666;
+	margin-left: 5px;
+	margin-right: 5px;
+	padding-bottom: 3px;
+	padding-left: 5px;
+	border-bottom: 1px solid #ccc;
+	text-align: left;
+}
+
+.settings-form table {
+	text-align: center;
+	margin: 15px auto;
+	max-width: 400px;
+}
+
+.settings-form th {
+	font-size: 12px;
+	font-weight: normal;
+	padding: 3px;
+	text-align: right;
+	color: #666;
+	width: 100px;
+}
+
+.settings-form td {
+	width: 200px;
+	text-align: left;
+}
+
+.settings-form input[type="text"],
+.settings-form input[type="password"],
+.settings-form input[type="email"] {
+	color: #222;
+    border: 1px solid #ccc;
+    padding: 3px;
+    font-size: 12px;
+    width: 184px;
+}
+
+.settings-form input[type="text"]:focus,
+.settings-form input[type="password"]:focus,
+.settings-form input[type="email"]:focus {
+	color: #444;
+    border: 1px solid #aaa;
+    outline: none;
+    box-shadow: 0px 0px 5px 1px #aaa;
+}
+
+.settings-form input[type="submit"],
+.settings-form input[type="button"] {
+    border: 1px solid #ccc;
+    border-bottom: 1px solid #bbb;
+    padding: 5px 15px;
+    font-weight: bold;
+    color: #222;
+    text-shadow: #fff 1px 1px 1px;
+    font-size: 12px;
+    background: -webkit-gradient(linear, left top, left bottom, from(#ddd), to(#bbb));
+    cursor: pointer;
+}
+
+.settings-form .delete {
+	background: -webkit-gradient(linear, left top, left bottom, from(#d00), to(#b00));
+}
+
+.settings-form input[type="submit"]:active,
+.settings-form input[type="button"]:active {
+    background: -webkit-gradient(linear, left top, left bottom, from(#999), to(#bbb));
+    text-shadow: #ccc 1px 1px 1px;
+}
+
+.settings-form select {
+    color: #222;
+    border: 1px solid #ccc;
+    padding: 1px;
+    font-size: 12px;
+    background: -webkit-gradient(linear, left top, left bottom, from(#ddd), to(#bbb));
+    color: #222;
+    text-shadow: #fff 1px 1px 1px;
+}
+
+.settings-form select:focus {
+    color: #444;
+    border: 1px solid #aaa;
+    outline: none;
+    box-shadow: 0px 0px 5px 1px #aaa;
+}
+
+.settings-form input[type="file"] {
+    padding: 5px 15px;
+    font-weight: bold;
+    color: #222;
+    text-shadow: #fff 1px 1px 1px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.settings-form input[type="file"]:focus {
+    color: #444;
+    border: 1px solid #ccc;
+    padding: 5px;
+    font-size: 12px;
+    margin-top: 5px;
+    outline: none;
+}

@@ -1,9 +1,16 @@
 Webula::Application.routes.draw do
 
+  # Settings Controller
+  get "settings/avatar" => "settings#avatar_edit", :as => :settings_avatar_edit
+  put "settings/avatar" => "settings#avatar_update", :as => :settings_avatar_update
+
+  get "settings/profile" => "settings#profile_edit", :as => :settings_profile_edit
+  put "settings/profile" => "settings#profile_update", :as => :settings_profile_update
+
   # Profiles Controller
-  get "index" => "profiles#index"
+  get "index" => "profiles#index", :as => :profiles_index
   get "show/:username" => "profiles#show"
-  get ":username" => "profiles#show"
+  get ":username" => "profiles#show", :as => :profiles_show
 
   # ProfileMaster Controller
   get "master/step/1" => "profile_master#main_edit"
@@ -18,7 +25,10 @@ Webula::Application.routes.draw do
 
   devise_for :admins, :path => "admin/auth"
 
-  devise_for :users, :path => "auth"
+  devise_for :users, :path => "auth", :controllers => { :registrations => "users/registrations" } do
+    get "settings/account" => "users/registrations#edit", :as => :settings_account_edit
+    put "settings/account" => "users/registrations#update", :as => :settings_account_update
+  end
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
@@ -71,6 +81,8 @@ Webula::Application.routes.draw do
   # just remember to delete public/index.html.
   # root :to => "welcome#index"
   #root :to => "devise/sessions#new"
+
+  root :to => "profiles#index"
 
   # See how all your routes lay out with "rake routes"
 
