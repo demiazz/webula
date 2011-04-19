@@ -6,6 +6,7 @@ class UserProfile
   # Main Info
   field :first_name, :type => String
   field :last_name, :type => String
+  field :gender, :type => Boolean
   field :birthday, :type => Date
   field :country, :type => String
   field :state, :type => String
