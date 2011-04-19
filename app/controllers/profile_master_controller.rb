@@ -16,6 +16,7 @@ class ProfileMasterController < ActionController::Base
 
     @user_profile.first_name = params[:first_name]
     @user_profile.last_name = params[:last_name]
+    @user_profile.gender = params[:gender]
     @user_profile.birthday = Date.new(params[:birthday][:year].to_i, params[:birthday][:month].to_i, params[:birthday][:day].to_i)
     @user_profile.country = params[:country]
     @user_profile.state = params[:state]
