@@ -1,12 +1,11 @@
 Webula::Application.routes.draw do
 
-  get "settings/avatar_edit"
+  # Settings Controller
+  get "settings/avatar" => "settings#avatar_edit"
+  put "settings/avatar" => "settings/avatar_update"
 
-  get "settings/avatar_update"
-
-  get "settings/profile_edit"
-
-  get "settings/profile_update"
+  get "settings/profile" => "settings#profile_edit"
+  put "settings/profile" => "settings#profile_update"
 
   # Profiles Controller
   get "index" => "profiles#index"
