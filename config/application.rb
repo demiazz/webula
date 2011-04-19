@@ -44,7 +44,7 @@ module Webula
 
     config.to_prepare do
           Devise::SessionsController.layout proc{ |controller| resource_name == :user ? "devise_users" : "devise_admins" }
-          Devise::RegistrationsController.layout proc{ |controller| resource_name == :user ? "devise_users" : "devise_admins" }
+          Devise::RegistrationsController.layout proc{ |controller| resource_name == :user ? (controller.action_name == "edit" or controller.action_name == "update") ? "settings" : "devise_users" : "devise_admins" }
           Devise::ConfirmationsController.layout proc{ |controller| resource_name == :user ? "devise_users" : "devise_admins" }
           Devise::UnlocksController.layout proc{ |controller| resource_name == :user ? "devise_users" : "devise_admins" }
           Devise::PasswordsController.layout proc{ |controller| resource_name == :user ? "devise_users" : "devise_admins" }
