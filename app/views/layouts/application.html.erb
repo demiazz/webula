@@ -4,6 +4,7 @@
         <title>Webula | <%= @user_profile.first_name %> <%= @user_profile.last_name %> | <%= yield :title %></title>
         <%= stylesheet_link_tag "fonts" %>
         <%= stylesheet_link_tag "style" %>
+        <%= stylesheet_link_tag "settings" %>
         <%= javascript_include_tag :defaults %>
         <%= csrf_meta_tag %>
     </head>
@@ -20,9 +21,9 @@
                 		<%= @user_profile.first_name %> <%= @user_profile.last_name %>
                 	</a>
                 	[
-                	<a href="" class="options">Settings</a>
+                	<a href="<%= settings_account_edit_path %>" class="options">Settings</a>
                 	 | 
-                	<a href="<%= url_for :controller => 'devise/sessions', :action => 'destroy' %>" class="exit">Exit</a>
+                	<a href="<%= destroy_session_path(:user) %>" class="exit">Exit</a>
                 	]
                 </p>
             </section>
