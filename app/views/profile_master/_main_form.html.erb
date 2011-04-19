@@ -8,6 +8,10 @@
     <%= text_field_tag(:last_name) %>
   </div>
   <div class="field">
+    <%= label_tag(:gender, "Gender *:") %><br />
+    <%= select(:gender, nil, [["Male", true], ["Female", false]]) %>
+  </div>
+  <div class="field">
     <%= label_tag(:birthday, "Birthday *:") %><br />
     <%= select_date(Date.today, :prefix => 'birthday', :order => [:day, :month, :year]) %>
   </div>

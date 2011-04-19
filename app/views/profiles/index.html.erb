@@ -6,6 +6,14 @@
 	<h1>Main Info</h1>
 	<table>
 		<tr>
+			<th>Gender:</th>
+			<% if @user_profile.gender %>
+				<td>Male</td>
+			<% else %>
+				<td>Female</td>
+			<% end %>
+		</tr>
+		<tr>
 			<th>Birthday:</th>
 			<td><%= @user_profile.birthday.strftime("%e %B %Y") %></td>
 		</tr>

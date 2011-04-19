@@ -43,6 +43,7 @@ class SettingsController < ApplicationController
 
     @user_profile.first_name = params[:user_profile][:first_name]
     @user_profile.last_name = params[:user_profile][:last_name]
+    @user_profile.gender = params[:user_profile][:gender]
     @user_profile.birthday = Date.new(params[:user_profile]["birthday(1i)"].to_i, params[:user_profile]["birthday(2i)"].to_i, params[:user_profile]["birthday(3i)"].to_i)
     @user_profile.country = params[:user_profile][:country]
     @user_profile.state = params[:user_profile][:state]
