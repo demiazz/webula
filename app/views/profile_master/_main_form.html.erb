@@ -1,33 +1,33 @@
-<%= form_tag({ :controller => "profile_master", :action => "main_save" }, :method => "put") do %>
+<%= form_for(@user_profile, :url => profile_master__main_save_path, :html => {:method => :put }) do |f| %>
   <div class="field">
-	<%= label_tag(:first_name, "First Name *:") %><br />
-	<%= text_field_tag(:first_name) %>
+    <%= f.label :first_name, "First name *:"%><br />
+    <%= f.text_field :first_name %>
   </div>
   <div class="field">
-    <%= label_tag(:last_name, "Last Name *:") %><br />
-    <%= text_field_tag(:last_name) %>
+    <%= f.label :last_name, "Last name *:" %><br />
+    <%= f.text_field :last_name %>
   </div>
   <div class="field">
-    <%= label_tag(:gender, "Gender *:") %><br />
-    <%= select(:gender, nil, [["Male", true], ["Female", false]]) %>
+    <%= f.label :gender, "Gender *:" %><br />
+    <%= select :user_profile, :gender, [["Male", true], ["Female", false]] %>
   </div>
   <div class="field">
-    <%= label_tag(:birthday, "Birthday *:") %><br />
-    <%= select_date(Date.today, :prefix => 'birthday', :order => [:day, :month, :year]) %>
+    <%= f.label :birthday, "Birthday *:" %><br />
+    <%= f.date_select :birthday, :order => [:day, :month, :year], :start_year => Date.today.year - 90, :end_year => Date.today.year - 14 %>
   </div>
   <div class="field">
-    <%= label_tag(:country, "Country *:") %><br />
-    <%= text_field_tag(:country) %>
+    <%= f.label :country, "Country *:" %><br />
+    <%= f.text_field :country %>
   </div>
   <div class="field">
-    <%= label_tag(:state, "State *:") %><br />
-    <%= text_field_tag(:state) %>
+    <%= f.label :state, "State *:" %><br />
+    <%= f.text_field :state %>
   </div>
   <div class="field">
-    <%= label_tag(:city, "City *:") %><br />
-    <%= text_field_tag(:city) %>
+    <%= f.label :city, "City *:" %><br />
+    <%= f.text_field :city %>
   </div>
   <div class="actions">
-    <%= submit_tag("Next") %>
+    <%= f.submit "Next" %>
   </div>
 <% end %>
