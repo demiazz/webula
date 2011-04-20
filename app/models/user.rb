@@ -13,20 +13,20 @@
 class User
   include Mongoid::Document
 
-  # ==> Поля модели
+  # Поля модели
   field :username, type: String # Имя пользователя
   field :email, type: String    # Электронная почта пользователя
   field :password, type: String # Пароль пользователя
 
-  # ==> Отношения
+  # Отношения
   embeds_one :user_profile      # Имеет встроенный документ профиля пользователя
 
-  # ==> Доступ
+  # Доступ
   attr_accessible :username
   attr_accessible :email
   attr_accessible :password
 
-  # ==> Обратные вызовы
+  # Обратные вызовы
   before_create :create_profile
 
   # Настройки расширения Devise
@@ -87,7 +87,6 @@ class User
     # Прежде чем сохранить аккаунт, создает профиль пользователя.
     def create_profile
       self.user_profile = UserProfile.new
-      self.user_profile.new_profile = true
     end
 
 end
