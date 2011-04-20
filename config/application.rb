@@ -56,11 +56,11 @@ module Webula
 
     # Распределение layout'ов по контроллерам Devise.
     config.to_prepare do
-      Devise::SessionsController.layout proc{ |controller| resource_name == :user ? "devise_users" : "devise_admins" }
-      Devise::RegistrationsController.layout proc{ |controller| resource_name == :user ? (controller.action_name == "edit" or controller.action_name == "update") ? "settings" : "devise_users" : "devise_admins" }
-      Devise::ConfirmationsController.layout proc{ |controller| resource_name == :user ? "devise_users" : "devise_admins" }
-      Devise::UnlocksController.layout proc{ |controller| resource_name == :user ? "devise_users" : "devise_admins" }
-      Devise::PasswordsController.layout proc{ |controller| resource_name == :user ? "devise_users" : "devise_admins" }
+      Devise::SessionsController.layout proc{ |controller| "devise" }
+      Devise::RegistrationsController.layout proc{ |controller| (controller.action_name == "edit" or controller.action_name == "update") ? "settings" : "devise" }
+      Devise::ConfirmationsController.layout proc{ |controller| "devise" }
+      Devise::UnlocksController.layout proc{ |controller| "devise" }
+      Devise::PasswordsController.layout proc{ |controller| "devise" }
     end
   end
 end
