@@ -14,10 +14,10 @@
         <header>
             <section class="content">
             	<!-- Logo -->
-                <%= image_tag "logo.png", :class => "logo" %>
-                <a href="<%= url_for :controller => 'profiles', :action => 'index' %>"><%= image_tag @user_profile.avatar, :class => "avatar" %></a>
+                <a href="<%= root_path %>"><%= image_tag "logo.png", :class => "logo" %></a>
+                <a href="<%= root_path %>"><%= image_tag @user_profile.avatar, :class => "avatar" %></a>
                 <p class="status">
-                	<a href="<%= url_for :controller => 'profiles', :action => 'index' %>">
+                	<a href="<%= root_path %>">
                 		<%= @user_profile.first_name %> <%= @user_profile.last_name %>
                 	</a>
                 	[
@@ -43,7 +43,7 @@
         		<!-- Left Side Bar -->
             	<aside id="left-aside">
                 	<article class="avatar">
-                		<%= image_tag @user_profile.avatar, :id => "avatar" %>
+                		<a href="<%= root_path %>"><%= image_tag @user_profile.avatar, :id => "avatar" %></a>
                 	</article>
                 	<%= yield :left_aside %>
             	</aside>

@@ -14,8 +14,8 @@
         <header>
             <section class="content">
             	<!-- Logo -->
-                <%= image_tag "logo.png", :class => "logo" %>
-                <a href="<%= profiles_index_path %>"><%= image_tag current_user.user_profile.avatar, :class => "avatar" %></a>
+                <a href="<%= root_path %>"><%= image_tag "logo.png", :class => "logo" %></a>
+                <a href="<%= root_path %>"><%= image_tag @user_profile.avatar, :class => "avatar" %></a>
                 <p class="status">
                 	<a href="<%= profiles_index_path %>">
                 		<%= current_user.user_profile.first_name %> <%= current_user.user_profile.last_name %>
@@ -43,7 +43,7 @@
         		<!-- Left Side Bar -->
             	<aside id="left-aside">
                 	<article class="avatar">
-                		<%= image_tag current_user.user_profile.avatar, :id => "avatar" %>
+                		<a href="<%= root_path %>"><%= image_tag @user_profile.avatar, :id => "avatar" %></a>
                 	</article>
                 	<%= yield :left_aside %>
             	</aside>
