@@ -39,7 +39,6 @@ class SettingsController < ApplicationController
     end
 
     @user_profile.avatar = "avatars/" + params[:avatar].original_filename
-    @user_profile.new_profile = false
   
     respond_to do |format|
       if @user_profile.save
