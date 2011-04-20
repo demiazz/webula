@@ -9,43 +9,43 @@
 		<h1>Main Info</h1>
 		<div class="field-wrapper">
 			<p>
-				<span class="label"><%= f.label :first_name %> *:</span>
+				<span class="label"><%= f.label :first_name, "First name *:" %></span>
 				<span class="field"><%= f.text_field :first_name %></span>
 			</p>
 		</div>
 		<div class="field-wrapper">
 			<p>
-				<span class="label"><%= f.label :last_name %> *:</span>
+				<span class="label"><%= f.label :last_name, "Last name *:" %></span>
 				<span class="field"><%= f.text_field :last_name %></span>
 			</p>
 		</div>
 		<div class="field-wrapper">
 			<p>
-				<span class="label"><%= f.label :gender %> *:</span>
+				<span class="label"><%= f.label :gender, "Gender *:" %></span>
 				<span class="field"><%= select :user_profile, :gender, [["Male", true], ["Female", false]], {}, :style => "width: 192px" %></span>
 			</p>
 		</div>
 		<div class="field-wrapper">
 			<p>
-				<span class="label"><%= f.label :birthday %> *:</span>
-				<span class="field"><%= f.date_select :birthday, :order => [:day, :month, :year] %></span>
+				<span class="label"><%= f.label :birthday, "Birthday *:" %></span>
+				<span class="field"><%= f.date_select :birthday, :order => [:day, :month, :year], :start_year => Date.today.year - 90, :end_year => Date.today.year - 14 %></span>
 			</p>
 		</div>
 		<div class="field-wrapper">
 			<p>
-				<span class="label"><%= f.label :country %> *:</span>
+				<span class="label"><%= f.label :country, "Country *:" %></span>
 				<span class="field"><%= f.text_field :country %></span>
 			</p>
 		</div>
 		<div class="field-wrapper">
 			<p>
-				<span class="label"><%= f.label :state %> *:</span>
+				<span class="label"><%= f.label :state, "State *:" %></span>
 				<span class="field"><%= f.text_field :state %></span>
 			</p>
 		</div>
 		<div class="field-wrapper">
 			<p>
-				<span class="label"><%= f.label :city %> *:</span>
+				<span class="label"><%= f.label :city, "City *:" %></span>
 				<span class="field"><%= f.text_field :city %></span>
 			</p>
 		</div>
@@ -53,80 +53,80 @@
 		<h1>Organization Info</h1>
 		<div class="field-wrapper">
 			<p>
-				<span class="label"><%= f.label :org_name %> *:</span>
+				<span class="label"><%= f.label :org_name, "Name *:" %></span>
 				<span class="field"><%= f.text_field :org_name %></span>
 			</p>
 		</div>
 		<div class="field-wrapper">
 			<p>
-				<span class="label"><%= f.label :org_country %> *:</span>
+				<span class="label"><%= f.label :org_country, "Country *:" %></span>
 				<span class="field"><%= f.text_field :org_country %></span>
 			</p>
 		</div>
 		<div class="field-wrapper">
 			<p>
-				<span class="label"><%= f.label :org_state %> *:</span>
+				<span class="label"><%= f.label :org_state, "State *:" %></span>
 				<span class="field"><%= f.text_field :org_state %></span>
 			</p>
 		</div>
 		<div class="field-wrapper">
 			<p>
-				<span class="label"><%= f.label :org_city %> *:</span>
+				<span class="label"><%= f.label :org_city, "City *:" %></span>
 				<span class="field"><%= f.text_field :org_city %></span>
 			</p>
 		</div>
 		<div class="field-wrapper">
 			<p>
-				<span class="label"><%= f.label :org_unit %> *:</span>
+				<span class="label"><%= f.label :org_unit, "Unit *:" %></span>
 				<span class="field"><%= f.text_field :org_unit %></span>
 			</p>
 		</div>
 		<div class="field-wrapper">
 			<p>
-				<span class="label"><%= f.label :org_position %> *:</span>
+				<span class="label"><%= f.label :org_position, "Position *:" %></span>
 				<span class="field"><%= f.text_field :org_position %></span>
 			</p>
 		</div>
 		<h1>Contacts</h1>
 		<div class="field-wrapper">
 			<p>
-				<span class="label"><%= f.label :home_phone %>:</span>
+				<span class="label"><%= f.label :home_phone, "Home phone:" %></span>
 				<span class="field"><%= f.text_field :home_phone %></span>
 			</p>
 		</div>
 		<div class="field-wrapper">
 			<p>
-				<span class="label"><%= f.label :work_phone %>:</span>
+				<span class="label"><%= f.label :work_phone, "Work phone:" %></span>
 				<span class="field"><%= f.text_field :work_phone %></span>
 			</p>
 		</div>
 		<div class="field-wrapper">
 			<p>
-				<span class="label"><%= f.label :mobile_phone %>:</span>
+				<span class="label"><%= f.label :mobile_phone, "Mobile phone:" %></span>
 				<span class="field"><%= f.text_field :mobile_phone %></span>
 			</p>
 		</div>
 		<div class="field-wrapper">
 			<p>
-				<span class="label"><%= f.label :mail %>:</span>
+				<span class="label"><%= f.label :mail, "Email:" %></span>
 				<span class="field"><%= f.text_field :mail %></span>
 			</p>
 		</div>
 		<div class="field-wrapper">
 			<p>
-				<span class="label"><%= f.label :icq %>:</span>
+				<span class="label"><%= f.label :icq, "ICQ:" %></span>
 				<span class="field"><%= f.text_field :icq %></span>
 			</p>
 		</div>
 		<div class="field-wrapper">
 			<p>
-				<span class="label"><%= f.label :xmpp %>:</span>
+				<span class="label"><%= f.label :xmpp, "XMPP:" %></span>
 				<span class="field"><%= f.text_field :xmpp %></span>
 			</p>
 		</div>
 		<div class="field-wrapper">
 			<p>
-				<span class="label"><%= f.label :twitter %>:</span>
+				<span class="label"><%= f.label :twitter, "Twitter:" %></span>
 				<span class="field"><%= f.text_field :twitter %></span>
 			</p>
 		</div>

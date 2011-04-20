@@ -1,21 +1,21 @@
 <article class="settings-menu">
 	<ul>
 		<% if controller_name == "registrations" and (action_name == "edit"  or action_name == "update") %>
-			<li><%= link_to "Account", { :controller => "users/registrations", :action => "edit" }, :class => "selected" %></li>
+			<li><%= link_to "Account", settings__account_edit_path, :class => "selected" %></li>
 		<% else %>
-			<li><%= link_to "Account", { :controller => "users/registrations", :action => "edit" } %></li>
+			<li><%= link_to "Account", settings__account_edit_path %></li>
 		<% end %>
 
 		<% if action_name == "avatar_edit" or action_name == "avatar_update" %>
-			<li><%= link_to "Avatar", settings_avatar_edit_path, :class => "selected" %></li>
+			<li><%= link_to "Avatar", settings__avatar_edit_path, :class => "selected" %></li>
 		<% else %>
-			<li><%= link_to "Avatar", settings_avatar_edit_path %></li>
+			<li><%= link_to "Avatar", settings__avatar_edit_path %></li>
 		<% end %>
 
 		<% if action_name == "profile_edit" or action_name == "profile_update" %>
-			<li><%= link_to "Profile", settings_profile_edit_path, :class => "selected" %></li>
+			<li><%= link_to "Profile", settings__profile_edit_path, :class => "selected" %></li>
 		<% else %>
-			<li><%= link_to "Profile", settings_profile_edit_path %></li>
+			<li><%= link_to "Profile", settings__profile_edit_path %></li>
 		<% end %>
 	</ul>
 </article>
