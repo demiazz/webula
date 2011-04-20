@@ -41,6 +41,12 @@ class ProfileMasterController < ActionController::Base
     params[:user_profile]["birthday(2i)"] = nil
     params[:user_profile]["birthday(3i)"] = nil
 
+    if params[:user_profile][:gender] == "true"
+      @user_profile[:avatar] = "avatars/default-male-avatar.jpg"
+    else
+      @user_profile[:avatar] = "avatars/default-female-avatar.jpg"
+    end
+
     respond_to do |format|
       if @user_profile.update_attributes(params[:user_profile])
         format.html { redirect_to profile_master__organization_edit_path }
@@ -110,12 +116,14 @@ class ProfileMasterController < ActionController::Base
   # TODO:
   #   * Имя файла на сервере должно быть {username}.{ext}
   def avatar_save
-    uploaded_io = params[:avatar]
-    File.open(Rails.root.join('public/images', 'avatars', uploaded_io.original_filename), 'wb') do |file|
-      file.write(uploaded_io.read)
+    unless params[:avatar].nil?
+      uploaded_io = params[:avatar]
+      File.open(Rails.root.join('public/images', 'avatars', uploaded_io.original_filename), 'wb') do |file|
+        file.write(uploaded_io.read)
+      end
+      @user_profile.avatar = "avatars/" + params[:avatar].original_filename
     end
 
-    @user_profile.avatar = "avatars/" + params[:avatar].original_filename
     @user_profile.new_profile = false
   
     respond_to do |format|
@@ -143,7 +151,7 @@ class ProfileMasterController < ActionController::Base
     # * Если страница не текущего пользователя, то загружается
     #   информация пользователя с username из params[:username].
     def profile
-      if not current_user.user_profile.new_profile
+      unless current_user.user_profile.new_profile
         redirect_to root_path
       end
     end
