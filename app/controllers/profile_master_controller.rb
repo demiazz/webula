@@ -25,9 +25,6 @@ class ProfileMasterController < ActionController::Base
   #
   # Отображает форму для заполнения основной информации о пользователе.
   def main_edit
-    respond_to do |format|
-      format.html #main_edit.html.erb
-    end
   end
 
   # Обновление основной пользовательской информации
@@ -35,20 +32,18 @@ class ProfileMasterController < ActionController::Base
   # Проверяет данные, и сохраняет в профиль, либо возвращает форму заполнения с указанием ошибок.
   #
   # TODO:
-  #   * Прямая передача массива в профиль
   #   * Рендеринг с заполненными полями и указанием ошибок
   def main_save
-    @user_profile.first_name = params[:first_name]
-    @user_profile.last_name = params[:last_name]
-    @user_profile.gender = params[:gender]
-    @user_profile.birthday = Date.new(params[:birthday][:year].to_i, params[:birthday][:month].to_i, params[:birthday][:day].to_i)
-    @user_profile.country = params[:country]
-    @user_profile.state = params[:state]
-    @user_profile.city = params[:city]
+    params[:user_profile][:birthday] = Date.new(params[:user_profile]["birthday(1i)"].to_i, 
+                                                params[:user_profile]["birthday(2i)"].to_i, 
+                                                params[:user_profile]["birthday(3i)"].to_i)
+    params[:user_profile]["birthday(1i)"] = nil
+    params[:user_profile]["birthday(2i)"] = nil
+    params[:user_profile]["birthday(3i)"] = nil
 
     respond_to do |format|
-      if @user_profile.save
-        format.html { redirect_to :controller => "profile_master", :action => "organization_edit" }
+      if @user_profile.update_attributes(params[:user_profile])
+        format.html { redirect_to profile_master__organization_edit_path }
       else
         format.html { render :action => "main_edit" }
       end
@@ -59,9 +54,6 @@ class ProfileMasterController < ActionController::Base
   #
   # Отображает форму для заполнения информациио работе пользователя.
   def organization_edit
-    respond_to do |format|
-      format.html #organization_edit.html.erb
-    end
   end
 
   # Обновление информации о работе пользователя
@@ -69,19 +61,11 @@ class ProfileMasterController < ActionController::Base
   # Проверяет данные, и сохраняет в профиль, либо возвращает форму заполнения с указанием ошибок.
   #
   # TODO:
-  #   * Прямая передача массива в профиль
   #   * Рендеринг с заполненными полями и указанием ошибок
   def organization_save
-    @user_profile.org_name = params[:org_name]
-    @user_profile.org_country = params[:org_country]
-    @user_profile.org_state = params[:org_state]
-    @user_profile.org_city = params[:org_city]
-    @user_profile.org_unit = params[:org_unit]
-    @user_profile.org_position = params[:org_position]
-
     respond_to do |format|
-      if @user_profile.save
-        format.html { redirect_to :controller => "profile_master", :action => "contacts_edit" }
+      if @user_profile.update_attributes(params[:user_profile])
+        format.html { redirect_to profile_master__contacts_edit_path }
       else
         format.html { render :action => "organization_edit" }
       end
@@ -92,9 +76,6 @@ class ProfileMasterController < ActionController::Base
   #
   # Отображает форму для заполнения контактных данных пользователя.
   def contacts_edit
-    respond_to do |format|
-      format.html #contacts_edit.html.erb
-    end
   end
 
   # Обновление контактных данных пользователя
@@ -102,20 +83,11 @@ class ProfileMasterController < ActionController::Base
   # Проверяет данные, и сохраняет в профиль, либо возвращает форму заполнения с указанием ошибок.
   #
   # TODO:
-  #   * Прямая передача массива в профиль
   #   * Рендеринг с заполненными полями и указанием ошибок
   def contacts_save
-    @user_profile.home_phone = params[:home_phone]
-    @user_profile.work_phone = params[:work_phone]
-    @user_profile.mobile_phone = params[:mobile_phone]
-    @user_profile.mail = params[:mail]
-    @user_profile.icq = params[:icq]
-    @user_profile.xmpp = params[:xmpp]
-    @user_profile.twitter = params[:twitter]
-
     respond_to do |format|
-      if @user_profile.save
-        format.html { redirect_to :controller => "profile_master", :action => "avatar_edit" }
+      if @user_profile.update_attributes(params[:user_profile])
+        format.html { redirect_to profile_master__avatar_edit_path }
       else
         format.html { render :action => "contacts_edit" }
       end
@@ -148,7 +120,7 @@ class ProfileMasterController < ActionController::Base
   
     respond_to do |format|
       if @user_profile.save
-        format.html { redirect_to :controller => "profile_master", :action => "finish" }
+        format.html { redirect_to profile_master__finish_path }
       else
         format.html { render :action => "avatar_edit" }
       end
@@ -157,9 +129,6 @@ class ProfileMasterController < ActionController::Base
 
   # Отображение итогового профиля пользователя
   def finish
-    respond_to do |format|
-      format.html #avatar_edit.html.erb
-    end
   end
 
   private
