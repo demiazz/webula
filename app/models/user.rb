@@ -59,7 +59,6 @@ class User
          :remember_across_browsers => true,
          # расширять период запоминания?
          :extend_remember_period => false,
-         # ==> Configuration for :validatable
          # Конфигурация валидации
          # длина пароля не меньше 8 символов и не более 32
          :password_length => 8..32,
