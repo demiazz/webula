@@ -1,24 +1,44 @@
+# -*- coding: utf-8 -*-
+
+#
+# Webula SN
+#
+# Контроллер настроек пользователя.
+#
+# Copyright (c) 2011, Alexey Plutalov
+# License: GPL
+#
+
+# Контроллер настроек пользователя.
+#
+# Отвечает за редактирование профиля пользователя и смену аватара.
+# В дальнейшем возможна агрегация других настроек и конфигураций.
+# Функционал для редактирования пользовательского аккаунта предоставляется
+# контроллером Users::Registrations.
 class SettingsController < ApplicationController
 
+  # Загрузка аватара пользователя
+  #
+  # Отображает форму для загрузки аватара пользователя.
   def avatar_edit
-  	@user = current_user
-  	@user_profile = @user.user_profile
-
-  	respond_to do |format|
-  	  format.html #avatar_edit.html.erb
-  	end
+    respond_to do |format|
+      format.html #avatar_edit.html.erb
+    end
   end
 
+  # Загрузка аватара пользователя
+  #
+  # Загружает аватар пользователя, сохраняет его, и сохраняет путь к аватару в профиле.
+  #
+  # TODO:
+  #   * Имя файла на сервере должно быть {username}.{ext}
   def avatar_update
-    @user_profile = current_user.user_profile
-
     uploaded_io = params[:avatar]
     File.open(Rails.root.join('public/images', 'avatars', uploaded_io.original_filename), 'wb') do |file|
       file.write(uploaded_io.read)
     end
 
     @user_profile.avatar = "avatars/" + params[:avatar].original_filename
-    @user_profile.new_profile = false
   
     respond_to do |format|
       if @user_profile.save
@@ -29,18 +49,23 @@ class SettingsController < ApplicationController
     end
   end
 
+  # Редактирование профиля пользователя.
+  #
+  # Отображает форму для профиля пользователя.
   def profile_edit
-  	@user = current_user
-  	@user_profile = @user.user_profile
-
-  	respond_to do |format|
-  	  format.html #avatar_edit.html.erb
-  	end
+    respond_to do |format|
+      format.html #avatar_edit.html.erb
+    end
   end
 
+  # Обновление профиля пользователя.
+  #
+  # Проверяет данные, и сохраняет в профиль, либо возвращает форму заполнения с указанием ошибок.
+  #
+  # TODO:
+  #   * Прямая передача массива в профиль
+  #   * Рендеринг с заполненными полями и указанием ошибок
   def profile_update
-    @user_profile = current_user.user_profile
-
     @user_profile.first_name = params[:user_profile][:first_name]
     @user_profile.last_name = params[:user_profile][:last_name]
     @user_profile.gender = params[:user_profile][:gender]

@@ -1,62 +1,92 @@
+# -*- coding: utf-8 -*-
+
+#
+# Webula SN
+#
+# Модель пользовательского аккаунта.
+#
+# Copyright (c) 2011, Alexey Plutalov
+# License: GPL
+#
+
+# Модель пользовательского аккаунта.
 class User
   include Mongoid::Document
 
-  # ==> Model Fields
-  field :username, type: String
-  field :email, type: String
-  field :password, type: String
+  # Поля модели
+  field :username, type: String # Имя пользователя
+  field :email, type: String    # Электронная почта пользователя
+  field :password, type: String # Пароль пользователя
 
-  # ==> Relations
-  embeds_one :user_profile
+  # Отношения
+  embeds_one :user_profile      # Имеет встроенный документ профиля пользователя
 
-  # ==> Accessible
+  # Доступ
   attr_accessible :username
   attr_accessible :email
   attr_accessible :password
 
-  # ==> Callbacks
+  # Обратные вызовы
   before_create :create_profile
 
+  # Настройки расширения Devise
   devise :database_authenticatable,
-         # ==> Modules
-         :registerable,
-         :recoverable,
-         :rememberable,
-         :trackable,
-         :validatable,
-         :confirmable,
-         :lockable,
-         :timeoutable,
-         # ==> Configuration for any authentication mechanism
+         # Модули
+         :registerable, # Регистрация
+         :recoverable,  # Восстановление
+         :rememberable, # Запоминание
+         :trackable,    # Слежение
+         :validatable,  # Валидация
+         :confirmable,  # Подтверждение
+         :lockable,     # Блокировка
+         :timeoutable,  # Временная блокировка
+         # Конфигурация механизма аутентификации
+         # аутентификация производится по :username
          :authentication_keys => [ :username ],
+         # :username не чувствителен к регистру
          :case_insensitive_keys => [ :username ],
-         # ==> Configuration for :database_authenticatable
+         # стойкость шифрования
          :stretches => 10,
-         # ==> Configuration for :confirmable
+         # Конфигурация подтверждения
+         # аккаунт должен быть подтвержден в течении 7 дней
          :confirm_within => 7.days,
+         # ключ для подтверждения - :username
          :confirmation_keys => [ :username ],
-         # ==> Configuration for :rememberable
+         # Конфигурация запоминания
+         # помнить пользователя 7 дней
          :remember_for => 7.days,
+         # запоминание работает между браузерами?
          :remember_across_browsers => true,
+         # расширять период запоминания?
          :extend_remember_period => false,
-         # ==> Configuration for :validatable
+         # Конфигурация валидации
+         # длина пароля не меньше 8 символов и не более 32
          :password_length => 8..32,
-         # ==> Configuration for :timeoutable
+         # Конфигурация выхода по времени
+         # выходить через час
          :timeout_in => 1.hour,
-         # ==> Configuration for :lockable
+         # Конфигурация блокировки
+         # блокируется при неудачном вводе пароля
          :lock_strategy => :failed_attempts,
+         # для разблокировки используется :username
          :unlock_keys => [ :username ],
+         # стратегии разблокировки
          :unlock_strategy => :both,
+         # максимальное количество попыток ввода пароля
          :maximum_attempts => 10,
+         # разблокировать через час
          :unlock_in => 1.hour,
-         # ==> Configuration for :recoverable
+         # Конфигурация восстановления
+         # сброс пароля по :username
          :reset_password_keys => [ :username ]
 
   protected
 
+    # Создание профиля
+    #
+    # Прежде чем сохранить аккаунт, создает профиль пользователя.
     def create_profile
       self.user_profile = UserProfile.new
-      self.user_profile.new_profile = true
     end
 
 end

@@ -1,5 +1,17 @@
+# -*- coding: utf-8 -*-
+
+#
+# Webula SN
+#
+# Глобальные настройки приложения.
+#
+# Copyright (c) 2011, Alexey Plutalov
+# License: GPL
+#
+
 require File.expand_path('../boot', __FILE__)
 
+# Отключен модуль ActiveRecord
 require 'action_controller/railtie'
 require 'action_mailer/railtie'
 require 'active_resource/railtie'
@@ -42,12 +54,13 @@ module Webula
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password]
 
+    # Распределение layout'ов по контроллерам Devise.
     config.to_prepare do
-          Devise::SessionsController.layout proc{ |controller| resource_name == :user ? "devise_users" : "devise_admins" }
-          Devise::RegistrationsController.layout proc{ |controller| resource_name == :user ? (controller.action_name == "edit" or controller.action_name == "update") ? "settings" : "devise_users" : "devise_admins" }
-          Devise::ConfirmationsController.layout proc{ |controller| resource_name == :user ? "devise_users" : "devise_admins" }
-          Devise::UnlocksController.layout proc{ |controller| resource_name == :user ? "devise_users" : "devise_admins" }
-          Devise::PasswordsController.layout proc{ |controller| resource_name == :user ? "devise_users" : "devise_admins" }
+      Devise::SessionsController.layout proc{ |controller| "devise" }
+      Devise::RegistrationsController.layout proc{ |controller| (controller.action_name == "edit" or controller.action_name == "update") ? "settings" : "devise" }
+      Devise::ConfirmationsController.layout proc{ |controller| "devise" }
+      Devise::UnlocksController.layout proc{ |controller| "devise" }
+      Devise::PasswordsController.layout proc{ |controller| "devise" }
     end
   end
 end
