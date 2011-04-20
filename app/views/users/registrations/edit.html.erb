@@ -1,0 +1,51 @@
+<% content_for :title do %>
+  Change account
+<% end %>
+
+<%= render "settings/links" %>
+
+<article>
+
+<%# Body %>
+<article>
+  <%= form_for(resource, :as => resource_name, :url => settings_account_update_path, :html => { :method => :put, :class => "settings-form" }) do |f| %>
+    <%= devise_error_messages! %>
+    <h1>Account</h1>
+    <div class="field-wrapper">
+      <p>
+        <span class="label"><%= f.label :username %>:</span>
+        <span class="field"><%= f.text_field :username %></span>
+      </p>
+    </div>
+    <div class="field-wrapper">
+      <p>
+        <span class="label"><%= f.label :email %>:</span>
+        <span class="field"><%= f.email_field :email %></span>
+      </p>
+    </div>
+    <h1>Password</h1>
+    <div class="field-wrapper">
+      <p>
+        <span class="label"><%= f.label :password %>:</span>
+        <span class="field"><%= f.password_field :password %></span>
+      </p>
+    </div>
+    <div class="field-wrapper">
+      <p>
+        <span class="label"><%= f.label :password_confirmation %>:</span>
+        <span class="field"><%= f.password_field :password_confirmation %></span>
+      </p>
+    </div>
+    <h1>Confirm change</h1>
+    <div class="field-wrapper">
+      <p>
+        <span class="label"><%= f.label :current_password %>:</span>
+        <span class="field"><%= f.password_field :current_password %></span>
+      </p>
+    </div>    
+    <h1></h1>
+    <div class="field-wrapper">
+      <p><%= f.submit "Update account" %></p>
+    </div>
+  <% end %>
+</article>
