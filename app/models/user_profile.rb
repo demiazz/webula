@@ -36,6 +36,7 @@ class UserProfile
   field :mail, type: String, default: ""               # Электронная почта
   field :icq, type: String, default: ""                # Номер ICQ 
   field :xmpp, type: String, default: ""               # Идентификатор XMPP
+  field :skype, type: String, default: ""              # Идентификатор Skype
   field :twitter, type: String, default: ""            # Аккаунт в Twitter
   # Аватар
   field :avatar, type: String, default: "avatars/default-male-avatar.jpg" # Аватар
