@@ -118,7 +118,7 @@ class ProfileMasterController < ActionController::Base
   def avatar_save
     unless params[:avatar].nil?
       uploaded_io = params[:avatar]
-      File.open(Rails.root.join('public/images', 'avatars', uploaded_io.original_filename), 'wb') do |file|
+      File.open(Rails.root.join('public/images/avatars', uploaded_io.original_filename), 'wb') do |file|
         file.write(uploaded_io.read)
       end
       @user_profile.avatar = "avatars/" + params[:avatar].original_filename
