@@ -3,7 +3,7 @@
 #
 # Webula SN
 #
-# Глобальные настройки приложения
+# Глобальные настройки приложения.
 #
 # Copyright (c) 2011, Alexey Plutalov
 # License: GPL
@@ -54,7 +54,7 @@ module Webula
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password]
 
-    # Распределение layout'ов по контроллерам Devise
+    # Распределение layout'ов по контроллерам Devise.
     config.to_prepare do
       Devise::SessionsController.layout proc{ |controller| resource_name == :user ? "devise_users" : "devise_admins" }
       Devise::RegistrationsController.layout proc{ |controller| resource_name == :user ? (controller.action_name == "edit" or controller.action_name == "update") ? "settings" : "devise_users" : "devise_admins" }
