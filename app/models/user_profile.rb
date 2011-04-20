@@ -17,8 +17,8 @@ class UserProfile
   # Основная информация о пользователе
   field :first_name, type: String, default: ""         # Имя
   field :last_name, type: String, default: ""          # Фамилия
-  field :gender, :type => Boolean, default: true       # Пол
-  field :birthday, :type => Date, default: Date.new(1920, 1, 1) # Дата рождения
+  field :gender, type: Boolean, default: true       # Пол
+  field :birthday, type: Date, default: Date.new(1920, 1, 1) # Дата рождения
   field :country, type: String, default: ""            # Страна
   field :state, type: String, default: ""              # Штат(край/область)
   field :city, type: String, default: ""               # Город
@@ -38,9 +38,9 @@ class UserProfile
   field :xmpp, type: String, default: ""               # Идентификатор XMPP
   field :twitter, type: String, default: ""            # Аккаунт в Twitter
   # Аватар
-  field :avatar, :type => String, default: "avatars/empty_male.png" # Аватар
+  field :avatar, type: String, default: "avatars/empty_male.png" # Аватар
   # Метка нового профиля
-  field :new_profile, :type => Boolean, default: true  # Метка нового профиля
+  field :new_profile, type: Boolean, default: true  # Метка нового профиля
 
   # Отношения
   embedded_in :user                                    # Встроен в аккаунт
