@@ -1,4 +1,4 @@
-<%= form_tag({ :controller => "profile_master", :action => "avatar_save" }, :multipart => true, :method => "put") do %>
+<%= form_tag(profile_master__avatar_save_path, :multipart => true, :method => "put") do %>
 	<div class="field">
 		<%= label_tag(:avatar, "Avatar file:") %><br />
 		<%= file_field_tag(:avatar) %>
