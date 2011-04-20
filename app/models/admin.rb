@@ -13,12 +13,12 @@
 class Admin
   include Mongoid::Document
 
-  # ==> Поля модели
+  # Поля модели
   field :username, type: String # Имя пользователя
   field :email, type: String    # Электронная почта пользователя
   field :password, type: String # Пароль пользователя
 
-  # ==> Доступ
+  # Доступ
   attr_accessible :username
   attr_accessible :email
   attr_accessible :password
