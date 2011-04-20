@@ -1,37 +1,48 @@
+# -*- coding: utf-8 -*-
+
+#
+# Webula SN
+#
+# Модель профиля пользователя.
+#
+# Copyright (c) 2011, Alexey Plutalov
+# License: GPL
+#
+
+# Модель профиля пользователя.
 class UserProfile
   include Mongoid::Document
 
-  # ==> Model Fields
+  # Поля модели
+  # Основная информация о пользователе
+  field :first_name, type: String, default: ""         # Имя
+  field :last_name, type: String, default: ""          # Фамилия
+  field :gender, :type => Boolean, default: true       # Пол
+  field :birthday, :type => Date, default: Date.new(1920, 1, 1) # Дата рождения
+  field :country, type: String, default: ""            # Страна
+  field :state, type: String, default: ""              # Штат(край/область)
+  field :city, type: String, default: ""               # Город
+  # Информация о рабочем месте
+  field :org_name, type: String, default: ""           # Организация
+  field :org_country, type: String, default: ""        # Страна организации
+  field :org_state, type: String, default: ""          # Штат организации
+  field :org_city, type: String, default: ""           # Город организации
+  field :org_unit, type: String, default: ""           # Отдел(подразделение)
+  field :org_position, type: String, default: ""       # Должность
+  # Контактная информация
+  field :home_phone, type: String, default: ""         # Домашний телефон
+  field :work_phone, type: String, default: ""         # Рабочий телефон
+  field :mobile_phone, type: String, default: ""       # Мобильный телефон
+  field :mail, type: String, default: ""               # Электронная почта
+  field :icq, type: String, default: ""                # Номер ICQ 
+  field :xmpp, type: String, default: ""               # Идентификатор XMPP
+  field :twitter, type: String, default: ""            # Аккаунт в Twitter
+  # Аватар
+  field :avatar, :type => String, default: "avatars/empty_male.png" # Аватар
+  # Метка нового профиля
+  field :new_profile, :type => Boolean, default: true  # Метка нового профиля
 
-  # Main Info
-  field :first_name, :type => String
-  field :last_name, :type => String
-  field :gender, :type => Boolean
-  field :birthday, :type => Date
-  field :country, :type => String
-  field :state, :type => String
-  field :city, :type => String
-  # Organization Info
-  field :org_name, :type => String
-  field :org_country, :type => String
-  field :org_state, :type => String
-  field :org_city, :type => String
-  field :org_unit, :type => String
-  field :org_position, :type => String
-  # Contacts
-  field :home_phone, :type => String
-  field :work_phone, :type => String
-  field :mobile_phone, :type => String
-  field :mail, :type => String
-  field :icq, :type => String
-  field :xmpp, :type => String
-  field :twitter, :type => String
-  # Avatar
-  field :avatar, :type => String
-  # Special Marker
-  field :new_profile, :type => Boolean
-
-  # ==> Relations
-  embedded_in :user
+  # Отношения
+  embedded_in :user                                    # Встроен в аккаунт
 
 end
