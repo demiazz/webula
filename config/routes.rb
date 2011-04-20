@@ -13,15 +13,15 @@ Webula::Application.routes.draw do
   get ":username" => "profiles#show", :as => :profiles_show
 
   # ProfileMaster Controller
-  get "master/step/1" => "profile_master#main_edit"
-  put "master/step/1" => "profile_master#main_save"
-  get "master/step/2" => "profile_master#organization_edit"
-  put "master/step/2" => "profile_master#organization_save"
-  get "master/step/3" => "profile_master#contacts_edit"
-  put "master/step/3" => "profile_master#contacts_save"
-  get "master/step/4" => "profile_master#avatar_edit"
-  put "master/step/4" => "profile_master#avatar_save"
-  get "master/step/finish" => "profile_master#finish"
+  get "master/step/1" => "profile_master#main_edit", :as => :profile_master__main_edit
+  put "master/step/1" => "profile_master#main_save", :as => :profile_master__main_save
+  get "master/step/2" => "profile_master#organization_edit", :as => :profile_master__organization_edit
+  put "master/step/2" => "profile_master#organization_save", :as => :profile_master__organization_save
+  get "master/step/3" => "profile_master#contacts_edit", :as => :profile_master__contacts_edit
+  put "master/step/3" => "profile_master#contacts_save", :as => :profile_master__contacts_save
+  get "master/step/4" => "profile_master#avatar_edit", :as => :profile_master__avatar_edit
+  put "master/step/4" => "profile_master#avatar_save", :as => :profile_master__avatar_save
+  get "master/step/finish" => "profile_master#finish", :as => :profile_master__finish
 
   devise_for :admins, :path => "admin/auth"
 
