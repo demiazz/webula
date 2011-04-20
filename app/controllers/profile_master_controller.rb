@@ -1,16 +1,40 @@
+# -*- coding: utf-8 -*-
+
+#
+# Webula SN
+#
+# Контроллер мастера заполнения профиля пользователя.
+#
+# Copyright (c) 2011, Alexey Plutalov
+# License: GPL
+#
+
+# Контроллер мастера заполнения профиля пользователя.
 class ProfileMasterController < ActionController::Base
 
   protect_from_forgery
 
+  # Требует аутентификации пользователя
   before_filter :authenticate_user!
+  # Переключатель мастера профиля
   before_filter :profile
 
+  # Редактирование основной пользовательской информации
+  #
+  # Отображает форму для заполнения основной информации о пользователе.
   def main_edit
     respond_to do |format|
       format.html #main_edit.html.erb
     end
   end
 
+  # Обновление основной пользовательской информации
+  #
+  # Проверяет данные, и сохраняет в профиль, либо возвращает форму заполнения с указанием ошибок.
+  #
+  # TODO:
+  #   * Прямая передача массива в профиль
+  #   * Рендеринг с заполненными полями и указанием ошибок
   def main_save
     @user_profile = current_user.user_profile
 
@@ -31,12 +55,22 @@ class ProfileMasterController < ActionController::Base
     end
   end
 
+  # Редактирование информации о работе пользователя
+  #
+  # Отображает форму для заполнения информациио работе пользователя.
   def organization_edit
     respond_to do |format|
       format.html #organization_edit.html.erb
     end
   end
 
+  # Обновление информации о работе пользователя
+  #
+  # Проверяет данные, и сохраняет в профиль, либо возвращает форму заполнения с указанием ошибок.
+  #
+  # TODO:
+  #   * Прямая передача массива в профиль
+  #   * Рендеринг с заполненными полями и указанием ошибок
   def organization_save
     @user_profile = current_user.user_profile
 
@@ -56,12 +90,22 @@ class ProfileMasterController < ActionController::Base
     end
   end
 
+  # Редактирование контактных данных пользователя
+  #
+  # Отображает форму для заполнения контактных данных пользователя.
   def contacts_edit
     respond_to do |format|
       format.html #contacts_edit.html.erb
     end
   end
 
+  # Обновление контактных данных пользователя
+  #
+  # Проверяет данные, и сохраняет в профиль, либо возвращает форму заполнения с указанием ошибок.
+  #
+  # TODO:
+  #   * Прямая передача массива в профиль
+  #   * Рендеринг с заполненными полями и указанием ошибок
   def contacts_save
     @user_profile = current_user.user_profile
 
@@ -82,12 +126,21 @@ class ProfileMasterController < ActionController::Base
     end
   end
 
+  # Загрузка аватара пользователя
+  #
+  # Отображает форму для загрузки аватара пользователя.
   def avatar_edit
     respond_to do |format|
       format.html #avatar_edit.html.erb
     end
   end
 
+  # Загрузка аватара пользователя
+  #
+  # Загружает аватар пользователя, сохраняет его, и сохраняет путь к аватару в профиле.
+  #
+  # TODO:
+  #   * Имя файла на сервере должно быть {username}.{ext}
   def avatar_save
     @user_profile = current_user.user_profile
 
@@ -108,6 +161,7 @@ class ProfileMasterController < ActionController::Base
     end
   end
 
+  # Отображение итогового профиля пользователя
   def finish
     @user_profile = current_user.user_profile
 
@@ -118,6 +172,15 @@ class ProfileMasterController < ActionController::Base
 
   private
 
+    # Загрузка пользовательской информации
+    #
+    # При каждом запросе производит загрузку аккаунта и профиля
+    # пользователя.
+    # * Если пользователь авторизован, происходит загрузка.
+    # * Если страница для текущего пользователя, то используется
+    #   current_user.
+    # * Если страница не текущего пользователя, то загружается
+    #   информация пользователя с username из params[:username].
     def profile
       if not current_user.user_profile.new_profile
         redirect_to root_path
