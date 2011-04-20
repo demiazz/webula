@@ -18,6 +18,8 @@ class ProfileMasterController < ActionController::Base
   before_filter :authenticate_user!
   # Переключатель мастера профиля
   before_filter :profile
+  # Автозагрузка профиля пользователя
+  before_filter :profile_autoload
 
   # Редактирование основной пользовательской информации
   #
@@ -36,8 +38,6 @@ class ProfileMasterController < ActionController::Base
   #   * Прямая передача массива в профиль
   #   * Рендеринг с заполненными полями и указанием ошибок
   def main_save
-    @user_profile = current_user.user_profile
-
     @user_profile.first_name = params[:first_name]
     @user_profile.last_name = params[:last_name]
     @user_profile.gender = params[:gender]
@@ -72,8 +72,6 @@ class ProfileMasterController < ActionController::Base
   #   * Прямая передача массива в профиль
   #   * Рендеринг с заполненными полями и указанием ошибок
   def organization_save
-    @user_profile = current_user.user_profile
-
     @user_profile.org_name = params[:org_name]
     @user_profile.org_country = params[:org_country]
     @user_profile.org_state = params[:org_state]
@@ -107,8 +105,6 @@ class ProfileMasterController < ActionController::Base
   #   * Прямая передача массива в профиль
   #   * Рендеринг с заполненными полями и указанием ошибок
   def contacts_save
-    @user_profile = current_user.user_profile
-
     @user_profile.home_phone = params[:home_phone]
     @user_profile.work_phone = params[:work_phone]
     @user_profile.mobile_phone = params[:mobile_phone]
@@ -142,8 +138,6 @@ class ProfileMasterController < ActionController::Base
   # TODO:
   #   * Имя файла на сервере должно быть {username}.{ext}
   def avatar_save
-    @user_profile = current_user.user_profile
-
     uploaded_io = params[:avatar]
     File.open(Rails.root.join('public/images', 'avatars', uploaded_io.original_filename), 'wb') do |file|
       file.write(uploaded_io.read)
@@ -163,8 +157,6 @@ class ProfileMasterController < ActionController::Base
 
   # Отображение итогового профиля пользователя
   def finish
-    @user_profile = current_user.user_profile
-
     respond_to do |format|
       format.html #avatar_edit.html.erb
     end
@@ -185,6 +177,14 @@ class ProfileMasterController < ActionController::Base
       if not current_user.user_profile.new_profile
         redirect_to root_path
       end
+    end
+
+    # Автозагрузка профиля пользователя
+    #
+    # Производит автозагрузку профиля текущего пользователя, так как
+    # во всех actions он используется.
+    def profile_autoload
+      @user_profile = current_user.user_profile
     end
 
 end
