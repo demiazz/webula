@@ -28,7 +28,7 @@
 		<div class="field-wrapper">
 			<p>
 				<span class="label"><%= f.label :birthday %> *:</span>
-				<span class="field"><%= f.date_select :birthday, :order => [:day, :month, :year] %></span>
+				<span class="field"><%= f.date_select :birthday, :order => [:day, :month, :year], :start_year => Date.today.year - 90, :end_year => Date.today.year - 14 %></span>
 			</p>
 		</div>
 		<div class="field-wrapper">
