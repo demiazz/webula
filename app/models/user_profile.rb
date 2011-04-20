@@ -38,7 +38,7 @@ class UserProfile
   field :xmpp, type: String, default: ""               # Идентификатор XMPP
   field :twitter, type: String, default: ""            # Аккаунт в Twitter
   # Аватар
-  field :avatar, type: String, default: "avatars/empty_male.png" # Аватар
+  field :avatar, type: String, default: "avatars/default-male-avatar.jpg" # Аватар
   # Метка нового профиля
   field :new_profile, type: Boolean, default: true  # Метка нового профиля
 

@@ -1,29 +1,29 @@
-<%= form_tag({ :controller => "profile_master", :action => "organization_save" }, :method => "put") do %>
-	<div class="field">
-		<%= label_tag(:org_name, "Name *:") %><br />
-		<%= text_field_tag(:org_name) %>
-	</div>
-	<div class="field">
-		<%= label_tag(:org_country, "Country *:") %><br />
-		<%= text_field_tag(:org_country) %>
-	</div>
-	<div class="field">
-		<%= label_tag(:org_state, "State *:") %><br />
-		<%= text_field_tag(:org_state) %>
-	</div>
-	<div class="field">
-		<%= label_tag(:org_city, "City *:") %><br />
-		<%= text_field_tag(:org_city) %>
-	</div>
-	<div class="field">
-		<%= label_tag(:org_unit, "Unit *:") %><br />
-		<%= text_field_tag(:org_unit) %>
-	</div>
-	<div class="field">
-		<%= label_tag(:org_position, "Position *:") %><br />
-		<%= text_field_tag(:org_position) %>
-	</div>
-	<div class="actions">
-    <%= submit_tag("Next") %>
+<%= form_for(@user_profile, :url => profile_master__organization_save_path, :html => {:method => :put }) do |f| %>
+  <div class="field">
+    <%= f.label :org_name, "Name *:"%><br />
+    <%= f.text_field :org_name %>
+  </div>
+  <div class="field">
+    <%= f.label :org_country, "Country *:" %><br />
+    <%= f.text_field :org_country %>
+  </div>
+  <div class="field">
+    <%= f.label :org_state, "State *:" %><br />
+    <%= f.text_field :org_state %>
+  </div>
+  <div class="field">
+    <%= f.label :org_city, "City *:" %><br />
+    <%= f.text_field :org_city %>
+  </div>
+  <div class="field">
+    <%= f.label :org_unit, "Unit *:" %><br />
+    <%= f.text_field :org_unit %>
+  </div>
+  <div class="field">
+    <%= f.label :org_position, "Position *:" %><br />
+    <%= f.text_field :org_position %>
+  </div>
+  <div class="actions">
+    <%= f.submit "Next" %>
   </div>
 <% end %>

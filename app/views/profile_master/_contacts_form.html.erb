@@ -1,33 +1,33 @@
-<%= form_tag({ :controller => "profile_master", :action => "contacts_save" }, :method => "put") do %>
-	<div class="field">
-		<%= label_tag(:home_phone, "Home phone:") %><br />
-		<%= text_field_tag(:home_phone) %>
-	</div>
-	<div class="field">
-		<%= label_tag(:work_phone, "Work phone:") %><br />
-		<%= text_field_tag(:work_phone) %>
-	</div>
-	<div class="field">
-		<%= label_tag(:mobile_phone, "Mobile phone:") %><br />
-		<%= text_field_tag(:mobile_phone) %>
-	</div>
-	<div class="field">
-		<%= label_tag(:mail, "Email:") %><br />
-		<%= text_field_tag(:mail) %>
-	</div>
-	<div class="field">
-		<%= label_tag(:icq, "ICQ:") %><br />
-		<%= text_field_tag(:icq) %>
-	</div>
-	<div class="field">
-		<%= label_tag(:xmpp, "XMPP:") %><br />
-		<%= text_field_tag(:xmpp) %>
-	</div>
-	<div class="field">
-		<%= label_tag(:twitter, "Twitter username:") %><br />
-		<%= text_field_tag(:twitter) %>
-	</div>
-	<div class="actions">
-    <%= submit_tag("Next") %>
+<%= form_for(@user_profile, :url => profile_master__contacts_save_path, :html => {:method => :put }) do |f| %>
+  <div class="field">
+    <%= f.label :home_phone, "Home phone:"%><br />
+    <%= f.text_field :home_phone %>
+  </div>
+  <div class="field">
+    <%= f.label :work_phone, "Work phone:" %><br />
+    <%= f.text_field :work_phone %>
+  </div>
+  <div class="field">
+    <%= f.label :mobile_phone, "Mobile phone:" %><br />
+    <%= f.text_field :mobile_phone %>
+  </div>
+  <div class="field">
+    <%= f.label :mail, "Email:" %><br />
+    <%= f.text_field :mail %>
+  </div>
+  <div class="field">
+    <%= f.label :icq, "ICQ:" %><br />
+    <%= f.text_field :icq %>
+  </div>
+  <div class="field">
+    <%= f.label :xmpp, "XMPP:" %><br />
+    <%= f.text_field :xmpp %>
+  </div>
+  <div class="field">
+    <%= f.label :twitter, "Twitter:" %><br />
+    <%= f.text_field :twitter %>
+  </div>
+  <div class="actions">
+    <%= f.submit "Next" %>
   </div>
 <% end %>
