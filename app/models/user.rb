@@ -12,6 +12,7 @@
 # Модель пользовательского аккаунта.
 class User
   include Mongoid::Document
+  include Extensions::User::Friendship
 
   # Поля модели
   field :username, type: String # Имя пользователя
