@@ -1,5 +1,17 @@
 Webula::Application.routes.draw do
 
+  # Friendship Controller
+  get "friends" => "friendship#index", :as => :friendship__index
+  get "friends/requests/to" => "friendship#requests_to", :as => :friendship__requests_to
+  get "friends/requests/from" => "friendship#requests_from", :as => :friendship__requests_from
+  get ":username/friends" => "friendship#show", :as => :friendship__show
+  get ":username/friends/mutual" => "friendship#mutual_friends", :as => :friendship__mutual_friends
+  get ":username/friends/not/mutual" => "friendship#not_mutual_friends", :as => :friendship__not_mutual_friends
+  put "friends/add/:username" => "friendship#add_friend", :as => :friendship__add_friend
+  put "friends/confirm/:username" => "friendship#confirm_friend", :as => :friendship__confirm_friend
+  put "friends/refuse/:username" => "friendship#refuse_friend", :as => :friendship__refuse_friend
+  put "friends/remove/:username" => "friendship#remove_friend", :as => :friendship__remove_friend
+
   # Settings Controller
   get "settings/avatar" => "settings#avatar_edit", :as => :settings__avatar_edit
   put "settings/avatar" => "settings#avatar_update", :as => :settings__avatar_update
@@ -8,9 +20,8 @@ Webula::Application.routes.draw do
   put "settings/profile" => "settings#profile_update", :as => :settings__profile_update
 
   # Profiles Controller
-  get "index" => "profiles#index", :as => :profiles_index
-  get "show/:username" => "profiles#show"
-  get ":username" => "profiles#show", :as => :profiles_show
+  get "index" => "profiles#index", :as => :profiles__index
+  get ":username" => "profiles#show", :as => :profiles__show
 
   # ProfileMaster Controller
   get "master/step/1" => "profile_master#main_edit", :as => :profile_master__main_edit
