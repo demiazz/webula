@@ -129,20 +129,21 @@ nav li {
 
 nav a {
 	text-decoration: none;
-	font-size: 13px;
-    font-weight: bold;
-    text-align: center;
-    color: #444;
-    text-shadow: #eee 1px 1px 1px;
-    padding-left: 5px;
-    padding-right: 5px;
-    padding-top: 6px;
-    padding-bottom: 6px;
-    display: inline-block;
+	font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+  color: #444;
+  text-shadow: #eee 1px 1px 1px;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  display: inline-block;
 }
 
 nav a:hover,
 nav a:focus {
+	text-decoration: none;
 	background: -webkit-gradient(linear, left top, left bottom, from(#ddd), to(#eee));
 }
 
