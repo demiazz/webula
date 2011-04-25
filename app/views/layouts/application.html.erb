@@ -15,10 +15,10 @@
             <section class="content">
             	<!-- Logo -->
                 <a href="<%= root_path %>"><%= image_tag "logo.png", :class => "logo" %></a>
-                <a href="<%= root_path %>"><%= image_tag @user_profile.avatar, :class => "avatar" %></a>
+                <a href="<%= root_path %>"><%= image_tag current_user.user_profile.avatar, :class => "avatar" %></a>
                 <p class="status">
                 	<a href="<%= root_path %>">
-                		<%= @user_profile.first_name %> <%= @user_profile.last_name %>
+                		<%= current_user.user_profile.first_name %> <%= current_user.user_profile.last_name %>
                 	</a>
                 	[
                 	<a href="<%= settings__account_edit_path %>" class="options">Settings</a>
