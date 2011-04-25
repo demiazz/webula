@@ -1,0 +1,21 @@
+<article class="content-menu">
+  <ul>
+    <% if controller_name == "friendship" and action_name == "index" %>
+      <li><%= link_to "Friends (#{@friends_count})", friendship__index_path, :class => "selected" %></li>
+    <% else %>
+      <li><%= link_to "Friends (#{@friends_count})", friendship__index_path %></li>
+    <% end %>
+
+    <% if controller_name == "friendship" and action_name == "requests_to" %>
+      <li><%= link_to "Requests for you (#{@requests_to_count})", friendship__requests_to_path, :class => "selected" %></li>
+    <% else %>
+      <li><%= link_to "Requests for you (#{@requests_to_count})", friendship__requests_to_path %></li>
+    <% end %>
+
+    <% if controller_name == "friendship" and action_name == "requests_from" %>
+      <li><%= link_to "Your requests (#{@requests_from_count})", friendship__requests_from_path, :class => "selected" %></li>
+    <% else %>
+      <li><%= link_to "Your requests (#{@requests_from_count})", friendship__requests_from_path %></li>
+    <% end %>
+  </ul>
+</article>
