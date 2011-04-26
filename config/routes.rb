@@ -1,7 +1,7 @@
 Webula::Application.routes.draw do
 
   # Microblog Controller
-  get "((:username)/)microblog/feeds/global" => "microblog#global_feed", :as => :microblog__global_feed
+  get "microblog/feeds/global" => "microblog#global_feed", :as => :microblog__global_feed
   get "((:username)/)microblog/feeds/local" => "microblog#local_feed", :as => :microblog__local_feed
   get "((:username)/)microblog/feeds/private" => "microblog#private_feed", :as => :microblog__private_feed
   get "((:username)/)microblog/feeds/followings" => "microblog#followings_feed", :as => :microblog__followings_feed
