@@ -25,7 +25,7 @@ class MicroblogController < ApplicationController
   def local_feed
   end
 
-  def private_feed
+  def personal_feed
   end
 
   def followings_feed
