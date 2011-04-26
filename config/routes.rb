@@ -1,23 +1,17 @@
 Webula::Application.routes.draw do
 
   # Microblog Controller
-  get "microblog/feeds/global" => "microblog#global_feed", :as => :microblog__global_feed
-  get "microblog/feeds/local" => "microblog#local_feed", :as => :microblog__local_feed
-  get "microblog/feeds/private" => "microblog#private_feed", :as => :microblog__private_feed
-  get "microblog/feeds/followings" => "microblog#followings_feed", :as => :microblog__followings_feed
-  get "microblog/feeds/followers" => "microblog#followers_feed", :as => :microblog__followers_feed
-  get "microblog/subscribes/followings" => "microblog#followings", :as => :microblog__followings
+  get "((:username)/)microblog/feeds/global" => "microblog#global_feed", :as => :microblog__global_feed
+  get "((:username)/)microblog/feeds/local" => "microblog#local_feed", :as => :microblog__local_feed
+  get "((:username)/)microblog/feeds/private" => "microblog#private_feed", :as => :microblog__private_feed
+  get "((:username)/)microblog/feeds/followings" => "microblog#followings_feed", :as => :microblog__followings_feed
+  get "((:username)/)microblog/feeds/followers" => "microblog#followers_feed", :as => :microblog__followers_feed
+  get "((:username)/)microblog/subscribes/followings" => "microblog#followings", :as => :microblog__followings
   put "microblog/subscribes/followings/add/:username" => "microblog#add_following", :as => :microblog__add_following
   put "microblog/subscribes/followings/remove/:username" => "microblog#remove_following", :as => :microblog__remove_following
-  get "microblog/subscribes/followers" => "microblog#followers", :as => :microblog__followers
+  get "((:username)/)microblog/subscribes/followers" => "microblog#followers", :as => :microblog__followers
   put "microblog/create_post" => "microblog#create_post", :as => :microblog__add_post
   put "microblog/delete_post" => "microblog#delete_post", :as => :microblog__delete_post
-  get ":username/microblog/feeds/local" => "microblog#local_feed", :as => :microblog__local_feed
-  get ":username/microblog/feeds/private" => "microblog#private_feed", :as => :microblog__private_feed
-  get ":username/microblog/feeds/followings" => "microblog#followings_feed", :as => :microblog__followings_feed
-  get ":username/microblog/feeds/followers" => "microblog#followers_feed", :as => :microblog__followers_feed
-  get ":username/microblog/subscribes/followings" => "microblog#followings", :as => :microblog__followings
-  get ":username/microblog/subscribes/followers" => "microblog#followers", :as => :microblog__followers
 
   # Friendship Controller
   get "friends" => "friendship#index", :as => :friendship__index
