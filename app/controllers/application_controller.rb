@@ -45,7 +45,7 @@ class ApplicationController < ActionController::Base
     #   информация пользователя с username из params[:username].
     def personalize
       if user_signed_in?
-        if params[:username].nil?
+        if request.path_parameters()[:username].nil?
           @user = current_user
         else
           @user = User.first(conditions: { username: params[:username] })
