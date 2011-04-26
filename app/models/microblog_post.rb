@@ -1,5 +1,6 @@
 class MicroblogPost
   include Mongoid::Document
+  include Mongoid::Timestamps
 
   field :text, :type => String
 
