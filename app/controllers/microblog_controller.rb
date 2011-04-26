@@ -1,5 +1,8 @@
 class MicroblogController < ApplicationController
 
+  before_filter :get_following_microblog, :only => [:local_feed, :followings_feed, :followings]
+  before_filter :get_followers_microblog, :only => [:followers_feed, :followers]
+
   # Глобальная лента
   def global_feed
     # Получение всех постов с сортировкой по дате создания
@@ -74,6 +77,16 @@ class MicroblogController < ApplicationController
       posts.each do |post|
         post.author = authors[post.author_id]
       end
+    end
+
+  private
+
+    def get_following_microblog
+      @microblog = @user.microblog.only(:owner_id, :following_ids, :followings_count)
+    end
+
+    def get_follower_microblog
+      @microblog = @user.microblog.only(:owner_id, :follower_ids, :followers_count)
     end
 
 end
