@@ -5,10 +5,7 @@ class MicroblogController < ApplicationController
     # Получение всех постов с сортировкой по дате создания
     @posts = MicroblogPost.all.desc(:created_at).to_a
     # Генерация списка id авторов постов
-    author_ids = Array.new
-    @posts.each do |post|
-      author_ids << post.author_id
-    end
+    author_ids = @posts.map { |post| post.author_id } .uniq!
     # Получение авторов постов по id
     authors = Hash.new
     User.where(:_id.in => author_ids.uniq).
