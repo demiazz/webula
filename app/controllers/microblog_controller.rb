@@ -23,6 +23,9 @@ class MicroblogController < ApplicationController
   def add_following
   end
 
+  def remove_following
+  end
+
   def create_post
   end
 
