@@ -25,7 +25,10 @@ class MicroblogController < ApplicationController
   def local_feed
   end
 
+  # Персональная лента
   def personal_feed
+    # Получение всех постов с сортировкой по дате создания
+    @posts = @user.microblog_posts.desc(:created_at)
   end
 
   def followings_feed
