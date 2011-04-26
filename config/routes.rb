@@ -1,5 +1,25 @@
 Webula::Application.routes.draw do
 
+  get "microblog/global_feed"
+
+  get "microblog/local_feed"
+
+  get "microblog/private_feed"
+
+  get "microblog/followings_feed"
+
+  get "microblog/followers_feed"
+
+  get "microblog/followings"
+
+  get "microblog/followers"
+
+  get "microblog/add_following"
+
+  get "microblog/create_post"
+
+  get "microblog/delete_post"
+
   # Friendship Controller
   get "friends" => "friendship#index", :as => :friendship__index
   get "friends/requests/to" => "friendship#requests_to", :as => :friendship__requests_to
