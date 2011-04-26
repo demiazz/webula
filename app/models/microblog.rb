@@ -13,4 +13,12 @@ class Microblog
   # Имеет одного хозяина
   belongs_to :owner, :class_name => "User", :inverse_of => :microblog
 
+  def followings
+    User.where(:_id.in => following_ids)
+  end
+
+  def followers
+    User.where(:_id.in => follower_ids)
+  end
+
 end
