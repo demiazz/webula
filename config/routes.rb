@@ -11,7 +11,7 @@ Webula::Application.routes.draw do
   put "microblog/subscribes/followings/remove/:username" => "microblog#remove_following", :as => :microblog__remove_following
   get "((:username)/)microblog/subscribes/followers" => "microblog#followers", :as => :microblog__followers
   put "microblog/create_post" => "microblog#create_post", :as => :microblog__add_post
-  put "microblog/delete_post" => "microblog#delete_post", :as => :microblog__delete_post
+  put "microblog/delete_post/:id" => "microblog#delete_post", :as => :microblog__delete_post
 
   # Friendship Controller
   get "friends" => "friendship#index", :as => :friendship__index
