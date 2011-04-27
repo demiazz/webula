@@ -1,2 +1,9 @@
-<h1>Microblog#followers_feed</h1>
-<p>Find me in app/views/microblog/followers_feed.html.erb</p>
+<% content_for :title do %>
+  Followers feed
+<% end %>
+
+<% if @personal %>
+  <%= render "personal_feeds_links" %>
+<% else %>
+  <%= render "feeds_links" %>
+<% end %>
