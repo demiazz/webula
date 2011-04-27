@@ -12,21 +12,29 @@ class MicroblogController < ApplicationController
 
   # Глобальная лента
   def global_feed
+    if params[:page].nil?
+      params[:page] = 1
+    end
     if @personal
       @new_post = MicroblogPost.new
     end
     # Получение всех постов с сортировкой по дате создания
-    @posts_count, @posts = get_posts(MicroblogPost.all.desc(:created_at))
+    @posts_count, @posts = get_posts(MicroblogPost.all.desc(:created_at).
+                                       paginate(:page => params[:page], :per_page => 10))
   end
 
   def local_feed
+    if params[:page].nil?
+      params[:page] = 1
+    end
     if @personal
       @new_post = MicroblogPost.new
     end
     # Получение постов пользователей, на кого подписан пользователь
     @posts_count, @posts = get_posts(MicroblogPost.
                                        where(:author_id.in => @user.microblog.following_ids << @user.id).
-                                       desc(:created_at))
+                                       desc(:created_at).
+                                       paginate(:page => params[:page], :per_page => 10))
   end
 
   # Персональная лента
@@ -70,31 +78,44 @@ class MicroblogController < ApplicationController
   end
 
   def followers_feed
+    if params[:page].nil?
+      params[:page] = 1
+    end
     # Получение постов, подписчиков пользователей
     @posts_count, @posts = get_posts(MicroblogPost.
                                        where(:author_id.in => @user.microblog.follower_ids).
-                                       desc(:created_at))
+                                       desc(:created_at).
+                                       paginate(:page => params[:page], :per_page => 10))
   end
 
   # Кого читает пользователь
   def followings
     unless @microblog.followings_count == 0
+      if params[:page].nil?
+        params[:page] = 1
+      end
       @followings = User.where(:_id.in => @microblog.following_ids).
-                    only(:id, :username, "user_profile.first_name", 
-                         "user_profile.last_name", "user_profile.avatar",
-                         "user_profile.org_name", "user_profile.org_unit",
-                         "user_profile.org_position")
+                         only(:id, :username, "user_profile.first_name", 
+                              "user_profile.last_name", "user_profile.avatar",
+                              "user_profile.org_name", "user_profile.org_unit",
+                              "user_profile.org_position").
+                         paginate(:page => params[:page], :per_page => 10)
+                    
     end
   end
 
   # Читатели микроблога пользователя
   def followers
     unless @microblog.followers_count == 0
+      if params[:page].nil?
+        params[:page] = 1
+      end
       @followers = User.where(:_id.in => @microblog.follower_ids).
-                        only(:id, :username, "user_profile.first_name", 
-                        "user_profile.last_name", "user_profile.avatar",
-                        "user_profile.org_name", "user_profile.org_unit",
-                        "user_profile.org_position")
+                              only(:id, :username, "user_profile.first_name", 
+                              "user_profile.last_name", "user_profile.avatar",
+                              "user_profile.org_name", "user_profile.org_unit",
+                              "user_profile.org_position").
+                              paginate(:page => params[:page], :per_page => 10)
     end
   end
 
@@ -175,7 +196,8 @@ class MicroblogController < ApplicationController
       posts_count = collection.size
       unless posts_count == 0
         # Генерация списка id авторов постов
-        author_ids = collection.map { |post| post.author_id } .uniq!
+        author_ids = collection.map { |post| post.author_id }
+        author_ids.uniq!
         # Получение авторов постов по id
         authors = Hash.new
         User.where(:_id.in => author_ids.uniq).
