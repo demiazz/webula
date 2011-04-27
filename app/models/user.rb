@@ -36,7 +36,7 @@ class User
   has_one :microblog, :class_name => "Microblog", :inverse_of => :owner
 
   # Scopes
-  scope :by_ids, ->(ids) { where(:_id.in => ids) }
+  scope :ids, ->(ids) { where(:_id.in => ids) }
 
   # Доступ
   attr_accessible :username
