@@ -42,9 +42,9 @@
     <div class="entries"><%= page_entries_info @posts %></div>
     <div>
     <% if @personal %>
-      <%= will_paginate @posts, :container => false, :params => { :username => nil } %>
+      <%= will_paginate @posts, :container => false, :inner_window => 1, :params => { :username => nil } %>
     <% else %>
-      <%= will_paginate @posts, :container => false %>
+      <%= will_paginate @posts, :container => false, :inner_window => 1 %>
     <% end %>
     </div>
   </div>
