@@ -21,9 +21,7 @@
             <p><%= following.user_profile.org_position %></p>
           </td>
           <td class="menu">
-            <p><a href="">Menu Item</a></p>
-            <p><a href="">Menu Item</a></p>
-            <p><a href="">Menu Item</a></p>
+            <p><%= link_to "Unfollow", microblog__remove_following_path(:username => following.username), :method => :put %></p>
           </td>
         </tr>
       </table>
