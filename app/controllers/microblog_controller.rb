@@ -82,7 +82,7 @@ class MicroblogController < ApplicationController
 
   # Следить за микроблогом пользователя
   def add_following
-    following = User.where(:username => params[:username]).only(:id).first
+    following = User.where(:username => params[:following]).only(:id).first
     unless following.nil?
       following_microblog = Microblog.where(:owner_id => following.id).first
       unless following_microblog.nil?
