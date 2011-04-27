@@ -75,27 +75,37 @@ class MicroblogController < ApplicationController
   end
 
   ##############################################################################
-  # В этих двух в принципе расстановку флагов отношений можно безболезненно
-  # вынести в отдельную функцию. Получив коллекцию после paginate пропускать ее
-  # через специальную функцию. 
-  # Разница только, что для followings, если список выводится для текущего 
-  # пользователя, то гарантировано, что все пользователи имеют статус following 
-  # по отношению к текущему.
+  # Расстановка флагов вынесена в функцию subscribing_status. Функция использует,
+  # для установки флага поле User#buffer.
+
+  # TO-DO: сделать что-нить с only. Scopes не работают для only, а большое 
+  #        количество параметров режет глаз.
+
+  # TO-DO: сделать настройку для установки количества пользователей на страницу.
+  #        Это на очень далекое будущее. Так, чтобы не держать в голове.
 
   # Кого читает пользователь
   def followings
+    # Если подписок нет, то нет смысла делать запросы (: 
     unless @microblog.followings_count == 0
       @followings = @microblog.followings.
                                only(:id, :username, "user_profile.first_name", 
                                     "user_profile.last_name", "user_profile.avatar",
                                     "user_profile.org_name", "user_profile.org_unit",
                                     "user_profile.org_position").
-                               paginate(:page => params[:page], :per_page => 10)            
+                               paginate(:page => params[:page], :per_page => 10)
+      # Если страница подписок текущего пользователя,
+      # то гарантируется, что у всех пользователей будет стоять флаг :follow,
+      # поэтому в качестве оптимизации используется это условие.
+      unless @personal
+        subscribing_status(@followings)
+      end   
     end
   end
 
   # Читатели микроблога пользователя
   def followers
+    # Если подписчиков нет, то нет смысла делать запросы (:
     unless @microblog.followers_count == 0
       @followers = @microblog.followers.
                               only(:id, :username, "user_profile.first_name", 
@@ -103,6 +113,9 @@ class MicroblogController < ApplicationController
                                    "user_profile.org_name", "user_profile.org_unit",
                                    "user_profile.org_position").
                               paginate(:page => params[:page], :per_page => 10)
+      # Выставляется статус подписки. Даже для страницы текущего пользователя,
+      # не гарантируется, что у всех пользователей одинаковый статус.
+      subscribing_status(@followers)
     end
   end
 
@@ -110,7 +123,7 @@ class MicroblogController < ApplicationController
 
   # Следить за микроблогом пользователя
   def add_following
-    following = User.where(:username => params[:following]).only(:id).first
+    following = User.username(params[:following]).only(:id).first
     unless following.nil?
       following_microblog = Microblog.where(:owner_id => following.id).first
       unless following_microblog.nil?
@@ -231,6 +244,29 @@ class MicroblogController < ApplicationController
       @microblog = Microblog.where(:owner_id => @user.id).
                              only(:owner_id, :posts_count).
                              first
+    end
+
+    # Функции внутреннего использования
+
+    # Проходит по пользователям, и выставляет статус отношения подписки.
+    #
+    # Для установки флага используется User#buffer. Должно использоваться,
+    # только в шаблонах (!!!).
+    def subscribing_status(users)
+      users.each do |u|
+        if u.id == current_user.id
+          # Это текущий пользователь
+          u.buffer = :self
+        else
+          if @current_microblog.following?(u.id)
+            # Текущий пользователь подписан на указанного
+            u.buffer = :follow
+          else
+            # Текущий пользователь не подписан на указанного
+            u.buffer = :unfollow
+          end
+        end
+      end
     end
 
 end
