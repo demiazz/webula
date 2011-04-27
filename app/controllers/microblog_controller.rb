@@ -59,10 +59,14 @@ class MicroblogController < ApplicationController
   end
 
   def followings_feed
+    if params[:page].nil?
+      params[:page] = 1
+    end
     # Получение постов пользователей, на кого подписан пользователь
     @posts_count, @posts = get_posts(MicroblogPost.
                                        where(:author_id.in => @user.microblog.following_ids).
-                                       desc(:created_at))
+                                       desc(:created_at).
+                                       paginate(:page => params[:page], :per_page => 10))
   end
 
   def followers_feed
@@ -166,14 +170,12 @@ class MicroblogController < ApplicationController
     #
     # Функция используется для вытягивания информации об авторах за один запрос,
     # и присвоение ее соответствующим постам.
-    def get_posts(query)
+    def get_posts(collection)
       # Получение количества постов
-      posts_count = query.count
+      posts_count = collection.size
       unless posts_count == 0
-        # Получение постов по запросу
-        posts = query.to_a
         # Генерация списка id авторов постов
-        author_ids = posts.map { |post| post.author_id } .uniq!
+        author_ids = collection.map { |post| post.author_id } .uniq!
         # Получение авторов постов по id
         authors = Hash.new
         User.where(:_id.in => author_ids.uniq).
@@ -182,10 +184,10 @@ class MicroblogController < ApplicationController
           authors[author.id] = author
         end
         # Присваивание авторов постам по author_id
-        posts.each do |post|
+        collection.each do |post|
           post.author = authors[post.author_id]
         end
-        return posts_count, posts
+        return posts_count, collection
       else
         return posts_count, nil
       end
