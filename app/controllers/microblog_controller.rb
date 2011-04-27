@@ -1,6 +1,6 @@
 class MicroblogController < ApplicationController
 
-  before_filter :get_following_microblog, :only => [:local_feed, :followings_feed, :followings]
+  before_filter :get_following_microblog, :only => [:local_feed, :followings_feed, :followings, :add_following, :remove_following]
   before_filter :get_follower_microblog, :only => [:followers_feed, :followers]
 
   # Глобальная лента
@@ -23,6 +23,8 @@ class MicroblogController < ApplicationController
     # Если посты есть - получение постов
     unless @posts_count == 0
       @posts = @user.microblog_posts.desc(:created_at)
+    else
+      @posts = nil
     end
   end
 
