@@ -30,6 +30,13 @@ class MicroblogController < ApplicationController
   end
 
   # Персональная лента
+  #
+  # Выводит персональную ленту пользователя.
+  # 
+  # Определяет количество постов пользователя, если лента не текущего пользователя,
+  # то читает ли его текущий пользователь.
+  #
+  # Если пользователь текущий: генерирует новый MicroblogPost объект для формы.
   def personal_feed
     if @personal
       @microblog = Microblog.where(:owner_id => @user.id).only(:posts_count).first
