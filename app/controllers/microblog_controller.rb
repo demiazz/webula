@@ -85,7 +85,7 @@ class MicroblogController < ApplicationController
   # Кого читает пользователь
   def followings
     unless @microblog.followings_count == 0
-      @followings = User.where(:_id.in => @microblog.following_ids).
+      @followings = User.by_ids(@microblog.following_ids).
                          only(:id, :username, "user_profile.first_name", 
                               "user_profile.last_name", "user_profile.avatar",
                               "user_profile.org_name", "user_profile.org_unit",
@@ -97,7 +97,7 @@ class MicroblogController < ApplicationController
   # Читатели микроблога пользователя
   def followers
     unless @microblog.followers_count == 0
-      @followers = User.where(:_id.in => @microblog.follower_ids).
+      @followers = User.by_ids(@microblog.follower_ids).
                               only(:id, :username, "user_profile.first_name", 
                               "user_profile.last_name", "user_profile.avatar",
                               "user_profile.org_name", "user_profile.org_unit",
@@ -176,6 +176,11 @@ class MicroblogController < ApplicationController
 
   protected
 
+    # Если выводится страница не текущего пользователя,
+    # то может понадобиться Microblog текущего пользователя.
+    # К примеру, когда нужно получать статус подписки. 
+    #
+    # Костыль, причем не оптимизированный.
     def get_current_microblog
       @current_microblog = current_user.microblog
     end

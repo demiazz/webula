@@ -35,6 +35,9 @@ class User
   # Имеет один микроблог
   has_one :microblog, :class_name => "Microblog", :inverse_of => :owner
 
+  # Scopes
+  scope :by_ids, ->(ids) { where(:_id.in => ids) }
+
   # Доступ
   attr_accessible :username
   attr_accessible :email
