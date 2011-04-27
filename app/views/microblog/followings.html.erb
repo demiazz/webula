@@ -21,7 +21,9 @@
             <p><%= following.user_profile.org_position %></p>
           </td>
           <td class="menu">
-            <p><%= link_to "Unfollow", microblog__remove_following_path(:username => following.username), :method => :put %></p>
+            <% if @personal %>
+            <p><%= link_to "Unfollow", microblog__remove_following_path(:following => following.username), :method => :put %></p>
+            <% end %>
           </td>
         </tr>
       </table>
