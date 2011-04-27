@@ -7,3 +7,30 @@
 <% else %>
   <%= render "subscribes_links" %>
 <% end %>
+
+<% if @microblog.followings_count > 0 %>
+  <article class="friends">
+    <% @followings.each do |following| %>
+      <table>
+        <tr>
+          <td class="avatar"><%= image_tag following.user_profile.avatar %></td>
+          <td class="user-info">
+            <h1><%= link_to following.full_name, profiles__show_path(:username => following.username) %></h1>
+            <p><%= following.user_profile.org_name %></p>
+            <p><%= following.user_profile.org_unit %></p>
+            <p><%= following.user_profile.org_position %></p>
+          </td>
+          <td class="menu">
+            <p><a href="">Menu Item</a></p>
+            <p><a href="">Menu Item</a></p>
+            <p><a href="">Menu Item</a></p>
+          </td>
+        </tr>
+      </table>
+    <% end %>
+  </article>
+<% else %>
+  <article class="friends-empty">
+    <p>You have not friends.</p>
+  </article>
+<% end %>
