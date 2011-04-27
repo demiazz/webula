@@ -86,11 +86,11 @@ class MicroblogController < ApplicationController
   def followings
     unless @microblog.followings_count == 0
       @followings = @microblog.followings.
-                         only(:id, :username, "user_profile.first_name", 
-                              "user_profile.last_name", "user_profile.avatar",
-                              "user_profile.org_name", "user_profile.org_unit",
-                              "user_profile.org_position").
-                         paginate(:page => params[:page], :per_page => 10)            
+                               only(:id, :username, "user_profile.first_name", 
+                                    "user_profile.last_name", "user_profile.avatar",
+                                    "user_profile.org_name", "user_profile.org_unit",
+                                    "user_profile.org_position").
+                               paginate(:page => params[:page], :per_page => 10)            
     end
   end
 
@@ -99,9 +99,9 @@ class MicroblogController < ApplicationController
     unless @microblog.followers_count == 0
       @followers = @microblog.followers.
                               only(:id, :username, "user_profile.first_name", 
-                              "user_profile.last_name", "user_profile.avatar",
-                              "user_profile.org_name", "user_profile.org_unit",
-                              "user_profile.org_position").
+                                   "user_profile.last_name", "user_profile.avatar",
+                                   "user_profile.org_name", "user_profile.org_unit",
+                                   "user_profile.org_position").
                               paginate(:page => params[:page], :per_page => 10)
     end
   end
@@ -115,13 +115,13 @@ class MicroblogController < ApplicationController
       following_microblog = Microblog.where(:owner_id => following.id).first
       unless following_microblog.nil?
         # Занесение following связи
-        unless @microblog.following_ids.include?(following.id)
+        unless @microblog.following?(following.id)
           @microblog.following_ids << following.id
         end
         @microblog.followings_count = @microblog.following_ids.size
         @microblog.save
         # Занесение follower связи
-        unless following_microblog.follower_ids.include?(@user.id)
+        unless following_microblog.follower?(@user.id)
           following_microblog.follower_ids << @user.id
         end
         following_microblog.followers_count = following_microblog.follower_ids.size
@@ -138,13 +138,13 @@ class MicroblogController < ApplicationController
       following_microblog = Microblog.where(:owner_id => following.id).first
       unless following_microblog.nil?
         # Занесение following связи
-        if @microblog.following_ids.include?(following.id)
+        if @microblog.following?(following.id)
           @microblog.following_ids.delete(following.id)
         end
         @microblog.followings_count = @microblog.following_ids.size
         @microblog.save
         # Занесение follower связи
-        if following_microblog.follower_ids.include?(@user.id)
+        if following_microblog.follower?(@user.id)
           following_microblog.follower_ids.delete(@user.id)
         end
         following_microblog.followers_count = following_microblog.follower_ids.size
