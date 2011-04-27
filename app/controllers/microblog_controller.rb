@@ -6,8 +6,7 @@ class MicroblogController < ApplicationController
                                                     :add_following, 
                                                     :remove_following]
   before_filter :get_follower_microblog, :only => [:followers_feed, 
-                                                   :followers,
-                                                   :personal_feed]
+                                                   :followers]
   before_filter :get_microblog, :only => [:create_post, 
                                           :delete_post]
 
@@ -33,12 +32,14 @@ class MicroblogController < ApplicationController
   # Персональная лента
   def personal_feed
     if @personal
+      @microblog = Microblog.where(:owner_id => @user.id).only(:posts_count).first
       @new_post = MicroblogPost.new
     else
-      @following = @microblog.follower_ids.include?(current_user.id)
+      @microblog = Microblog.where(:owner_id => @user.id).only(:follower_ids, :posts_count).first
+      @follow = @microblog.follower_ids.include?(current_user.id)
     end
     # Получение количества постов
-    @posts_count = @user.microblog_posts.desc(:created_at).count
+    @posts_count = @microblog.posts_count
     # Если посты есть - получение постов
     unless @posts_count == 0
       @posts = @user.microblog_posts.desc(:created_at)
