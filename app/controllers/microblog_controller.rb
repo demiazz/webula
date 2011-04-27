@@ -109,14 +109,6 @@ class MicroblogController < ApplicationController
     unless following.nil?
       following_microblog = Microblog.where(:owner_id => following.id).first
       unless following_microblog.nil?
-        #if @microblog.pull_all(:following_ids, [following.id])
-        #  @microblog.inc(:followings_count, -1)
-        #end
-        #@microblog.save
-        #if following_microblog.pull_all(:follower_ids, [@user.id])
-        #  following_microblog.inc(:follower_count, -1)
-        #end
-        #following_microblog.save
         # Занесение following связи
         if @microblog.following_ids.include?(following.id)
           @microblog.following_ids.delete(following.id)
