@@ -23,6 +23,15 @@
           <td class="menu">
             <% if @personal %>
             <p><%= link_to "Unfollow", microblog__remove_following_path(:following => following.username), :method => :put %></p>
+            <% else %>
+              <% if following.id != current_user.id %>
+                <% if @current_microblog.following_ids.include?(following.id) %>
+                  <p><%= link_to "Unfollow", microblog__remove_following_path(:following => following.username), :method => :put %></p>
+                <% end %>
+                <% unless @current_microblog.following_ids.include?(following.id) %>
+                  <p><%= link_to "Follow", microblog__add_following_path(:following => following.username), :method => :put %></p>
+                <% end %>
+              <% end %>
             <% end %>
           </td>
         </tr>

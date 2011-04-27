@@ -9,6 +9,7 @@ class MicroblogController < ApplicationController
                                                    :followers]
   before_filter :get_microblog, :only => [:create_post, 
                                           :delete_post]
+  before_filter :get_current_microblog
 
   # Глобальная лента
   def global_feed
@@ -81,8 +82,7 @@ class MicroblogController < ApplicationController
                               "user_profile.last_name", "user_profile.avatar",
                               "user_profile.org_name", "user_profile.org_unit",
                               "user_profile.org_position").
-                         paginate(:page => params[:page], :per_page => 10)
-                    
+                         paginate(:page => params[:page], :per_page => 10)            
     end
   end
 
@@ -165,6 +165,10 @@ class MicroblogController < ApplicationController
   end
 
   protected
+
+    def get_current_microblog
+      @current_microblog = current_user.microblog
+    end
 
     # Получение постов, и получение их авторов
     #
