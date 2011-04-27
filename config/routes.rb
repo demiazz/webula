@@ -1,17 +1,19 @@
 Webula::Application.routes.draw do
 
   # Microblog Controller
+  get "microblog" => "microblog#local_feed", :default => {:username => nil}, :as => :microblog__home
+  get ":username/microblog" => "microblog#personal_feed",:as => :microblog__user_home
   get "microblog/feeds/global" => "microblog#global_feed", :as => :microblog__global_feed
   get "((:username)/)microblog/feeds/local" => "microblog#local_feed", :as => :microblog__local_feed
   get "((:username)/)microblog/feeds/personal" => "microblog#personal_feed", :as => :microblog__personal_feed
   get "((:username)/)microblog/feeds/followings" => "microblog#followings_feed", :as => :microblog__followings_feed
   get "((:username)/)microblog/feeds/followers" => "microblog#followers_feed", :as => :microblog__followers_feed
   get "((:username)/)microblog/subscribes/followings" => "microblog#followings", :as => :microblog__followings
-  put "microblog/subscribes/followings/add/:username" => "microblog#add_following", :as => :microblog__add_following
-  put "microblog/subscribes/followings/remove/:username" => "microblog#remove_following", :as => :microblog__remove_following
+  put "microblog/subscribes/followings/add/:following" => "microblog#add_following", :as => :microblog__add_following
+  put "microblog/subscribes/followings/remove/:following" => "microblog#remove_following", :as => :microblog__remove_following
   get "((:username)/)microblog/subscribes/followers" => "microblog#followers", :as => :microblog__followers
-  put "microblog/create_post" => "microblog#create_post", :as => :microblog__add_post
-  put "microblog/delete_post" => "microblog#delete_post", :as => :microblog__delete_post
+  put "microblog/create_post" => "microblog#create_post", :as => :microblog__create_post
+  put "microblog/delete_post/:id" => "microblog#delete_post", :as => :microblog__delete_post
 
   # Friendship Controller
   get "friends" => "friendship#index", :as => :friendship__index

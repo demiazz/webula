@@ -1,2 +1,38 @@
-<h1>Microblog#local_feed</h1>
-<p>Find me in app/views/microblog/local_feed.html.erb</p>
+<% content_for :title do %>
+  Local feed
+<% end %>
+
+<% if @personal %>
+  <%= render "personal_feeds_links" %>
+<% else %>
+  <%= render "feeds_links" %>
+<% end %>
+
+<% if @posts_count > 0 %>
+  <article class="microblog">
+  <%= render "form" %>
+  <% @posts.each do |post| %>
+    <table>
+      <tr>
+        <td rowspan=2 class="avatar"><%= image_tag post.author.user_profile.avatar %></td>
+        <td class="user-info">
+          <h1><%= link_to post.author.full_name, microblog__personal_feed_path(:username => post.author.username) %> written:</h1>
+          <p class="post-text"><%= post.text %></p>
+        </td>
+        <td rowspan=2 class="menu">
+          <p><a href="">Menu Item</a></p>
+        </td>
+      </tr>
+      <tr>
+        <td class="posted-at"><p><%= post.created_at.strftime("Posted at %e %B %Y in %H:%M") %></p></td>
+      </tr>
+    </table>
+  <% end %>
+  </article>
+<% else %>
+  <article class="microblog">
+    <article class="microblog-empty">
+      <p>Empty</p>
+    </article>
+  </article>
+<% end %>
