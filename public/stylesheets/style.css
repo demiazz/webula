@@ -654,10 +654,9 @@ footer {
 .pagination a {
   margin: 2px;
   padding: 3px 7px;
-  font-size: 14px;
+  font-size: 12px;
   border: 1px solid #ddd;
   display: inline-block;
-  padding-top: 0px;
 }
 
 .pagination em,
@@ -665,8 +664,7 @@ footer {
   border: 1px solid #ddd;
   margin: 2px;
   padding: 3px 7px;
-  padding-top: 0px;
-  font-size: 14px;
+  font-size: 12px;
   display: inline-block;
   font-style: normal;
   color: #666;
