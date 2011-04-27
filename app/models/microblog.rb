@@ -16,11 +16,19 @@ class Microblog
   belongs_to :owner, :class_name => "User", :inverse_of => :microblog
 
   def followings
-    User.where(:_id.in => following_ids)
+    User.ids(following_ids)
   end
 
   def followers
-    User.where(:_id.in => follower_ids)
+    User.ids(follower_ids)
+  end
+
+  def following?(id)
+    following_ids.include?(id)
+  end
+
+  def follower?(id)
+    following_ids.include?(id)
   end
 
 end
