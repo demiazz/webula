@@ -105,18 +105,26 @@ class MicroblogController < ApplicationController
 
   # Перестать следить за микроблогом пользователя
   def remove_following
-    following = User.where(:username => params[:username]).only(:id).first
+    following = User.where(:username => params[:following]).only(:id).first
     unless following.nil?
       following_microblog = Microblog.where(:owner_id => following.id).first
       unless following_microblog.nil?
+        #if @microblog.pull_all(:following_ids, [following.id])
+        #  @microblog.inc(:followings_count, -1)
+        #end
+        #@microblog.save
+        #if following_microblog.pull_all(:follower_ids, [@user.id])
+        #  following_microblog.inc(:follower_count, -1)
+        #end
+        #following_microblog.save
         # Занесение following связи
-        unless @microblog.following_ids.include?(following.id)
+        if @microblog.following_ids.include?(following.id)
           @microblog.following_ids.delete(following.id)
         end
         @microblog.followings_count = @microblog.following_ids.size
         @microblog.save
         # Занесение follower связи
-        unless following_microblog.follower_ids.include?(@user.id)
+        if following_microblog.follower_ids.include?(@user.id)
           following_microblog.follower_ids.delete(@user.id)
         end
         following_microblog.followers_count = following_microblog.follower_ids.size
