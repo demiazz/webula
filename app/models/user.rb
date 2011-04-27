@@ -95,6 +95,10 @@ class User
          # сброс пароля по :username
          :reset_password_keys => [ :username ]
 
+  def full_name
+    "#{user_profile.first_name} #{user_profile.last_name}"
+  end
+
   protected
 
     # Создание профиля
