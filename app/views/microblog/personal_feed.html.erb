@@ -10,6 +10,7 @@
 
 <% if @posts_count > 0 %>
   <article class="microblog">
+  <%= render "form" %>
   <% @posts.each do |post| %>
     <table>
       <tr>
@@ -19,7 +20,7 @@
           <p class="post-text"><%= post.text %></p>
         </td>
         <td rowspan=2 class="menu">
-          <p><a href="">Menu Item</a></p>
+          <p><%= link_to "Delete post", microblog__delete_post_path(:id => post.id), :method => :put %></p>
         </td>
       </tr>
       <tr>

@@ -10,6 +10,7 @@
 
 <% if @posts_count > 0 %>
   <article class="microblog">
+  <%= render "form" %>
   <% @posts.each do |post| %>
     <table>
       <tr>
