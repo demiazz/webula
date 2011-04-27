@@ -38,6 +38,9 @@ class MicroblogController < ApplicationController
   #
   # Если пользователь текущий: генерирует новый MicroblogPost объект для формы.
   def personal_feed
+    if params[:page].nil?
+      params[:page] = 1
+    end
     if @personal
       @microblog = Microblog.where(:owner_id => @user.id).only(:posts_count).first
       @new_post = MicroblogPost.new
@@ -49,7 +52,7 @@ class MicroblogController < ApplicationController
     @posts_count = @microblog.posts_count
     # Если посты есть - получение постов
     unless @posts_count == 0
-      @posts = @user.microblog_posts.desc(:created_at)
+      @posts = @user.microblog_posts.desc(:created_at).paginate :page => params[:page], :per_page => 10
     else
       @posts = nil
     end

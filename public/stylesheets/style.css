@@ -508,6 +508,11 @@ footer {
   border-collapse: collapse;
 }
 
+.microblog table:hover {
+  border-color: #ccc;
+  box-shadow: 0px 0px 2px 1px #ddd;
+}
+
 .microblog table .avatar {
   padding: 0px;
   margin: 0px;
@@ -624,4 +629,54 @@ footer {
   padding: 20px;
   text-align: center;
   color: #666;
+}
+
+/*
+ * Will Paginate Style
+ */
+
+.pagination {
+  width: 556px;
+  margin: 5px;
+  margin-top: 0px;
+  text-align: center;
+  display: inline-block;
+  border: 1px solid #ddd;
+  font-size: 12px;
+  color: #666;
+  padding: 5px;
+}
+
+.pagination .entries {
+  margin-bottom: 5px;
+}
+
+.pagination a {
+  margin: 2px;
+  padding: 3px 7px;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  display: inline-block;
+  padding-top: 0px;
+}
+
+.pagination em,
+.pagination span.disabled {
+  border: 1px solid #ddd;
+  margin: 2px;
+  padding: 3px 7px;
+  padding-top: 0px;
+  font-size: 14px;
+  display: inline-block;
+  font-style: normal;
+  color: #666;
+}
+
+.pagination a:hover,
+.pagination a:focus {
+  background: #eee;
+  border-color: #ccc;
+  text-decoration: none;
+  border-color: #ccc;
+  box-shadow: 0px 0px 2px 1px #ddd;
 }

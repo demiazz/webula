@@ -38,6 +38,10 @@
       </tr>
     </table>
   <% end %>
+  <div class="pagination">
+    <div class="entries"><%= page_entries_info @posts %></div>
+    <div><%= will_paginate @posts, :container => false, :params => { :username => nil } %></div>
+  </div>
   </article>
 <% else %>
   <article class="microblog">
