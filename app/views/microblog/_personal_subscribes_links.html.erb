@@ -2,15 +2,15 @@
   <ul>
     <li>Subscribes:</li>
     <% if action_name == "followings" %>
-      <li><%= link_to "Followings", microblog__followings_path(:username => nil), :class => "selected" %></li>
+      <li><%= link_to "Followings (#{@microblog.followings_count})", microblog__followings_path(:username => nil), :class => "selected" %></li>
     <% else %>
-      <li><%= link_to "Followings", microblog__followings_path(:username => nil) %></li>
+      <li><%= link_to "Followings (#{@microblog.followings_count})", microblog__followings_path(:username => nil) %></li>
     <% end %>
 
     <% if action_name == "followers" %>
-      <li><%= link_to "Followers", microblog__followers_path(:username => nil), :class => "selected" %></li>
+      <li><%= link_to "Followers (#{@microblog.followers_count})", microblog__followers_path(:username => nil), :class => "selected" %></li>
     <% else %>
-      <li><%= link_to "Followers", microblog__followers_path(:username => nil) %></li>
+      <li><%= link_to "Followers (#{@microblog.followers_count})", microblog__followers_path(:username => nil) %></li>
     <% end %>
 
     <li class="separator"></li>

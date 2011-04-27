@@ -1,8 +1,14 @@
 class MicroblogController < ApplicationController
 
-  before_filter :get_following_microblog, :only => [:local_feed, :followings_feed, :followings, :add_following, :remove_following]
-  before_filter :get_follower_microblog, :only => [:followers_feed, :followers]
-  before_filter :get_microblog, :only => [:create_post, :delete_post]
+  before_filter :get_following_microblog, :only => [:local_feed, 
+                                                    :followings_feed, 
+                                                    :followings, 
+                                                    :add_following, 
+                                                    :remove_following]
+  before_filter :get_follower_microblog, :only => [:followers_feed, 
+                                                   :followers]
+  before_filter :get_microblog, :only => [:create_post, 
+                                          :delete_post]
 
   # Глобальная лента
   def global_feed
@@ -148,7 +154,7 @@ class MicroblogController < ApplicationController
     # и присвоение ее соответствующим постам.
     def get_posts(query)
       # Получение количества постов
-      posts_count = @microblog.posts_count
+      posts_count = query.count
       unless posts_count == 0
         # Получение постов по запросу
         posts = query.to_a
@@ -175,13 +181,13 @@ class MicroblogController < ApplicationController
 
     def get_following_microblog
       @microblog = Microblog.where(:owner_id => @user.id).
-                             only(:owner_id, :following_ids, :followings_count).
+                             only(:owner_id, :following_ids, :followings_count, :followers_count).
                              first
     end
 
     def get_follower_microblog
       @microblog = Microblog.where(:owner_id => @user.id).
-                             only(:owner_id, :follower_ids, :followers_count).
+                             only(:owner_id, :follower_ids, :followings_count, :followers_count).
                              first
     end
 
