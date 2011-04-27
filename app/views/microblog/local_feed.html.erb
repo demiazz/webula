@@ -3,9 +3,9 @@
 <% end %>
 
 <% if @personal %>
-  <%= render "personal_feeds_links" %>
+  <%= render "microblog/links/personal_feeds_links" %>
 <% else %>
-  <%= render "feeds_links" %>
+  <%= render "microblog/links/feeds_links" %>
 <% end %>
 
 <% if @posts_count > 0 %>

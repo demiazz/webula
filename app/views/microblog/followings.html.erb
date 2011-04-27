@@ -3,9 +3,9 @@
 <% end %>
 
 <% if @personal %>
-  <%= render "personal_subscribes_links" %>
+  <%= render "microblog/links/personal_subscribes_links" %>
 <% else %>
-  <%= render "subscribes_links" %>
+  <%= render "microblog/links/subscribes_links" %>
 <% end %>
 
 <% if @microblog.followings_count > 0 %>
