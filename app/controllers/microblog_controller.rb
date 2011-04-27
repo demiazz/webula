@@ -85,7 +85,7 @@ class MicroblogController < ApplicationController
   # Кого читает пользователь
   def followings
     unless @microblog.followings_count == 0
-      @followings = User.by_ids(@microblog.following_ids).
+      @followings = @microblog.followings.
                          only(:id, :username, "user_profile.first_name", 
                               "user_profile.last_name", "user_profile.avatar",
                               "user_profile.org_name", "user_profile.org_unit",
@@ -97,7 +97,7 @@ class MicroblogController < ApplicationController
   # Читатели микроблога пользователя
   def followers
     unless @microblog.followers_count == 0
-      @followers = User.by_ids(@microblog.follower_ids).
+      @followers = @microblog.followers.
                               only(:id, :username, "user_profile.first_name", 
                               "user_profile.last_name", "user_profile.avatar",
                               "user_profile.org_name", "user_profile.org_unit",
