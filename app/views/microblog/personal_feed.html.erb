@@ -10,7 +10,9 @@
 
 <% if @posts_count > 0 %>
   <article class="microblog">
-  <%= render "form" %>
+  <% if @personal %>
+    <%= render "form" %>
+  <% end %>
   <% @posts.each do |post| %>
     <table>
       <tr>
@@ -20,7 +22,15 @@
           <p class="post-text"><%= post.text %></p>
         </td>
         <td rowspan=2 class="menu">
-          <p><%= link_to "Delete post", microblog__delete_post_path(:id => post.id), :method => :put %></p>
+          <% if @personal %>
+            <p><%= link_to "Delete post", microblog__delete_post_path(:id => post.id), :method => :put %></p>
+          <% else %>
+            <% if @following %>
+              <p><%= link_to "Unfollow", microblog__remove_following_path(:following => @user.username), :method => :put %></p>
+            <% else %>
+              <p><%= link_to "Follow", microblog__add_following_path(:following => @user.username), :method => :put %></p>
+            <% end %>
+          <% end %>
         </td>
       </tr>
       <tr>
@@ -32,7 +42,11 @@
 <% else %>
   <article class="microblog">
     <article class="microblog-empty">
-      <p>Empty</p>
+      <% if @personal %>
+        <p>You have not any posts.</p>
+      <% else %>
+        <p><%= @user.full_name %> have not any posts.</p>
+      <% end %>
     </article>
   </article>
 <% end %>
