@@ -34,3 +34,5 @@ gem "mongoid", "~> 2.0"
 gem "bson_ext", "~> 1.2"
 
 gem "devise", "~> 1.2"
+
+gem "will_paginate", "~> 3.0.pre3"

@@ -1,0 +1,62 @@
+<% content_for :title do %>
+  Personal feed
+<% end %>
+
+<% if @personal %>
+  <%= render "microblog/links/personal_feeds_links" %>
+<% else %>
+  <%= render "microblog/links/feeds_links" %>
+<% end %>
+
+<% if @posts_count > 0 %>
+  <article class="microblog">
+  <% if @personal %>
+    <%= render "form" %>
+  <% end %>
+  <% @posts.each do |post| %>
+    <table>
+      <tr>
+        <td rowspan=2 class="avatar"><%= image_tag @user.user_profile.avatar %></td>
+        <td class="user-info">
+          <h1><%= link_to @user.full_name, microblog__personal_feed_path(:username => nil) %> written:</h1>
+          <p class="post-text"><%= post.text %></p>
+        </td>
+        <td rowspan=2 class="menu">
+          <% if @personal %>
+            <p><%= link_to "Delete post", microblog__delete_post_path(:id => post.id), :method => :put %></p>
+          <% else %>
+            <% if @follow %>
+              <p><%= link_to "Unfollow", microblog__remove_following_path(:following => @user.username), :method => :put %></p>
+            <% else %>
+              <p><%= link_to "Follow", microblog__add_following_path(:following => @user.username), :method => :put %></p>
+            <% end %>
+          <% end %>
+        </td>
+      </tr>
+      <tr>
+        <td class="posted-at"><p><%= post.created_at.strftime("Posted at %e %B %Y in %H:%M") %></p></td>
+      </tr>
+    </table>
+  <% end %>
+  <div class="pagination">
+    <div class="entries"><%= page_entries_info @posts %></div>
+    <div>
+    <% if @personal %>
+      <%= will_paginate @posts, :container => false, :inner_window => 1, :params => { :username => nil } %>
+    <% else %>
+      <%= will_paginate @posts, :container => false, :inner_window => 1 %>
+    <% end %>
+    </div>
+  </div>
+  </article>
+<% else %>
+  <article class="microblog">
+    <article class="microblog-empty">
+      <% if @personal %>
+        <p>You have not any posts.</p>
+      <% else %>
+        <p><%= @user.full_name %> have not any posts.</p>
+      <% end %>
+    </article>
+  </article>
+<% end %>

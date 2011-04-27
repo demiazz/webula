@@ -1,0 +1,60 @@
+<% content_for :title do %>
+  Followings feed
+<% end %>
+
+<% if @personal %>
+  <%= render "microblog/links/personal_feeds_links" %>
+<% else %>
+  <%= render "microblog/links/feeds_links" %>
+<% end %>
+
+<% if @posts_count > 0 %>
+  <article class="microblog">
+  <% @posts.each do |post| %>
+    <table>
+      <tr>
+        <td rowspan=2 class="avatar"><%= image_tag post.author.user_profile.avatar %></td>
+        <td class="user-info">
+          <h1><%= link_to post.author.full_name, microblog__user_home_path(:username => post.author.username) %> written:</h1>
+          <p class="post-text"><%= post.text %></p>
+        </td>
+        <td rowspan=2 class="menu">
+          <% if @personal %>
+            <p><%= link_to "Unfollow", microblog__remove_following_path(:following => post.author.username), :method => :put %></p>
+          <% else %>
+            <% if post.author.id != current_user.id %>
+              <% if @current_microblog.following_ids.include?(post.author.id) %>
+                <p><%= link_to "Unfollow", microblog__remove_following_path(:following => post.author.username), :method => :put %></p>
+              <% end %>
+              <% unless @current_microblog.following_ids.include?(post.author.id) %>
+                <p><%= link_to "Follow", microblog__add_following_path(:following => post.author.username), :method => :put %></p>
+              <% end %>
+            <% end %>
+          <% end %>
+          <p><%= link_to "Profile", profiles__show_path(:username => post.author.username) %></p>
+          <p><%= link_to "Microblog", microblog__user_home_path(:username => post.author.username) %></p>
+        </td>
+      </tr>
+      <tr>
+        <td class="posted-at"><p><%= post.created_at.strftime("Posted at %e %B %Y in %H:%M") %></p></td>
+      </tr>
+    </table>
+  <% end %>
+  <div class="pagination">
+    <div class="entries"><%= page_entries_info @posts %></div>
+    <div>
+    <% if @personal %>
+      <%= will_paginate @posts, :container => false, :inner_window => 1, :params => { :username => nil } %>
+    <% else %>
+      <%= will_paginate @posts, :container => false, :inner_window => 1 %>
+    <% end %>
+    </div>
+  </div>
+  </article>
+<% else %>
+  <article class="microblog">
+    <article class="microblog-empty">
+      <p>Empty</p>
+    </article>
+  </article>
+<% end %>

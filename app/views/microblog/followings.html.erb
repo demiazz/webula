@@ -1,0 +1,55 @@
+<% content_for :title do %>
+  Followings
+<% end %>
+
+<% if @personal %>
+  <%= render "microblog/links/personal_subscribes_links" %>
+<% else %>
+  <%= render "microblog/links/subscribes_links" %>
+<% end %>
+
+<% if @microblog.followings_count > 0 %>
+  <article class="friends">
+    <% @followings.each do |following| %>
+      <table>
+        <tr>
+          <td class="avatar"><%= image_tag following.user_profile.avatar %></td>
+          <td class="user-info">
+            <h1><%= link_to following.full_name, profiles__show_path(:username => following.username) %></h1>
+            <p><%= following.user_profile.org_name %></p>
+            <p><%= following.user_profile.org_unit %></p>
+            <p><%= following.user_profile.org_position %></p>
+          </td>
+          <td class="menu">
+            <% if @personal %>
+            <p><%= link_to "Unfollow", microblog__remove_following_path(:following => following.username), :method => :put %></p>
+            <% else %>
+              <% if following.id != current_user.id %>
+                <% if @current_microblog.following_ids.include?(following.id) %>
+                  <p><%= link_to "Unfollow", microblog__remove_following_path(:following => following.username), :method => :put %></p>
+                <% end %>
+                <% unless @current_microblog.following_ids.include?(following.id) %>
+                  <p><%= link_to "Follow", microblog__add_following_path(:following => following.username), :method => :put %></p>
+                <% end %>
+              <% end %>
+            <% end %>
+          </td>
+        </tr>
+      </table>
+    <% end %>
+    <div class="pagination">
+      <div class="entries"><%= page_entries_info @followings %></div>
+      <div>
+        <% if @personal %>
+          <%= will_paginate @followings, :container => false, :inner_window => 1, :params => { :username => nil } %>
+        <% else %>
+          <%= will_paginate @followings, :container => false, :inner_window => 1 %>
+        <% end %>
+      </div>
+    </div>
+  </article>
+<% else %>
+  <article class="friends-empty">
+    <p>You have not friends.</p>
+  </article>
+<% end %>

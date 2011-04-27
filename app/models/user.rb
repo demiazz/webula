@@ -30,6 +30,10 @@ class User
   has_and_belongs_to_many :requests_from, :class_name => "User", :inverse_of => :requests_to
   # Запросы на дружбу к пользователю
   has_and_belongs_to_many :requests_to, :class_name => "User", :inverse_of => :requests_from
+  # Посты в микроблоге пользователя
+  has_many :microblog_posts, :class_name => "MicroblogPost", :inverse_of => :author
+  # Имеет один микроблог
+  has_one :microblog, :class_name => "Microblog", :inverse_of => :owner
 
   # Доступ
   attr_accessible :username
@@ -90,6 +94,10 @@ class User
          # Конфигурация восстановления
          # сброс пароля по :username
          :reset_password_keys => [ :username ]
+
+  def full_name
+    "#{user_profile.first_name} #{user_profile.last_name}"
+  end
 
   protected
 
