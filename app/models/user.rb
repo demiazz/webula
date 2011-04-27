@@ -37,11 +37,15 @@ class User
 
   # Scopes
   scope :ids, ->(ids) { where(:_id.in => ids) }
+  scope :username ->(username) { where(:username => username) }
 
   # Доступ
   attr_accessible :username
   attr_accessible :email
   attr_accessible :password
+  
+  # Буферный флаг. Только для локального использования (!!!)
+  attr_accessor :buffer
 
   # Обратные вызовы
   before_create :create_profile
