@@ -375,6 +375,12 @@ footer {
 .content-menu li {
 	display: inline-block;
 	list-style: none;
+	font-size: 12px;
+	color: #666;
+}
+
+.content-menu li.separator {
+	margin: 0px 5px;
 }
 
 .content-menu a {
