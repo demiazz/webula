@@ -9,6 +9,8 @@ class Microblog
   field :followings_count, :type => Integer, :default => 0
   # Число читателей пользователя
   field :followers_count, :type => Integer, :default => 0
+  # Количество постов пользователя
+  field :posts_count, :type => Integer, :default => 0
 
   # Имеет одного хозяина
   belongs_to :owner, :class_name => "User", :inverse_of => :microblog
