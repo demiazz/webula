@@ -5,11 +5,17 @@ class MicroblogController < ApplicationController
 
   # Глобальная лента
   def global_feed
+    if @personal
+      @new_post = MicroblogPost.new
+    end
     # Получение всех постов с сортировкой по дате создания
     @posts_count, @posts = get_posts(MicroblogPost.all.desc(:created_at))
   end
 
   def local_feed
+    if @personal
+      @new_post = MicroblogPost.new
+    end
     # Получение постов пользователей, на кого подписан пользователь
     @posts_count, @posts = get_posts(MicroblogPost.
                                        where(:author_id.in => @user.microblog.following_ids << @user.id).
@@ -18,6 +24,9 @@ class MicroblogController < ApplicationController
 
   # Персональная лента
   def personal_feed
+    if @personal
+      @new_post = MicroblogPost.new
+    end
     # Получение количества постов
     @posts_count = @user.microblog_posts.desc(:created_at).count
     # Если посты есть - получение постов
@@ -70,10 +79,24 @@ class MicroblogController < ApplicationController
   def remove_following
   end
 
+  # Создать пост
   def create_post
+    post = MicroblogPost.new
+    post.author = @user
+    post.text = params[:microblog_post][:text]
+    post.save
+    redirect_to :back
   end
 
+  # Удалить пост
   def delete_post
+    # Поиск поста по переданному id, и по id автора равному id текущего пользователя
+    post = MicroblogPost.where(:_id => params[:id], :author_id => @user.id).first
+    # Если такой пост найден - удаление
+    unless post.nil?
+      post.destroy
+    end
+    redirect_to :back
   end
 
   protected
