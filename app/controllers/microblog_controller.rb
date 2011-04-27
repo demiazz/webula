@@ -44,12 +44,24 @@ class MicroblogController < ApplicationController
 
   # Кого читает пользователь
   def followings
-    @followings = @user.microblog.followings
+    unless @microblog.followings_count == 0
+      @followings = User.where(:_id.in => @microblog.following_ids).
+                    only(:id, :username, "user_profile.first_name", 
+                         "user_profile.last_name", "user_profile.avatar",
+                         "user_profile.org_name", "user_profile.org_unit",
+                         "user_profile.org_position")
+    end
   end
 
   # Читатели микроблога пользователя
   def followers
-    @followers = @user.microblog.followers
+    unless @microblog.followers_count == 0
+      @followers = User.where(:_id.in => @microblog.follower_ids).
+                        only(:id, :username, "user_profile.first_name", 
+                        "user_profile.last_name", "user_profile.avatar",
+                        "user_profile.org_name", "user_profile.org_unit",
+                        "user_profile.org_position")
+    end
   end
 
   def add_following
@@ -81,7 +93,7 @@ class MicroblogController < ApplicationController
         # Получение авторов постов по id
         authors = Hash.new
         User.where(:_id.in => author_ids.uniq).
-             only(:id, :username, "user_profile.first_name", "user_profile.last_name").
+             only(:id, :username, "user_profile.first_name", "user_profile.last_name", "user_profile.avatar").
              each do |author|
           authors[author.id] = author
         end
@@ -99,12 +111,14 @@ class MicroblogController < ApplicationController
 
     def get_following_microblog
       @microblog = Microblog.where(:owner_id => @user.id).
-                             only(:owner_id, :following_ids, :followings_count)
+                             only(:owner_id, :following_ids, :followings_count).
+                             first
     end
 
     def get_follower_microblog
       @microblog = Microblog.where(:owner_id => @user.id).
-                             only(:owner_id, :follower_ids, :followers_count)
+                             only(:owner_id, :follower_ids, :followers_count).
+                             first
     end
 
 end
