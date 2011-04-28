@@ -9,42 +9,41 @@ Class: MicroblogController
 Description:
   Контроллер микроблогов.
 
-  Условно делится на две части: Feeds и Subscribes.
-
-  Feeds - агрегаторы постов по разным параметрам.
-  Subscribes - модуль управления подписками.
+  Условно делится на две части: Feeds и Subscribes:
+    * Feeds       агрегаторы постов по разным параметрам.
+    * Subscribes  модуль управления подписками.
 
 Feeds:
   Имеется пять типов лент:
-    * Global - лента всех постов, которые на данный момент есть в микроблоге.
-    * Local - лента всех постов, принадлежащих пользователю, и тем, кого он
-              читает
-    * Personal - лента всех постов пользователя, и только его.
-    * Followings - лента постов только тех, кого читает пользователь.
-    * Followers - лента постов читателей пользователя.
+    * Global      лента всех постов, которые на данный момент есть в микроблоге.
+    * Local       лента всех постов, принадлежащих пользователю, и тем, кого он
+                  читает
+    * Personal    лента всех постов пользователя, и только его.
+    * Followings  лента постов только тех, кого читает пользователь.
+    * Followers   лента постов читателей пользователя.
 
 Subscribes:
   Имеется три типа пользователей в терминологии подписки:
     * Текущий пользователь
-    * Following - пользователь, кого читает текущий пользователь
-    * Follower - пользователь, который читает текущего пользователя.
+    * Following   пользователь, кого читает текущий пользователь
+    * Follower    пользователь, который читает текущего пользователя.
 
 ================================================================================
 
 Actions:
-  global_feed - Глобальная лента
-  local_feed - Локальная лента
-  personal_feed - Персональная лента
-  followings_feed - Лента following'ов
-  followers_feed - Лента follower'ов
-  create_post - Создание поста
-  delete_post - Удаление поста
-  followings - Те, кого читает текущий пользователь
-  followers - Те, кто читает текущего пользователя
-  add_following - Добавить пользователя в список подписки 
-                  текущего пользователя
-  remove_following - Удалить пользователя из списка подписки 
-                     текущего пользователя
+  * global_feed        Глобальная лента
+  * local_feed         Локальная лента
+  * personal_feed      Персональная лента
+  * followings_feed    Лента following'ов
+  * followers_feed     Лента follower'ов
+  * create_post        Создание поста
+  * delete_post        Удаление поста
+  * followings         Те, кого читает текущий пользователь
+  * followers          Те, кто читает текущего пользователя
+  * add_following      Добавить пользователя в список подписки
+                       текущего пользователя
+  * remove_following   Удалить пользователя из списка подписки
+                       текущего пользователя
 
 ================================================================================
 
@@ -56,6 +55,10 @@ License: GPL
 =end
 
 class MicroblogController < ApplicationController
+
+  before_filter :new_post_filter, :only => [:global_feed,
+                                            :local_feed,
+                                            :personal_feed]
 
   before_filter :get_following_microblog, :only => [:local_feed, 
                                                     :followings_feed, 
@@ -72,21 +75,25 @@ class MicroblogController < ApplicationController
   # Feeds - Агрегаторы постов
   #=============================================================================
 
-  # Глобальная лента
+  # Method: MicroblogController#global_feed
+  #
+  # Description:
+  #   Лента постов всех пользователей.
+  #   Возможно создание постов.
   def global_feed
-    if @personal
-      @new_post = MicroblogPost.new
-    end
-    # Получение всех постов с сортировкой по дате создания
     @posts_count, @posts = get_posts(MicroblogPost.all_posts)
   end
 
+  # Method: MicroblogController#local_feed
+  #
+  # Description:
+  #   Лента постов пользователей, на кого подписан текущий пользователь, а также
+  #   самого пользователя.
+  #   Возможно создание постов, если это лента текущего пользователя.
   def local_feed
-    if @personal
-      @new_post = MicroblogPost.new
-    end
-    # Получение постов пользователей, на кого подписан пользователь
-    @posts_count, @posts = get_posts(MicroblogPost.author_ids(@user.microblog.following_ids << @user.id))
+    @posts_count,
+    @posts = get_posts(MicroblogPost.
+                         author_ids(@user.microblog.following_ids << @user.id))
   end
 
   # Персональная лента
@@ -100,29 +107,35 @@ class MicroblogController < ApplicationController
   def personal_feed
     if @personal
       @microblog = Microblog.where(:owner_id => @user.id).only(:posts_count).first
-      @new_post = MicroblogPost.new
     else
       @microblog = Microblog.where(:owner_id => @user.id).only(:follower_ids, :posts_count).first
-      @follow = @microblog.follower_ids.include?(current_user.id)
     end
     # Получение количества постов
     @posts_count = @microblog.posts_count
     # Если посты есть - получение постов
     unless @posts_count == 0
-      @posts = @user.microblog_posts.desc(:created_at).paginate :page => params[:page], :per_page => params[:per_page]
+      @posts = MicroblogPost.author_id(@user.id).paginate(:page => params[:page], 15)
     else
       @posts = nil
     end
   end
 
+  # Method: MicroblogController#following_feed
+  #
+  # Description:
+  #   Лента постов пользователей, на кого подписан текущий пользователь.
   def followings_feed
-    # Получение постов пользователей, на кого подписан пользователь
-    @posts_count, @posts = get_posts(MicroblogPost.author_ids(@user.microblog.following_ids))
+    @posts_count,
+    @posts = get_posts(MicroblogPost.author_ids(@user.microblog.following_ids))
   end
 
+  # Method: MicroblogController#follower_feed
+  #
+  # Description:
+  #   Лента постов пользователей, кто подписан на текущего пользователя.
   def followers_feed
-    # Получение постов, подписчиков пользователей
-    @posts_count, @posts = get_posts(MicroblogPost.author_ids(@user.microblog.follower_ids))
+    @posts_count,
+    @posts = get_posts(MicroblogPost.author_ids(@user.microblog.follower_ids))
   end
 
   # Method: MicroblogController#create_post
@@ -245,6 +258,16 @@ class MicroblogController < ApplicationController
   #=============================================================================
 
   protected
+
+    # Method: MicroblogController#new_post_filter
+    #
+    # Description:
+    #   Если страница текущего пользователя, то создается пустой пост для формы.
+    def new_post_filter
+      if @personal
+        @new_post = MicroblogPost.new
+      end
+    end
 
     def get_following_microblog
       @microblog = Microblog.where(:owner_id => @user.id).
