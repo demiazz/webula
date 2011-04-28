@@ -31,7 +31,7 @@ class Microblog
   end
 
   def follower?(id)
-    following_ids.include?(id)
+    follower_ids.include?(id)
   end
 
   def add_following!(id)
