@@ -78,7 +78,7 @@ class MicroblogController < ApplicationController
       @new_post = MicroblogPost.new
     end
     # Получение всех постов с сортировкой по дате создания
-    @posts_count, @posts = get_posts(MicroblogPost.all_posts, 10)
+    @posts_count, @posts = get_posts(MicroblogPost.all_posts)
   end
 
   def local_feed
@@ -86,8 +86,7 @@ class MicroblogController < ApplicationController
       @new_post = MicroblogPost.new
     end
     # Получение постов пользователей, на кого подписан пользователь
-    @posts_count, @posts = get_posts(MicroblogPost.author_ids(@user.microblog.following_ids << @user.id),
-                                     10)
+    @posts_count, @posts = get_posts(MicroblogPost.author_ids(@user.microblog.following_ids << @user.id))
   end
 
   # Персональная лента
@@ -110,7 +109,7 @@ class MicroblogController < ApplicationController
     @posts_count = @microblog.posts_count
     # Если посты есть - получение постов
     unless @posts_count == 0
-      @posts = @user.microblog_posts.desc(:created_at).paginate :page => params[:page], :per_page => 10
+      @posts = @user.microblog_posts.desc(:created_at).paginate :page => params[:page], :per_page => params[:per_page]
     else
       @posts = nil
     end
@@ -118,14 +117,12 @@ class MicroblogController < ApplicationController
 
   def followings_feed
     # Получение постов пользователей, на кого подписан пользователь
-    @posts_count, @posts = get_posts(MicroblogPost.author_ids(@user.microblog.following_ids), 
-                                     10)
+    @posts_count, @posts = get_posts(MicroblogPost.author_ids(@user.microblog.following_ids))
   end
 
   def followers_feed
     # Получение постов, подписчиков пользователей
-    @posts_count, @posts = get_posts(MicroblogPost.author_ids(@user.microblog.follower_ids),
-                                     10)
+    @posts_count, @posts = get_posts(MicroblogPost.author_ids(@user.microblog.follower_ids))
   end
 
   # Method: MicroblogController#create_post
@@ -319,9 +316,9 @@ class MicroblogController < ApplicationController
     #    * Один и тот же автор не вытягивается более одного раза.
     #    * Вытягивается только нужная информация об авторах, которая будет
     #      использована в шаблоне
-    def get_posts(query, per_page)
+    def get_posts(query)
       # Получаем paginate-коллекцию
-      collection = query.paginate(:page => params[:page], :per_page => per_page)
+      collection = query.paginate(:page => params[:page], :per_page => 20)
       # Определяем размер коллекции
       count = collection.size
       unless count == 0
