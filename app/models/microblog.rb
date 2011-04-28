@@ -15,6 +15,9 @@ class Microblog
   # Имеет одного хозяина
   belongs_to :owner, :class_name => "User", :inverse_of => :microblog
 
+  # Scopes
+  scope :owner_id, ->(id) { where(:owner_id => id) }
+
   def followings
     User.ids(following_ids)
   end
@@ -29,6 +32,38 @@ class Microblog
 
   def follower?(id)
     following_ids.include?(id)
+  end
+
+  def add_following!(id)
+    unless self.following?(id)
+      self.following_ids << id
+    end
+    self.followings_count = self.following_ids.size
+    self.save
+  end
+
+  def remove_following!(id)
+    if self.following?(id)
+      self.following_ids.delete(id)
+    end
+    self.followings_count = self.following_ids.size
+    self.save
+  end
+
+  def add_follower!(id)
+    unless self.follower?(id)
+      self.follower_ids << id
+    end
+    self.followers_count = self.follower_ids.size
+    self.save
+  end
+
+  def remove_follower!(id)
+    if self.follower?(id)
+      self.follower_ids.delete(id)
+    end
+    self.followers_count = self.follower_ids.size
+    self.save
   end
 
 end
