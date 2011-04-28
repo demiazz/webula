@@ -37,7 +37,7 @@ class User
 
   # Scopes
   scope :ids, ->(ids) { where(:_id.in => ids) }
-  scope :username ->(username) { where(:username => username) }
+  scope :username, ->(username) { where(:username => username) }
 
   # Доступ
   attr_accessible :username
