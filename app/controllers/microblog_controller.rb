@@ -105,14 +105,8 @@ class MicroblogController < ApplicationController
   #   Выводит сообщения пользователя.
   #   Если пользователь не текущий, то отображает кнопку Follow/Unfollow.
   def personal_feed
-    # Получение количества постов
-    @posts_count = @microblog.posts_count
-    # Если посты есть - получение постов
-    unless @posts_count == 0
-      @posts = MicroblogPost.author_id(@user.id).paginate(:page => params[:page], :per_page => 15)
-    else
-      @posts = nil
-    end
+    @posts = MicroblogPost.author_id(@user.id).paginate(:page => params[:page], :per_page => 15)
+    @posts_count = @posts.size
   end
 
   # Method: MicroblogController#following_feed
