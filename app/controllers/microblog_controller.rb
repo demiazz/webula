@@ -78,8 +78,7 @@ class MicroblogController < ApplicationController
       @new_post = MicroblogPost.new
     end
     # Получение всех постов с сортировкой по дате создания
-    @posts_count, @posts = get_posts(MicroblogPost.all.desc(:created_at).
-                                       paginate(:page => params[:page], :per_page => 10))
+    @posts_count, @posts = get_posts(MicroblogPost.all_posts, 10)
   end
 
   def local_feed
@@ -87,10 +86,8 @@ class MicroblogController < ApplicationController
       @new_post = MicroblogPost.new
     end
     # Получение постов пользователей, на кого подписан пользователь
-    @posts_count, @posts = get_posts(MicroblogPost.
-                                       where(:author_id.in => @user.microblog.following_ids << @user.id).
-                                       desc(:created_at).
-                                       paginate(:page => params[:page], :per_page => 10))
+    @posts_count, @posts = get_posts(MicroblogPost.author_ids(@user.microblog.following_ids << @user.id),
+                                     10)
   end
 
   # Персональная лента
@@ -121,32 +118,43 @@ class MicroblogController < ApplicationController
 
   def followings_feed
     # Получение постов пользователей, на кого подписан пользователь
-    @posts_count, @posts = get_posts(MicroblogPost.
-                                       where(:author_id.in => @user.microblog.following_ids).
-                                       desc(:created_at).
-                                       paginate(:page => params[:page], :per_page => 10))
+    @posts_count, @posts = get_posts(MicroblogPost.author_ids(@user.microblog.following_ids), 
+                                     10)
   end
 
   def followers_feed
     # Получение постов, подписчиков пользователей
-    @posts_count, @posts = get_posts(MicroblogPost.
-                                       where(:author_id.in => @user.microblog.follower_ids).
-                                       desc(:created_at).
-                                       paginate(:page => params[:page], :per_page => 10))
+    @posts_count, @posts = get_posts(MicroblogPost.author_ids(@user.microblog.follower_ids),
+                                     10)
   end
 
-  # Создать пост
+  # Method: MicroblogController#create_post
+  #
+  # Desctiption:
+  #   Создает пост, и возвращает обратно на страницу, с которой пришел запрос.
+  #   
+  #   Помимо создания поста, делает кэширование количества постов, в микроблоге
+  #   пользователя (используется для быстрого получения статистики, 
+  #   без лишних запросов к базе).
   def create_post
     post = MicroblogPost.new
-    post.author = @user
+    post.author = @user 
     post.text = params[:microblog_post][:text]
     @microblog.inc(:posts_count, 1) if post.save
     redirect_to :back
   end
 
-  # Удалить пост
+  # Method: MicroblogController#delete_post
+  #
+  # Description:
+  #   Удаляет пост, и возвращает обратно на страницу, с которой пришел запрос.
+  # 
+  #   Текущий пользователь может удалять только свои посты. Для этого, в запросе,
+  #   указывается не только номер поста, но также и его id автора.
+  #   Если пост с указанным id, и id автора не будет найден, то удаление не 
+  #   производится.
   def delete_post
-    # Поиск поста по переданному id, и по id автора равному id текущего пользователя
+    # Поиск нужного поста с указанием автора
     post = MicroblogPost.where(:_id => params[:id], :author_id => @user.id).first
     # Если такой пост найден - удаление
     unless post.nil?
@@ -297,32 +305,42 @@ class MicroblogController < ApplicationController
       end
     end
 
-    # Получение постов, и получение их авторов
+    # Method: MicroblogController#get_posts
     #
-    # Функция используется для вытягивания информации об авторах за один запрос,
-    # и присвоение ее соответствующим постам.
-    def get_posts(collection)
-      # Получение количества постов
-      posts_count = collection.size
-      unless posts_count == 0
-        # Генерация списка id авторов постов
+    # Description:
+    #  Функция получает коллекцию постов, и если постов больше 0, получает
+    #  информацию об авторах постов и прикрепляет к постам.
+    #
+    #  Умеет работать с will_paginate коллекциями.
+    #  
+    #  Это алгоритм оптимизации запроса, и решает следующие задачи:
+    #    * Авторы вытягиваются одним запросом, а не многими, при обращении к
+    #      каждому посту.
+    #    * Один и тот же автор не вытягивается более одного раза.
+    #    * Вытягивается только нужная информация об авторах, которая будет
+    #      использована в шаблоне
+    def get_posts(query, per_page)
+      # Получаем paginate-коллекцию
+      collection = query.paginate(:page => params[:page], :per_page => per_page)
+      # Определяем размер коллекции
+      count = collection.size
+      unless count == 0
+        # Собираем id авторов постов
         author_ids = collection.map { |post| post.author_id }
         author_ids.uniq!
-        # Получение авторов постов по id
+        # Собираем хэш авторов
         authors = Hash.new
-        User.where(:_id.in => author_ids.uniq).
-             only(:id, :username, "user_profile.first_name", "user_profile.last_name", "user_profile.avatar").
-             each do |author|
+        User.ids(author_ids).only(:id, :username, "user_profile.first_name",
+                                  "user_profile.last_name", "user_profile.avatar").
+                             each do |author|
           authors[author.id] = author
         end
-        # Присваивание авторов постам по author_id
+        # Прикрепляем авторов к постам
         collection.each do |post|
           post.author = authors[post.author_id]
         end
-        return posts_count, collection
-      else
-        return posts_count, nil
       end
+      return count, collection
     end
 
 end
