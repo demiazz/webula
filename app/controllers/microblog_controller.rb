@@ -62,16 +62,15 @@ class MicroblogController < ApplicationController
 
   before_filter :follow_flag_filter
 
-  before_filter :get_following_microblog, :only => [:local_feed, 
-                                                    :followings_feed, 
-                                                    :followings, 
-                                                    :add_following, 
-                                                    :remove_following]
-  before_filter :get_follower_microblog, :only => [:followers_feed, 
-                                                   :followers]
-  before_filter :get_microblog, :only => [:create_post, 
-                                          :delete_post,
-                                          :personal_feed]
+  before_filter :get_followings_filter, :only => [:local_feed,
+                                                  :followings_feed,
+                                                  :followings,
+                                                  :add_following,
+                                                  :remove_following]
+  before_filter :get_followers_filter, :only => [:followers_feed,
+                                                 :followers]
+  before_filter :get_posts_count_filter, :only => [:create_post,
+                                                   :delete_post]
   before_filter :get_current_microblog
 
   #=============================================================================
@@ -270,21 +269,38 @@ class MicroblogController < ApplicationController
       end
     end
 
-    def get_following_microblog
+    # Method: MicroblogController#get_followings_filter
+    #
+    # Description:
+    #   Вытягивает из базы объект микроблога.
+    #   Вытягиваются только счетчики подписки, и id пользователей, на кого
+    #   подписан пользователь.
+    def get_followings_filter
       @microblog = Microblog.where(:owner_id => @user.id).
                              only(:owner_id, :following_ids, 
                                   :followings_count, :followers_count).
                              first
     end
 
-    def get_follower_microblog
+    # Method: MicroblogController#get_followers_filter
+    #
+    # Description:
+    #   Вытягивает из базы объект микроблога.
+    #   Вытягиваются только счетчики подписки, и id пользователей, кто
+    #   подписан на пользователя.
+    def get_followers_filter
       @microblog = Microblog.where(:owner_id => @user.id).
                              only(:owner_id, :follower_ids, 
                                   :followings_count, :followers_count).
                              first
     end
 
-    def get_microblog
+    # Method: MicroblogController#get_posts_count_filter
+    #
+    # Description:
+    #   Вытягивает из базы объект микроблога.
+    #   Вытягивается только счетчик постов пользователя.
+    def get_posts_count_filter
       @microblog = Microblog.where(:owner_id => @user.id).
                              only(:owner_id, :posts_count).
                              first
