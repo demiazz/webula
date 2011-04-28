@@ -1,3 +1,60 @@
+# -*- coding: utf-8 -*-
+
+=begin
+
+================================================================================
+
+Class: MicroblogController
+
+Description:
+  Контроллер микроблогов.
+
+  Условно делится на две части: Feeds и Subscribes.
+
+  Feeds - агрегаторы постов по разным параметрам.
+  Subscribes - модуль управления подписками.
+
+Feeds:
+  Имеется пять типов лент:
+    * Global - лента всех постов, которые на данный момент есть в микроблоге.
+    * Local - лента всех постов, принадлежащих пользователю, и тем, кого он
+              читает
+    * Personal - лента всех постов пользователя, и только его.
+    * Followings - лента постов только тех, кого читает пользователь.
+    * Followers - лента постов читателей пользователя.
+
+Subscribes:
+  Имеется три типа пользователей в терминологии подписки:
+    * Текущий пользователь
+    * Following - пользователь, кого читает текущий пользователь
+    * Follower - пользователь, который читает текущего пользователя.
+
+================================================================================
+
+Actions:
+  global_feed - Глобальная лента
+  local_feed - Локальная лента
+  personal_feed - Персональная лента
+  followings_feed - Лента following'ов
+  followers_feed - Лента follower'ов
+  create_post - Создание поста
+  delete_post - Удаление поста
+  followings - Те, кого читает текущий пользователь
+  followers - Те, кто читает текущего пользователя
+  add_following - Добавить пользователя в список подписки 
+                  текущего пользователя
+  remove_following - Удалить пользователя из списка подписки 
+                     текущего пользователя
+
+================================================================================
+
+Copyright (c) 2011, Alexey Plutalov
+License: GPL
+
+================================================================================
+
+=end
+
 class MicroblogController < ApplicationController
 
   before_filter :get_following_microblog, :only => [:local_feed, 
@@ -10,6 +67,10 @@ class MicroblogController < ApplicationController
   before_filter :get_microblog, :only => [:create_post, 
                                           :delete_post]
   before_filter :get_current_microblog
+
+  #=============================================================================
+  # Feeds - Агрегаторы постов
+  #=============================================================================
 
   # Глобальная лента
   def global_feed
@@ -74,99 +135,6 @@ class MicroblogController < ApplicationController
                                        paginate(:page => params[:page], :per_page => 10))
   end
 
-  ##############################################################################
-  # Расстановка флагов вынесена в функцию subscribing_status. Функция использует,
-  # для установки флага поле User#buffer.
-
-  # TO-DO: сделать что-нить с only. Scopes не работают для only, а большое 
-  #        количество параметров режет глаз.
-
-  # TO-DO: сделать настройку для установки количества пользователей на страницу.
-  #        Это на очень далекое будущее. Так, чтобы не держать в голове.
-
-  # Кого читает пользователь
-  def followings
-    # Если подписок нет, то нет смысла делать запросы (: 
-    unless @microblog.followings_count == 0
-      @followings = @microblog.followings.
-                               only(:id, :username, "user_profile.first_name", 
-                                    "user_profile.last_name", "user_profile.avatar",
-                                    "user_profile.org_name", "user_profile.org_unit",
-                                    "user_profile.org_position").
-                               paginate(:page => params[:page], :per_page => 10)
-      # Если страница подписок текущего пользователя,
-      # то гарантируется, что у всех пользователей будет стоять флаг :follow,
-      # поэтому в качестве оптимизации используется это условие.
-      unless @personal
-        subscribing_status(@followings)
-      end   
-    end
-  end
-
-  # Читатели микроблога пользователя
-  def followers
-    # Если подписчиков нет, то нет смысла делать запросы (:
-    unless @microblog.followers_count == 0
-      @followers = @microblog.followers.
-                              only(:id, :username, "user_profile.first_name", 
-                                   "user_profile.last_name", "user_profile.avatar",
-                                   "user_profile.org_name", "user_profile.org_unit",
-                                   "user_profile.org_position").
-                              paginate(:page => params[:page], :per_page => 10)
-      # Выставляется статус подписки. Даже для страницы текущего пользователя,
-      # не гарантируется, что у всех пользователей одинаковый статус.
-      subscribing_status(@followers)
-    end
-  end
-
-  ##############################################################################
-
-  # Следить за микроблогом пользователя
-  def add_following
-    following = User.username(params[:following]).only(:id).first
-    unless following.nil?
-      following_microblog = Microblog.where(:owner_id => following.id).first
-      unless following_microblog.nil?
-        # Занесение following связи
-        unless @microblog.following?(following.id)
-          @microblog.following_ids << following.id
-        end
-        @microblog.followings_count = @microblog.following_ids.size
-        @microblog.save
-        # Занесение follower связи
-        unless following_microblog.follower?(@user.id)
-          following_microblog.follower_ids << @user.id
-        end
-        following_microblog.followers_count = following_microblog.follower_ids.size
-        following_microblog.save
-      end
-    end
-    redirect_to :back
-  end
-
-  # Перестать следить за микроблогом пользователя
-  def remove_following
-    following = User.where(:username => params[:following]).only(:id).first
-    unless following.nil?
-      following_microblog = Microblog.where(:owner_id => following.id).first
-      unless following_microblog.nil?
-        # Занесение following связи
-        if @microblog.following?(following.id)
-          @microblog.following_ids.delete(following.id)
-        end
-        @microblog.followings_count = @microblog.following_ids.size
-        @microblog.save
-        # Занесение follower связи
-        if following_microblog.follower?(@user.id)
-          following_microblog.follower_ids.delete(@user.id)
-        end
-        following_microblog.followers_count = following_microblog.follower_ids.size
-        following_microblog.save
-      end
-    end
-    redirect_to :back
-  end
-
   # Создать пост
   def create_post
     post = MicroblogPost.new
@@ -187,7 +155,111 @@ class MicroblogController < ApplicationController
     redirect_to :back
   end
 
+
+  #=============================================================================
+  # Subscribes - управление подписками
+  #=============================================================================
+
+  # Method: MicroblogController#followings
+  #
+  # Description:
+  #   Выводит список всех пользователей, кого читает пользователь.
+  #   Если страница текущего пользователя, то:
+  #     * гарантировано, что все пользователи будут иметь статус :follow.
+  #   Если страница не текущего пользователя, то:
+  #     * выводит ссылки на добавление/удаление подписки в зависимости от
+  #       статуса пользователя.
+  def followings
+    unless @microblog.followings_count == 0
+      @followings = @microblog.followings.
+                               only(:id, :username, "user_profile.first_name", 
+                                    "user_profile.last_name", "user_profile.avatar",
+                                    "user_profile.org_name", "user_profile.org_unit",
+                                    "user_profile.org_position").
+                               paginate(:page => params[:page], :per_page => 10)
+      unless @personal
+        subscribing_status(@followings)
+      end   
+    end
+  end
+
+  # Method: MicroblogController#followers
+  #
+  # Description:
+  #   Выводит список всех пользователей, кто читает пользователя.
+  #   Выводит ссылки на добавление/удаление подписки, в зависимости от статуса
+  #   пользователя.
+  def followers
+    unless @microblog.followers_count == 0
+      @followers = @microblog.followers.
+                              only(:id, :username, "user_profile.first_name", 
+                                   "user_profile.last_name", "user_profile.avatar",
+                                   "user_profile.org_name", "user_profile.org_unit",
+                                   "user_profile.org_position").
+                              paginate(:page => params[:page], :per_page => 10)
+      subscribing_status(@followers)
+    end
+  end
+
+  # Method: MicroblogController#add_following
+  #
+  # Description:
+  #   Добавляет подписку пользователя на другого пользователя.
+  #
+  #   При добавлении отношения количество отношений не икрементрируется,
+  #   а устанавливается равным размеру массива с id пользователей 
+  #   соответствующего отношения.
+  def add_following
+    following = User.username(params[:following]).only(:id).first
+    unless following.nil? or following.microblog.nil?
+      @microblog.add_following!(following.id)
+      following.microblog.add_follower!(@user.id)
+    end
+    redirect_to :back
+  end
+
+  # Method: MicroblogController#remove_following
+  #
+  # Description:
+  #   Удаляет подписку пользователя на другого пользователя.
+  #
+  #   При удалении отношения количество отношений не декрементрируется,
+  #   а устанавливается равным размеру массива с id пользователей 
+  #   соответствующего отношения.
+  def remove_following
+    following = User.username(params[:following]).only(:id).first
+    unless following.nil? or following.microblog.nil?
+      @microblog.remove_following!(following.id)
+      following.microblog.remove_follower!(@user.id)
+    end
+    redirect_to :back
+  end
+
+  #=============================================================================
+  # Фильтры
+  #=============================================================================
+
   protected
+
+    def get_following_microblog
+      @microblog = Microblog.where(:owner_id => @user.id).
+                             only(:owner_id, :following_ids, 
+                                  :followings_count, :followers_count).
+                             first
+    end
+
+    def get_follower_microblog
+      @microblog = Microblog.where(:owner_id => @user.id).
+                             only(:owner_id, :follower_ids, 
+                                  :followings_count, :followers_count).
+                             first
+    end
+
+    def get_microblog
+      @microblog = Microblog.where(:owner_id => @user.id).
+                             only(:owner_id, :posts_count).
+                             first
+    end
 
     # Если выводится страница не текущего пользователя,
     # то может понадобиться Microblog текущего пользователя.
@@ -196,6 +268,33 @@ class MicroblogController < ApplicationController
     # Костыль, причем не оптимизированный.
     def get_current_microblog
       @current_microblog = current_user.microblog
+    end
+
+  #=============================================================================
+  # Внутренние функции
+  #=============================================================================
+
+  private
+
+    # Проходит по пользователям, и выставляет статус отношения подписки.
+    #
+    # Для установки флага используется User#buffer. Должно использоваться,
+    # только в шаблонах (!!!).
+    def subscribing_status(users)
+      users.each do |u|
+        if u.id == current_user.id
+          # Это текущий пользователь
+          u.buffer = :self
+        else
+          if @current_microblog.following?(u.id)
+            # Текущий пользователь подписан на указанного
+            u.buffer = :follow
+          else
+            # Текущий пользователь не подписан на указанного
+            u.buffer = :unfollow
+          end
+        end
+      end
     end
 
     # Получение постов, и получение их авторов
@@ -223,49 +322,6 @@ class MicroblogController < ApplicationController
         return posts_count, collection
       else
         return posts_count, nil
-      end
-    end
-
-  private
-
-    def get_following_microblog
-      @microblog = Microblog.where(:owner_id => @user.id).
-                             only(:owner_id, :following_ids, :followings_count, :followers_count).
-                             first
-    end
-
-    def get_follower_microblog
-      @microblog = Microblog.where(:owner_id => @user.id).
-                             only(:owner_id, :follower_ids, :followings_count, :followers_count).
-                             first
-    end
-
-    def get_microblog
-      @microblog = Microblog.where(:owner_id => @user.id).
-                             only(:owner_id, :posts_count).
-                             first
-    end
-
-    # Функции внутреннего использования
-
-    # Проходит по пользователям, и выставляет статус отношения подписки.
-    #
-    # Для установки флага используется User#buffer. Должно использоваться,
-    # только в шаблонах (!!!).
-    def subscribing_status(users)
-      users.each do |u|
-        if u.id == current_user.id
-          # Это текущий пользователь
-          u.buffer = :self
-        else
-          if @current_microblog.following?(u.id)
-            # Текущий пользователь подписан на указанного
-            u.buffer = :follow
-          else
-            # Текущий пользователь не подписан на указанного
-            u.buffer = :unfollow
-          end
-        end
       end
     end
 
