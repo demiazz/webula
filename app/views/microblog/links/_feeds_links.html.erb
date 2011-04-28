@@ -31,7 +31,7 @@
 
     <li class="separator"></li>
 
-    <% if @microblog.follower?(current_user.id) %>
+    <% if @follow_flag %>
       <li><%= link_to "Unfollow", microblog__remove_following_path(:following => @user.username) %></li>
     <% else %>
       <li><%= link_to "Follow", microblog__add_following_path(:following => @user.username) %></li>

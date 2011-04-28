@@ -60,6 +60,8 @@ class MicroblogController < ApplicationController
                                             :local_feed,
                                             :personal_feed]
 
+  before_filter :follow_flag_filter
+
   before_filter :get_following_microblog, :only => [:local_feed, 
                                                     :followings_feed, 
                                                     :followings, 
@@ -68,7 +70,8 @@ class MicroblogController < ApplicationController
   before_filter :get_follower_microblog, :only => [:followers_feed, 
                                                    :followers]
   before_filter :get_microblog, :only => [:create_post, 
-                                          :delete_post]
+                                          :delete_post,
+                                          :personal_feed]
   before_filter :get_current_microblog
 
   #=============================================================================
@@ -96,25 +99,17 @@ class MicroblogController < ApplicationController
                          author_ids(@user.microblog.following_ids << @user.id))
   end
 
-  # Персональная лента
+  # Method: MicroblogController#personal_feed
   #
-  # Выводит персональную ленту пользователя.
-  # 
-  # Определяет количество постов пользователя, если лента не текущего пользователя,
-  # то читает ли его текущий пользователь.
-  #
-  # Если пользователь текущий: генерирует новый MicroblogPost объект для формы.
+  # Description:
+  #   Выводит сообщения пользователя.
+  #   Если пользователь не текущий, то отображает кнопку Follow/Unfollow.
   def personal_feed
-    if @personal
-      @microblog = Microblog.where(:owner_id => @user.id).only(:posts_count).first
-    else
-      @microblog = Microblog.where(:owner_id => @user.id).only(:follower_ids, :posts_count).first
-    end
     # Получение количества постов
     @posts_count = @microblog.posts_count
     # Если посты есть - получение постов
     unless @posts_count == 0
-      @posts = MicroblogPost.author_id(@user.id).paginate(:page => params[:page], 15)
+      @posts = MicroblogPost.author_id(@user.id).paginate(:page => params[:page], :per_page => 15)
     else
       @posts = nil
     end
@@ -266,6 +261,18 @@ class MicroblogController < ApplicationController
     def new_post_filter
       if @personal
         @new_post = MicroblogPost.new
+      end
+    end
+
+    # Method: MicroblogController#follow_flag_filter
+    #
+    # Description:
+    #   Устанавливает флаг отношения following между пользователем и текущим
+    #   пользователем.
+    def follow_flag_filter
+      unless @personal
+        @follow_flag = Microblog.where(:owner_id => current_user.id,
+                                       :following_ids => @user.id).count != 0
       end
     end
 

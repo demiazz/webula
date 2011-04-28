@@ -16,5 +16,13 @@
     <li class="separator"></li>
 
     <li><%= link_to "Feeds", microblog__personal_feed_path(:username => @user.username) %></li>
+
+    <li class="separator"></li>
+
+    <% if @follow_flag %>
+      <li><%= link_to "Unfollow", microblog__remove_following_path(:following => @user.username) %></li>
+    <% else %>
+      <li><%= link_to "Follow", microblog__add_following_path(:following => @user.username) %></li>
+    <% end %>
   </ul>
 </article>
