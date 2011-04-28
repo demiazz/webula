@@ -28,5 +28,13 @@
     <li class="separator"></li>
 
     <li><%= link_to "Subscribes", microblog__followings_path(:username => @user.username) %></li>
+
+    <li class="separator"></li>
+
+    <% if @microblog.follower?(current_user.id) %>
+      <li><%= link_to "Unfollow", microblog__remove_following_path(:following => @user.username) %></li>
+    <% else %>
+      <li><%= link_to "Follow", microblog__add_following_path(:following => @user.username) %></li>
+    <% end %>
   </ul>
 </article>
