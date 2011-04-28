@@ -67,11 +67,12 @@ class MicroblogController < ApplicationController
                                                   :followings,
                                                   :add_following,
                                                   :remove_following]
+
   before_filter :get_followers_filter, :only => [:followers_feed,
                                                  :followers]
+
   before_filter :get_posts_count_filter, :only => [:create_post,
                                                    :delete_post]
-  before_filter :get_current_microblog
 
   #=============================================================================
   # Feeds - Агрегаторы постов
@@ -306,15 +307,6 @@ class MicroblogController < ApplicationController
                              first
     end
 
-    # Если выводится страница не текущего пользователя,
-    # то может понадобиться Microblog текущего пользователя.
-    # К примеру, когда нужно получать статус подписки. 
-    #
-    # Костыль, причем не оптимизированный.
-    def get_current_microblog
-      @current_microblog = current_user.microblog
-    end
-
   #=============================================================================
   # Внутренние функции
   #=============================================================================
@@ -326,12 +318,14 @@ class MicroblogController < ApplicationController
     # Для установки флага используется User#buffer. Должно использоваться,
     # только в шаблонах (!!!).
     def subscribing_status(users)
+      current_microblog = Microblog.owner_id(current_user.id).
+                                    only(:following_ids).first
       users.each do |u|
         if u.id == current_user.id
           # Это текущий пользователь
           u.buffer = :self
         else
-          if @current_microblog.following?(u.id)
+          if current_microblog.following?(u.id)
             # Текущий пользователь подписан на указанного
             u.buffer = :follow
           else
