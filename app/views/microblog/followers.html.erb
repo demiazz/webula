@@ -15,14 +15,7 @@
             <p><%= follower.user_profile.org_position %></p>
           </td>
           <td class="menu">
-            <% unless @personal and follower.id == current_user.id %>
-              <% if @current_microblog.following_ids.include?(follower.id) %>
-                <p><%= link_to "Unfollow", microblog__remove_following_path(:following => follower.username), :method => :put %></p>
-              <% end %>
-              <% unless @current_microblog.following_ids.include?(follower.id) %>
-                <p><%= link_to "Follow", microblog__add_following_path(:following => follower.username), :method => :put %></p>
-              <% end %>
-            <% end %>
+
           </td>
         </tr>
       </table>

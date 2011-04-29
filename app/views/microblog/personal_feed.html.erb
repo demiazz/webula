@@ -16,15 +16,7 @@
           <p class="post-text"><%= post.text %></p>
         </td>
         <td rowspan=2 class="menu">
-          <% if @personal %>
-            <p><%= link_to "Delete post", microblog__delete_post_path(:id => post.id), :method => :put %></p>
-          <% else %>
-            <% if @follow %>
-              <p><%= link_to "Unfollow", microblog__remove_following_path(:following => @user.username), :method => :put %></p>
-            <% else %>
-              <p><%= link_to "Follow", microblog__add_following_path(:following => @user.username), :method => :put %></p>
-            <% end %>
-          <% end %>
+
         </td>
       </tr>
       <tr>
