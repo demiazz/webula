@@ -2,12 +2,6 @@
   Global feed
 <% end %>
 
-<% if @personal %>
-  <%= render "microblog/links/personal_feeds_links" %>
-<% else %>
-  <%= render "microblog/links/feeds_links" %>
-<% end %>
-
 <% if @posts_count > 0 %>
   <article class="microblog">
   <%= render "form" %>

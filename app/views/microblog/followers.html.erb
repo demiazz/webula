@@ -2,12 +2,6 @@
   Followers
 <% end %>
 
-<% if @personal %>
-  <%= render "microblog/links/personal_subscribes_links" %>
-<% else %>
-  <%= render "microblog/links/subscribes_links" %>
-<% end %>
-
 <% if @microblog.followers_count > 0 %>
   <article class="friends">
     <% @followers.each do |follower| %>
