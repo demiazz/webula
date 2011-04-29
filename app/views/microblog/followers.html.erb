@@ -9,7 +9,7 @@
         <tr>
           <td class="avatar"><%= image_tag follower.user_profile.avatar %></td>
           <td class="user-info">
-            <h1><%= link_to follower.full_name, profiles__show_path(:username => follower.username) %></h1>
+            <h1><%= @user.full_name %> written:</h1>
             <p><%= follower.user_profile.org_name %></p>
             <p><%= follower.user_profile.org_unit %></p>
             <p><%= follower.user_profile.org_position %></p>

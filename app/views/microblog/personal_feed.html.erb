@@ -12,7 +12,7 @@
       <tr>
         <td rowspan=2 class="avatar"><%= image_tag @user.user_profile.avatar %></td>
         <td class="user-info">
-          <h1><%= link_to @user.full_name, microblog__personal_feed_path(:username => nil) %> written:</h1>
+          <h1><%= @user.full_name %> written:</h1>
           <p class="post-text"><%= post.text %></p>
         </td>
         <td rowspan=2 class="menu">
