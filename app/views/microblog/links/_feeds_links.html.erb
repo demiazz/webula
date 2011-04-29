@@ -1,0 +1,20 @@
+<article class="content-menu">
+  <ul>
+    <% if @personal %>
+      <li><%= to_microblog_global_feed %></li>
+      <li><%= to_microblog_local_feed %></li>
+      <li><%= to_microblog_personal_feed %></li>
+      <li><%= to_microblog_followings_feed %></li>
+      <li><%= to_microblog_followers_feed %></li>
+      <li class="separator"></li>
+      <li><%= to_microblog_subscribes %></li>
+    <% else %>
+      <li><%= to_microblog_user_local_feed @user %></li>
+      <li><%= to_microblog_user_personal_feed @user  %></li>
+      <li><%= to_microblog_user_followings_feed @user %></li>
+      <li><%= to_microblog_user_followers_feed @user %></li>
+      <li class="separator"></li>
+      <li><%= to_microblog_user_subscribes @user %></li>
+    <% end %>
+  </ul>
+</article>
