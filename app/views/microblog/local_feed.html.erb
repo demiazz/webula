@@ -14,14 +14,7 @@
           <p class="post-text"><%= post.text %></p>
         </td>
         <td rowspan=2 class="menu">
-          <% if post.author.id != current_user.id %>
-            <% if @current_microblog.following_ids.include?(post.author.id) %>
-              <p><%= link_to "Unfollow", microblog__remove_following_path(:following => post.author.username), :method => :put %></p>
-            <% end %>
-            <% unless @current_microblog.following_ids.include?(post.author.id) %>
-              <p><%= link_to "Follow", microblog__add_following_path(:following => post.author.username), :method => :put %></p>
-            <% end %>
-          <% end %>
+
         </td>
       </tr>
       <tr>
@@ -43,7 +36,7 @@
 <% else %>
   <article class="microblog">
     <article class="microblog-empty">
-      <p>Empty</p>
+
     </article>
   </article>
 <% end %>
