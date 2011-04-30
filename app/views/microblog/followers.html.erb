@@ -2,11 +2,7 @@
   Followers
 <% end %>
 
-<% if @personal %>
-  <%= render "microblog/links/personal_subscribes_links" %>
-<% else %>
-  <%= render "microblog/links/subscribes_links" %>
-<% end %>
+<%= render "microblog/links/subscribes_links" %>
 
 <% if @microblog.followers_count > 0 %>
   <article class="friends">
@@ -15,20 +11,13 @@
         <tr>
           <td class="avatar"><%= image_tag follower.user_profile.avatar %></td>
           <td class="user-info">
-            <h1><%= link_to follower.full_name, profiles__show_path(:username => follower.username) %></h1>
+            <h1><%= to_microblog_user_home @user, @user.full_name %> written:</h1>
             <p><%= follower.user_profile.org_name %></p>
             <p><%= follower.user_profile.org_unit %></p>
             <p><%= follower.user_profile.org_position %></p>
           </td>
           <td class="menu">
-            <% unless @personal and follower.id == current_user.id %>
-              <% if @current_microblog.following_ids.include?(follower.id) %>
-                <p><%= link_to "Unfollow", microblog__remove_following_path(:following => follower.username), :method => :put %></p>
-              <% end %>
-              <% unless @current_microblog.following_ids.include?(follower.id) %>
-                <p><%= link_to "Follow", microblog__add_following_path(:following => follower.username), :method => :put %></p>
-              <% end %>
-            <% end %>
+
           </td>
         </tr>
       </table>
@@ -46,6 +35,6 @@
   </article>
 <% else %>
   <article class="friends-empty">
-    <p>You have not friends.</p>
+
   </article>
 <% end %>
