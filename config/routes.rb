@@ -1,26 +1,70 @@
 Webula::Application.routes.draw do
 
+  ##############################################################################
   # Microblog Controller
-  get "microblog/feeds/global" => "microblog#global_feed", 
-                               :default => {:page => 1}
-  get "((:username)/)microblog/feeds/local" => "microblog#local_feed", 
-                                            :default => {:page => 1}
-  get "((:username)/)microblog/feeds/personal" => "microblog#personal_feed", 
-                                               :default => {:page => 1}
-  get "((:username)/)microblog/feeds/followings" => "microblog#followings_feed",
-                                                 :default => {:page => 1}
-  get "((:username)/)microblog/feeds/followers" => "microblog#followers_feed", 
-                                                :default => {:page => 1}
-  get "((:username)/)microblog/subscribes/followings" => "microblog#followings", 
-                                                      :default => {:page => 1}
-  put "microblog/subscribes/followings/add/:following" => "microblog#add_following"
-  put "microblog/subscribes/followings/remove/:following" => "microblog#remove_following"
-  get "((:username)/)microblog/subscribes/followers" => "microblog#followers", 
-                                                     :default => {:page => 1}
-  put "microblog/create_post" => "microblog#create_post"
-  put "microblog/delete_post/:id" => "microblog#delete_post"
+  ##############################################################################
 
+  ### Microblog Feeds ##########################################################
+
+  get "microblog/feeds/global", 
+          :to => "microblog#global_feed", 
+          :default => {:page => 1},
+          :as => :microblog__global_feed
+
+  get "((:username)/)microblog/feeds/local",
+          :to => "microblog#local_feed", 
+          :default => {:page => 1},
+          :as => :microblog__local_feed
+
+  get "((:username)/)microblog/feeds/personal",
+          :to => "microblog#personal_feed",
+          :default => {:page => 1},
+          :as => :microblog__personal_feed
+
+  get "((:username)/)microblog/feeds/followings",
+          :to => "microblog#followings_feed",
+          :default => {:page => 1},
+          :as => :microblog__followings_feed
+
+  get "((:username)/)microblog/feeds/followers",
+          :to => "microblog#followers_feed",
+          :default => {:page => 1},
+          :as => :microblog__followers_feed
+
+  ### Microblog Subscribes #####################################################
+
+  get "((:username)/)microblog/subscribes/followings",
+          :to => "microblog#followings",
+          :default => {:page => 1},
+          :as => :microblog__followings
+
+  get "((:username)/)microblog/subscribes/followers", 
+          :to => "microblog#followers", 
+          :default => {:page => 1},
+          :as => :microblog__followers
+
+  ### Posts manage #############################################################
+
+  put "microblog/create_post",
+          :to => "microblog#create_post"
+
+  put "microblog/delete_post/:id",
+          :to => "microblog#delete_post"
+
+  ### Subscribes manage ########################################################
+
+  put "microblog/subscribes/followings/add/:following", 
+          :to => "microblog#add_following",
+          :as => :microblog__add_following
+
+  put "microblog/subscribes/followings/remove/:following", 
+          :to => "microblog#remove_following",
+          :as => :microblog__remove_following
+
+  ##############################################################################
   # Friendship Controller
+  ##############################################################################
+
   get "friends" => "friendship#index", :as => :friendship__index
   get "friends/requests/to" => "friendship#requests_to", :as => :friendship__requests_to
   get "friends/requests/from" => "friendship#requests_from", :as => :friendship__requests_from
