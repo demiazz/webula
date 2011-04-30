@@ -46,10 +46,12 @@ Webula::Application.routes.draw do
   ### Posts manage #############################################################
 
   put "microblog/create_post",
-          :to => "microblog#create_post"
+          :to => "microblog#create_post",
+          :as => :microblog__create_post
 
   put "microblog/delete_post/:id",
-          :to => "microblog#delete_post"
+          :to => "microblog#delete_post",
+          :as => :microblog__delete_post
 
   ### Subscribes manage ########################################################
 
