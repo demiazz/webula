@@ -15,6 +15,12 @@
       <li><%= to_microblog_user_followers_feed @user %></li>
       <li class="separator"></li>
       <li><%= to_microblog_user_subscribes @user %></li>
+      <li class="separator"></li>
+      <% if @follow_flag %>
+        <li><%= to_unfollow @user %></li>
+      <% else %>
+        <li><%= to_follow @user %></li>
+      <% end %>
     <% end %>
   </ul>
 </article>
