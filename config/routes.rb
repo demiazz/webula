@@ -1,12 +1,6 @@
 Webula::Application.routes.draw do
 
   # Microblog Controller
-  get "microblog" => "microblog#local_feed", 
-                  :default => {:username => nil, :page => 1}, 
-                  :as => :microblog__home
-  get ":username/microblog" => "microblog#personal_feed",
-                            :default => {:page => 1},
-                            :as => :microblog__user_home
   get "microblog/feeds/global" => "microblog#global_feed", 
                                :default => {:page => 1},
                                :as => :microblog__global_feed
