@@ -9,9 +9,7 @@ module MicroblogHelper
                                      \"selected\" :
                                      html_options[:class].concat(\" selected\")
           end
-          link_to name, url_for(:controller => \"microblog\",
-                                :action => \"#{feed}_feed\",
-                                :username => nil), html_options
+          link_to name, microblog__#{feed}_feed_path(:username => nil), html_options
         end"
       mod.module_eval pattern
     end
@@ -23,9 +21,7 @@ module MicroblogHelper
                                      \"selected\" :
                                      html_options[:class].concat(\" selected\")
           end
-          link_to name, url_for(:controller => \"microblog\",
-                                :action => \"#{feed}_feed\",
-                                :username => user.username), html_options
+          link_to name, microblog__#{feed}_feed_path(:username => user.username), html_options
         end"
       mod.module_eval pattern
     end
@@ -37,9 +33,7 @@ module MicroblogHelper
                                      \"selected\" :
                                      html_options[:class].concat(\" selected\")
           end
-          link_to name, url_for(:controller => \"microblog\",
-                                :action => \"#{subscribes}\",
-                                :username => nil), html_options
+          link_to name, microblog__#{subscribes}_path(:username => nil), html_options
         end"
       mod.module_eval pattern
       pattern = "
@@ -49,9 +43,7 @@ module MicroblogHelper
                                      \"selected\" :
                                      html_options[:class].concat(\" selected\")
           end
-          link_to name, url_for(:controller => \"microblog\",
-                                :action => \"#{subscribes}\",
-                                :username => user.username), html_options
+          link_to name, microblog__#{subscribes}_path(:username => user.username), html_options
         end"
       mod.module_eval pattern
     end
@@ -78,9 +70,7 @@ module MicroblogHelper
                              "constructive" :
                              html_options[:class].concat(" constructive")
     html_options[:method] = :put
-    link_to name, url_for(:controller => "microblog",
-                          :action => "add_following",
-                          :following => user.username), html_options
+    link_to name, microblog__add_following_path(:following => user.username), html_options
   end
 
   def to_unfollow(user, name="Unfollow", html_options = {})
@@ -88,9 +78,7 @@ module MicroblogHelper
                              "destructive" :
                              html_options[:class].concat(" destructive")
     html_options[:method] = :put
-    link_to name, url_for(:controller => "microblog",
-                          :action => "remove_following",
-                          :following => user.username), html_options
+    link_to name, microblog__remove_following_path(:following => user.username), html_options
   end
 
   def to_delete_post(post, name="Delete post", html_options = {})
@@ -98,9 +86,7 @@ module MicroblogHelper
                              "destructive" :
                              html_options[:class].concat(" destructive")
     html_options[:method] = :put
-    link_to name, url_for(:controller => "microblog",
-                          :action => "delete_post",
-                          :id => post.id), html_options
+    link_to name, microblog__delete_post_path(:id => post.id), html_options
   end
 
 end
