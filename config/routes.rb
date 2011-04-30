@@ -1,10 +1,10 @@
 Webula::Application.routes.draw do
 
-  ##############################################################################
+  #=============================================================================
   # Microblog Controller
-  ##############################################################################
+  #=============================================================================
 
-  ### Microblog Feeds ##########################################################
+  #== Microblog Feeds ==========================================================
 
   get "microblog/feeds/global", 
           :to => "microblog#global_feed", 
@@ -31,7 +31,7 @@ Webula::Application.routes.draw do
           :default => {:page => 1},
           :as => :microblog__followers_feed
 
-  ### Microblog Subscribes #####################################################
+  #== Microblog Subscribes =====================================================
 
   get "((:username)/)microblog/subscribes/followings",
           :to => "microblog#followings",
@@ -43,7 +43,7 @@ Webula::Application.routes.draw do
           :default => {:page => 1},
           :as => :microblog__followers
 
-  ### Posts manage #############################################################
+  #== Posts manage =============================================================
 
   put "microblog/create_post",
           :to => "microblog#create_post",
@@ -53,7 +53,7 @@ Webula::Application.routes.draw do
           :to => "microblog#delete_post",
           :as => :microblog__delete_post
 
-  ### Subscribes manage ########################################################
+  #== Subscribes manage ========================================================
 
   put "microblog/subscribes/followings/add/:following", 
           :to => "microblog#add_following",
@@ -63,9 +63,9 @@ Webula::Application.routes.draw do
           :to => "microblog#remove_following",
           :as => :microblog__remove_following
 
-  ##############################################################################
+  #=============================================================================
   # Friendship Controller
-  ##############################################################################
+  #=============================================================================
 
   get "friends" => "friendship#index", :as => :friendship__index
   get "friends/requests/to" => "friendship#requests_to", :as => :friendship__requests_to
