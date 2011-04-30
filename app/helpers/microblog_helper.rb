@@ -1,104 +1,68 @@
 module MicroblogHelper
 
+  def MicroblogHelper.included(mod)
+    %w[global local personal followings followers].each do |feed|
+      pattern = "
+        def to_microblog_#{feed}_feed(name=\"#{feed.capitalize}\", html_options = {})
+          if action_name == \"#{feed}_feed\"
+            html_options[:class] = html_options[:class].nil? ? \"selected\" : html_options[:class].concat(\" selected\")
+          end
+          link_to name, url_for(:controller => \"microblog\",
+                                :action => \"#{feed}_feed\",
+                                :username => nil), html_options
+        end"
+      mod.module_eval pattern
+    end
+    %w{local personal followings followers}.each do |feed|
+      pattern = "
+        def to_microblog_user_#{feed}_feed(user, name=\"#{feed.capitalize}\", html_options = {})
+          if action_name == \"#{feed}_feed\"
+            html_options[:class] = html_options[:class].nil? ? \"selected\" : html_options[:class].concat(\" selected\")
+          end
+          link_to name, url_for(:controller => \"microblog\",
+                                :action => \"#{feed}_feed\",
+                                :username => user.username), html_options
+        end"
+      mod.module_eval pattern
+    end
+    %w{followings followers}.each do |subscribes|
+      pattern = "
+        def to_microblog_#{subscribes}(name=\"#{subscribes.capitalize}\", html_options = {})
+          if action_name == \"#{subscribes}\"
+            html_options[:class] = html_options[:class].nil? ? \"selected\" : html_options[:class].concat(\" selected\")
+          end
+          link_to name, url_for(:controller => \"microblog\",
+                                :action => \"#{subscribes}\",
+                                :username => nil), html_options
+        end"
+      mod.module_eval pattern
+      pattern = "
+        def to_microblog_user_#{subscribes}(user, name=\"#{subscribes.capitalize}\", html_options = {})
+          if action_name == \"#{subscribes}\"
+            html_options[:class] = html_options[:class].nil? ? \"selected\" : html_options[:class].concat(\" selected\")
+          end
+          link_to name, url_for(:controller => \"microblog\",
+                                :action => \"#{subscribes}\",
+                                :username => user.username), html_options
+        end"
+      mod.module_eval pattern
+    end
+  end
+
   def to_microblog_home(name="Microblog", html_options = {})
-    link_to name, url_for(:controller => "microblog",
-                          :action => "local_feed",
-                          :username => nil), html_options
+    to_microblog_local_feed(name, html_options)
   end
 
   def to_microblog_user_home(user, name="Microblog", html_options = {})
-    link_to name, url_for(:controller => "microblog",
-                          :action => "personal_feed",
-                          :username => user.username), html_options
-  end
-
-  def to_microblog_global_feed(name="Global", html_options = {})
-    link_to name, url_for(:controller => "microblog",
-                          :action => "global_feed",
-                          :username => nil), html_options
-  end
-
-  def to_microblog_local_feed(name="Local", html_options = {})
-    link_to name, url_for(:controller => "microblog",
-                          :action => "local_feed",
-                          :username => nil), html_options
-  end
-
-  def to_microblog_personal_feed(name="Personal", html_options = {})
-    link_to name, url_for(:controller => "microblog",
-                          :action => "personal_feed",
-                          :username => nil), html_options
-  end
-
-  def to_microblog_followings_feed(name="Followings", html_options = {})
-    link_to name, url_for(:controller => "microblog",
-                          :action => "followings_feed",
-                          :username => nil), html_options
-  end
-
-  def to_microblog_followers_feed(name="Followers", html_options = {})
-    link_to name, url_for(:controller => "microblog",
-                          :action => "followers_feed",
-                          :username => nil), html_options
-  end
-
-  def to_microblog_user_local_feed(user, name="Local", html_options = {})
-    link_to name, url_for(:controller => "microblog",
-                          :action => "local_feed",
-                          :username => user.username), html_options
-  end
-
-  def to_microblog_user_personal_feed(user, name="Personal", html_options = {})
-    link_to name, url_for(:controller => "microblog",
-                          :action => "personal_feed",
-                          :username => user.username), html_options
-  end
-
-  def to_microblog_user_followings_feed(user, name="Followings", html_options = {})
-    link_to name, url_for(:controller => "microblog",
-                          :action => "followings_feed",
-                          :username => user.username), html_options
-  end
-
-  def to_microblog_user_followers_feed(user, name="Followers", html_options = {})
-    link_to name, url_for(:controller => "microblog",
-                          :action => "followers_feed",
-                          :username => user.username), html_options
+    to_microblog_user_personal_feed(user, name, html_options)
   end
 
   def to_microblog_subscribes(name="Subscribes", html_options = {})
-    link_to name, url_for(:controller => "microblog",
-                          :action => "followings",
-                          :username => nil), html_options
+    to_microblog_followings(name, html_options)
   end
 
   def to_microblog_user_subscribes(user, name="Subscribes", html_options = {})
-    link_to name, url_for(:controller => "microblog",
-                          :action => "followings",
-                          :username => user.username), html_options
-  end
-
-  def to_microblog_followings(name="Followings", html_options = {})
-    link_to name, url_for(:controller => "microblog",
-                          :action => "followers",
-                          :username => nil), html_options
-  end
-
-  def to_microblog_followers(name="Followers", html_options = {})
-    link_to name, url_for(:controller => "microblog",
-                          :action => "followers",
-                          :username => nil), html_options
-  end
-
-  def to_microblog_user_followings(user, name="Followers", html_options = {})
-    link_to name, url_for(:controller => "microblog",
-                          :action => "followings_feed",
-                          :username => user.username), html_options
-  end
-  def to_microblog_user_followers(user, name="Followers", html_options = {})
-    link_to name, url_for(:controller => "microblog",
-                          :action => "followers_feed",
-                          :username => user.username), html_options
+    to_microblog_user_followings(user, name, html_options)
   end
 
 end
