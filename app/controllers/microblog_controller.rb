@@ -56,8 +56,6 @@ License: GPL
 
 class MicroblogController < ApplicationController
 
-  include MicroblogHelper
-
   before_filter :new_post_filter, :only => [:global_feed,
                                             :local_feed,
                                             :personal_feed]
