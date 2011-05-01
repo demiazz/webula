@@ -96,7 +96,11 @@ class FriendshipController < ApplicationController
   # Description:
   #   Список общих друзей текущего и указанного пользователей.
   def mutual_friends
-    @friends = User.ids(current_user.friend_ids & @user.friend_ids)
+    unless @personal
+      @friends = User.ids(current_user.friend_ids & @user.friend_ids)
+    else
+      redirect_to frienship__index_path
+    end
   end
 
   # Method: FriendshipController#not_mutual_friends
@@ -104,7 +108,11 @@ class FriendshipController < ApplicationController
   # Description:
   #   Список не общих друзей текущего и указанного пользователей.
   def not_mutual_friends
-    @friends = User.ids(@user.friend_ids - current_user.friend_ids - [current_user.id, @user.id])
+    unless @personal
+      @friends = User.ids(@user.friend_ids - current_user.friend_ids - [current_user.id, @user.id])
+    else
+      redirect_to friendship__index_path
+    end
   end
 
   #=============================================================================
