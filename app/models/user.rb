@@ -22,6 +22,7 @@ class User
   embeds_one :user_profile      # Имеет встроенный документ профиля пользователя
 
   # Friendship Framework
+  has_one :friendship, :class_name => "Friendship", :inverse_of => :owner
   # Включает статистику отношений
   embeds_one :friendship_stat
   # Друзья пользователя
