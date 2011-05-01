@@ -23,14 +23,6 @@ class User
 
   # Friendship Framework
   has_one :friendship, :class_name => "Friendship", :inverse_of => :owner
-  # Включает статистику отношений
-  embeds_one :friendship_stat
-  # Друзья пользователя
-  has_and_belongs_to_many :friends, :class_name => "User", :inverse_of => :friends
-  # Запросы на дружбу от пользователя
-  has_and_belongs_to_many :requests_from, :class_name => "User", :inverse_of => :requests_to
-  # Запросы на дружбу к пользователю
-  has_and_belongs_to_many :requests_to, :class_name => "User", :inverse_of => :requests_from
   # Посты в микроблоге пользователя
   has_many :microblog_posts, :class_name => "MicroblogPost", :inverse_of => :author
   # Имеет один микроблог
