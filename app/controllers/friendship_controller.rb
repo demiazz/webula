@@ -203,7 +203,7 @@ class FriendshipController < ApplicationController
                              only(:request_to_ids,
                                   :requests_to_count).
                              first
-    @friend = User.where(:username => params[:username]).
+    @friend = User.where(:username => params[:friend]).
                    only(:id).
                    first
     @friend_friendship = Friendship.owner_id(@friend.id).
@@ -225,7 +225,7 @@ class FriendshipController < ApplicationController
                                   :friends_count,
                                   :requests_from_count).
                              first
-    @friend = User.where(:username => params[:username]).
+    @friend = User.where(:username => params[:friend]).
                    only(:id).
                    first
     @friend_friendship = Friendship.owner_id(@friend.id).
@@ -249,7 +249,7 @@ class FriendshipController < ApplicationController
                              only(:request_from_ids,
                                   :requests_from_count).
                              first
-    @friend = User.where(:username => params[:username]).
+    @friend = User.where(:username => params[:friend]).
                    only(:id).
                    first
     @friend_friendship = Friendship.owner_id(@friend.id).
@@ -272,7 +272,7 @@ class FriendshipController < ApplicationController
                              only(:friend_ids,
                                   :friends_count).
                              first
-    @friend = User.where(:username => params[:username]).
+    @friend = User.where(:username => params[:friend]).
                    only(:id).
                    first
     @friend_friendship = Friendship.owner_id(@friend.id).
