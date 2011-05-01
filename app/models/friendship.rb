@@ -83,6 +83,8 @@ class Friendship
   # Методы документа
   #=============================================================================
 
+  ### Списки друзей ############################################################
+
   # Method: Friendship#friends
   #
   # Description:
@@ -90,6 +92,43 @@ class Friendship
   def friends
     User.ids(friend_ids)
   end
+
+  # Method: Friendship#mutual_friends
+  #
+  # Description:
+  #   Получение общих друзей.
+  def mutual_friends
+    if self.friends_count > 0
+      current_friendship = Friendship.owner_id(current_user.id).
+                                      only(:owner_id,
+                                           :friend_ids,
+                                           :friends_count)
+      if current_friendship.friends_count > 0
+        return User.ids(self.friend_ids & current_friendship.friend_ids)
+      end
+    end
+    return User.all.limit(0)
+  end
+
+  # Method: Friendship#not_mutual_friends
+  #
+  # Description:
+  #   Получение не общих друзей.
+  def not_mutual_friends(id)
+    if self.friends_count > 0
+      current_friendship = Friendship.owner_id(current_user.id).
+                                      only(:owner_id,
+                                           :friend_ids,
+                                           :friends_count)
+      if current_friendship.friends_count > 0
+        return User.ids(self.friend_ids - current_friendship.friend_ids -
+                   [self.owner_id, current_friendship.owner_id])
+      end
+    end
+    return User.all.limit(0)
+  end
+
+  ### Списки запросов ##########################################################
 
   # Method: Friendship#requests_to
   #
@@ -106,6 +145,8 @@ class Friendship
   def requests_from
     User.ids(request_from_ids)
   end
+
+  ### Предикаты ################################################################
 
   # Method: Friendship#friend?
   #
@@ -129,6 +170,84 @@ class Friendship
   #   Есть запрос к этому пользователю?
   def request_from?(id)
     request_from_ids.include?(id)
+  end
+
+  ### Управление списком друзей ################################################
+
+  # Method: Friendship#add_friend!
+  #
+  # Description:
+  #   Добавить пользователя в список друзей.
+  def add_friend!(id)
+    unless self.friend?(id)
+      self.friend_ids << id
+    end
+    self.friends_count = self.friend_ids.size
+    self.save
+  end
+
+  # Method: Friendship#remove_friend!
+  #
+  # Description:
+  #   Удалить пользователя из списка друзей.
+  def remove_friend!(id)
+    if self.friend?(id)
+      self.friend_ids.delete(id)
+    end
+    self.friends_count = self.friend_ids.size
+    self.save
+  end
+
+  ### Управление списком запросов от пользователя ##############################
+
+  # Method: Friendship#add_request_to!
+  #
+  # Description:
+  #   Добавить запрос к пользователю.
+  def add_request_to!(id)
+    unless self.request_to?(id)
+      self.request_to_ids << id
+    end
+    self.requests_to_count = self.request_to_ids.size
+    self.save
+  end
+
+  # Method: Friendship#remove_request_to!
+  #
+  # Description:
+  #   Удалить запрос к пользователю.
+  def remove_request_to!(id)
+    if self.request_to?(id)
+      self.request_to_ids.delete(id)
+    end
+    self.requests_to_count = self.request_to_ids.size
+    self.save
+  end
+
+  ### Управление списком запросов к пользователю ###############################
+
+  # Method: Friendship#add_request_from!
+  #
+  # Description:
+  #   Добавить запрос от пользователя.
+  def add_request_from!(id)
+    unless self.request_from?(id)
+      self.request_from_ids << id
+    end
+    self.requests_from_count = self.request_from_ids.size
+    self.save
+  end
+
+  # Method: Friendship#remove_request_from!
+  #
+  # Description:
+  #   Удалить запрос от пользователя.
+  def remove_request_from!(id)
+    if self.request_from?(id)
+      self.request_from_ids.delete(id)
+    end
+    self.requests_from_count = self.request_from_ids.size
+    self.save
   end
 
 end
