@@ -59,4 +59,62 @@ class Friendship
   # Имеет одного хозяина
   belongs_to :owner, :class_name => "User", :inverse_of => :friendship
 
+  #=============================================================================
+  # Scopes
+  #=============================================================================
+
+  scope :owner_id, ->(id) { where(:owner_id => id) }
+
+  #=============================================================================
+  # Методы объекта
+  #=============================================================================
+
+  # Method: Friendship#friends
+  #
+  # Description:
+  #   Получение друзей пользователя.
+  def friends
+    User.ids(friend_ids)
+  end
+
+  # Method: Friendship#requests_to
+  #
+  # Description:
+  #   Получение пользователей, приславших запрос.
+  def requests_to
+    User.ids(request_to_ids)
+  end
+
+  # Method: Friendship#requests_from
+  #
+  # Description:
+  #   Получение пользователей, которым отослан запрос.
+  def requests_from
+    User.ids(request_from_ids)
+  end
+
+  # Method: Friendship#friend?
+  #
+  # Description:
+  #   Этот пользователь в списке друзей?
+  def friend?(id)
+    friend_ids.include?(id)
+  end
+
+  # Method: Friendship#request_to?
+  #
+  # Description:
+  #   Есть запрос от этого пользователя?
+  def request_to?(id)
+    request_to_ids.include?(id)
+  end
+
+  # Method: Friendship#request_from?
+  #
+  # Description:
+  #   Есть запрос к этому пользователю?
+  def request_from?(id)
+    request_from_ids.include?(id)
+  end
+
 end
