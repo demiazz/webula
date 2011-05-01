@@ -67,16 +67,47 @@ Webula::Application.routes.draw do
   # Friendship Controller
   #=============================================================================
 
-  get "friends" => "friendship#index", :as => :friendship__index
-  get "friends/requests/to" => "friendship#requests_to", :as => :friendship__requests_to
-  get "friends/requests/from" => "friendship#requests_from", :as => :friendship__requests_from
-  get ":username/friends" => "friendship#show", :as => :friendship__show
-  get ":username/friends/mutual" => "friendship#mutual_friends", :as => :friendship__mutual_friends
-  get ":username/friends/not/mutual" => "friendship#not_mutual_friends", :as => :friendship__not_mutual_friends
-  put "friends/add/:username" => "friendship#add_friend", :as => :friendship__add_friend
-  put "friends/confirm/:username" => "friendship#confirm_friend", :as => :friendship__confirm_friend
-  put "friends/refuse/:username" => "friendship#refuse_friend", :as => :friendship__refuse_friend
-  put "friends/remove/:username" => "friendship#remove_friend", :as => :friendship__remove_friend
+  #== Списки друзей ============================================================
+
+  get "((:username)/)friends",
+          :to => "friendship#friends",
+          :as => :friendship__friends
+
+  get ":username/friends/mutual",
+          :to => "friendship#mutual_friends",
+          :as => :friendship__mutual_friends
+
+  get ":username/friends/not/mutual",
+          :to => "friendship#not_mutual_friends",
+          :as => :friendship__not_mutual_friends
+
+  #== Запросы на добавление в список друзей ====================================
+
+  get "friends/requests/to",
+          :to => "friendship#requests_to",
+          :as => :friendship__requests_to
+
+  get "friends/requests/from",
+          :to => "friendship#requests_from",
+          :as => :friendship__requests_from
+
+  #== Управление списком друзей ================================================
+
+  put "friends/add/friend/:friend",
+          :to => "friendship#add_friend",
+          :as => :friendship__add_friend
+
+  put "friends/confirm/request/:friend",
+          :to => "friendship#confirm_friend",
+          :as => :friendship__confirm_friend
+
+  put "friends/refuse/request/:friend",
+          :to => "friendship#refuse_friend",
+          :as => :friendship__refuse_friend
+
+  put "friends/remove/:friend",
+          :to => "friendship#remove_friend",
+          :as => :friendship__remove_friend
 
   # Settings Controller
   get "settings/avatar" => "settings#avatar_edit", :as => :settings__avatar_edit
