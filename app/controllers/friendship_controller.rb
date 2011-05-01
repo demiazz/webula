@@ -56,27 +56,68 @@ class FriendshipController < ApplicationController
   #=============================================================================
 
   def friends_list
-    @friends = @friendship.friends.only(:id, "user_profile.first_name",
-                                        "user_profile.last_name",
-                                        "user_profile.org_name",
-                                        "user_profile.org_unit",
-                                        "user_profile.org_position")
+    @friendship = Friendship.owner_id(@user.id).
+                             only(:friend_ids,
+                                  :friends_count,
+                                  :requests_to_count,
+                                  :requests_from_count).
+                             first
+    @friends_count = @friendship.friends_count
+    @requests_to_count = @friendship.requests_to_count
+    @requests_from_count = @friendship.requests_from_count
+    if @friends_count > 0
+      @friends = @friendship.friends.only(:id, "user_profile.first_name",
+                                          "user_profile.last_name",
+                                          "user_profile.org_name",
+                                          "user_profile.org_unit",
+                                          "user_profile.org_position")
+    end
   end
 
   def requests_to_list
-    @requests = @friendship.requests_to.only(:id, "user_profile.first_name",
-                                             "user_profile.last_name",
-                                             "user_profile.org_name",
-                                             "user_profile.org_unit",
-                                             "user_profile.org_position")
+    if @personal
+      @friendship = Friendship.owner_id(@user.id).
+                               only(:request_to_ids,
+                                    :friends_count,
+                                    :requests_to_count,
+                                    :requests_from_count).
+                               first
+      @friends_count = @friendship.friends_count
+      @requests_to_count = @friendship.requests_to_count
+      @requests_from_count = @friendship.requests_from_count
+      if @requests_to_count > 0
+        @requests = @friendship.requests_to.only(:id, "user_profile.first_name",
+                                                 "user_profile.last_name",
+                                                 "user_profile.org_name",
+                                                 "user_profile.org_unit",
+                                                 "user_profile.org_position")
+      end
+    else
+      redirect_to friendship__index_path
+    end
   end
 
   def requests_from_list
-    @requests = @friendship.requests_from.only(:id, "user_profile.first_name",
-                                               "user_profile.last_name",
-                                               "user_profile.org_name",
-                                               "user_profile.org_unit",
-                                               "user_profile.org_position")
+    if @personal
+      @friendship = Friendship.owner_id(@user.id).
+                               only(:request_from_ids,
+                                    :friends_count,
+                                    :requests_to_count,
+                                    :requests_from_count).
+                               first
+      @friends_count = @friendship.friends_count
+      @requests_to_count = @friendship.requests_to_count
+      @requests_from_count = @friendship.requests_from_count
+      if @requests_from_count > 0
+        @requests = @friendship.requests_from.only(:id, "user_profile.first_name",
+                                                   "user_profile.last_name",
+                                                   "user_profile.org_name",
+                                                   "user_profile.org_unit",
+                                                   "user_profile.org_position")
+      end
+    else
+      redirect_to friendship__index_path
+    end
   end
 
   #=============================================================================
