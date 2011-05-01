@@ -48,14 +48,15 @@ Copyright (c) 2011, Alexey Plutalov <demiazz.py@gmail.com>
 
 class FriendshipController < ApplicationController
 
-  before_filter :current_stat, :only => [:index, :requests_to, :requests_from]
-  before_filter :other_stat, :only => [:show, :mutual_friends, :not_mutual_friends]
-
   #=============================================================================
   # Списки друзей
   #=============================================================================
 
-  def friends_list
+  # Method: Friendship#friends
+  #
+  # Description:
+  #   Список друзей.
+  def friends
     @friendship = Friendship.owner_id(@user.id).
                              only(:friend_ids,
                                   :friends_count,
@@ -74,7 +75,11 @@ class FriendshipController < ApplicationController
     end
   end
 
-  def requests_to_list
+  # Method: Friendship#requests_to
+  #
+  # Description:
+  #   Список запросов к пользователю.
+  def requests_to
     if @personal
       @friendship = Friendship.owner_id(@user.id).
                                only(:request_to_ids,
@@ -97,7 +102,11 @@ class FriendshipController < ApplicationController
     end
   end
 
-  def requests_from_list
+  # Method: Friendship#requests_from
+  #
+  # Description:
+  #   Список запросов от пользователя.
+  def requests_from
     if @personal
       @friendship = Friendship.owner_id(@user.id).
                                only(:request_from_ids,
@@ -120,65 +129,57 @@ class FriendshipController < ApplicationController
     end
   end
 
-  #=============================================================================
-  # Списки друзей текущего пользователя
-  #=============================================================================
-
-  # Method: FriendshipController#index
+  # Method: Friendship#mutual_friends
   #
   # Description:
-  #   Список друзей текущего пользователя.
-  def index
-    @friends = User.ids(current_user.friend_ids)
-  end
-
-  # Method: FriendshipController#requests_to
-  #
-  # Description:
-  #   Список запросов на добавление в список друзей для текущего пользователя.
-  def requests_to
-    @requests = User.ids(current_user.requests_to_ids)
-  end
-
-  # Method: FriendshipController#requests_from
-  #
-  # Description:
-  #   Список запросов на добавление в список друзей от текущего пользователя.
-  def requests_from
-    @requests = User.ids(current_user.requests_from_ids)
-  end
-
-  #=============================================================================
-  # Списки друзей не текущего пользователя
-  #=============================================================================
-
-  # Method: FriendshipController#show
-  #
-  # Description:
-  #   Список друзей указанного пользователя
-  def show
-    @friends = User.ids(@user.friend_ids)
-  end
-
-  # Method: FriendshipController#mutual_friends
-  #
-  # Description:
-  #   Список общих друзей текущего и указанного пользователей.
+  #   Список общих друзей с текущим пользователем.
   def mutual_friends
     unless @personal
-      @friends = User.ids(current_user.friend_ids & @user.friend_ids)
+      @friendship = Friendship.owner_id(@user.id).
+                               only(:friend_ids,
+                                    :friends_count,
+                                    :requests_to_count,
+                                    :requests_from_count).
+                               first
+      @friends_count = @friendship.friends_count
+      @requests_to_count = @friendship.requests_to_count
+      @requests_from_count = @friendship.requests_from_count
+      if @friends_count > 0
+        @friends = @friendship.not_mutual_friends.only(:id, "user_profile.first_name",
+                                                       "user_profile.last_name",
+                                                       "user_profile.org_name",
+                                                       "user_profile.org_unit",
+                                                       "user_profile.org_position")
+        @not_mutual_friends_count = @friends.count
+      end
     else
-      redirect_to frienship__index_path
+      redirect_to friendship__index_path
     end
   end
 
-  # Method: FriendshipController#not_mutual_friends
+  # Method: Friendship#not_mutual_friends
   #
   # Description:
-  #   Список не общих друзей текущего и указанного пользователей.
+  #   Список не общих друзей с текущим пользователем.
   def not_mutual_friends
     unless @personal
-      @friends = User.ids(@user.friend_ids - current_user.friend_ids - [current_user.id, @user.id])
+      @friendship = Friendship.owner_id(@user.id).
+                               only(:friend_ids,
+                                    :friends_count,
+                                    :requests_to_count,
+                                    :requests_from_count).
+                               first
+      @friends_count = @friendship.friends_count
+      @requests_to_count = @friendship.requests_to_count
+      @requests_from_count = @friendship.requests_from_count
+      if @friends_count > 0
+        @friends = @friendship.mutual_friends.only(:id, "user_profile.first_name",
+                                                   "user_profile.last_name",
+                                                   "user_profile.org_name",
+                                                   "user_profile.org_unit",
+                                                   "user_profile.org_position")
+        @mutual_friends_count = @friends.count
+      end
     else
       redirect_to friendship__index_path
     end
@@ -198,15 +199,18 @@ class FriendshipController < ApplicationController
   #   он может подтвердить или отклонить, что повлечет за собой добавление его,
   #   или не добавление его в список друзей соответственно.
   def add_friend
-    @friend = User.where(:username => params[:username]).first
-    unless current_user.friend_ids.include?(@friend.id)
-      unless current_user.requests_to_ids.include?(@friend.id)
-        current_user.push(:requests_from_ids, @friend.id)
-        @friend.push(:requests_to_ids, current_user.id)
-        current_user.save
-        @friend.save
-      end
-    end
+    @friendship = Friendship.owner_id(@user.id).
+                             only(:request_to_ids,
+                                  :requests_to_count).
+                             first
+    @friend = User.where(:username => params[:username]).
+                   only(:id).
+                   first
+    @friend_friendship = Friendship.owner_id(@friend.id).
+                                    only(:request_from_ids,
+                                         :requests_from_count)
+    @friendship.add_request_to!(@friend.id)
+    @friend_friendship.add_request_from!(@user.id)
     redirect_to :back
   end
 
@@ -215,17 +219,24 @@ class FriendshipController < ApplicationController
   # Description:
   #   Подтверждение запроса на добавление в список друзей.
   def confirm_friend
-    @friend = User.where(:username => params[:username]).first
-    unless current_user.friend_ids.include?(@friend.id)
-      if current_user.requests_to_ids.include?(@friend.id)
-        current_user.pull_all(:requests_to_ids, [@friend.id])
-        @friend.pull_all(:requests_from_ids, [current_user.id])
-        current_user.push(:friend_ids, @friend.id)
-        @friend.push(:friend_ids, current_user.id)
-        current_user.save
-        @friend.save
-      end
-    end
+    @friendship = Friendship.owner_id(@user.id).
+                             only(:friend_ids,
+                                  :request_from_ids,
+                                  :friends_count,
+                                  :requests_from_count).
+                             first
+    @friend = User.where(:username => params[:username]).
+                   only(:id).
+                   first
+    @friend_friendship = Friendship.owner_id(@friend.id).
+                                    only(:friend_ids,
+                                         :request_to_ids,
+                                         :friends_count,
+                                         :requests_to_count)
+    @friendship.remove_request_from!(@friend.id)
+    @friendship.add_friend!(@friend.id)
+    @friend_friendship.remove_request_to!(@friend.id)
+    @friend_friendship.add_friend!(@friend.id)
     redirect_to :back
   end
 
@@ -234,15 +245,18 @@ class FriendshipController < ApplicationController
   # Description:
   #   Отклонение запроса на добавление в список друзей.
   def refuse_friend
-    @friend = User.where(:username => params[:username]).first
-    unless current_user.friend_ids.include?(@friend.id)
-      if current_user.requests_to_ids.include?(@friend.id)
-        current_user.pull_all(:requests_to_ids, [@friend.id])
-        @friend.pull_all(:requests_from_ids, [current_user.id])
-        current_user.save
-        @friend.save
-      end
-    end
+    @friendship = Friendship.owner_id(@user.id).
+                             only(:request_from_ids,
+                                  :requests_from_count).
+                             first
+    @friend = User.where(:username => params[:username]).
+                   only(:id).
+                   first
+    @friend_friendship = Friendship.owner_id(@friend.id).
+                                    only(:request_to_ids,
+                                         :requests_to_count)
+    @friendship.remove_request_from!(@friend.id)
+    @friend_friendship.remove_request_to!(@friend.id)
     redirect_to :back
   end
 
@@ -254,40 +268,19 @@ class FriendshipController < ApplicationController
   #   В отличии от добавления в список друзей, этот action в действительности
   #   удаляет пользователя из списка друзей.
   def remove_friend
-    @friend = User.where(:username => params[:username]).first
-    if current_user.friend_ids.include?(@friend.id)
-      current_user.pull_all(:friend_ids, [@friend.id])
-      @friend.pull_all(:friend_ids, [current_user.id])
-      current_user.save
-      @friend.save
-    end
+    @friendship = Friendship.owner_id(@user.id).
+                             only(:friend_ids,
+                                  :friends_count).
+                             first
+    @friend = User.where(:username => params[:username]).
+                   only(:id).
+                   first
+    @friend_friendship = Friendship.owner_id(@friend.id).
+                                    only(:friend_ids,
+                                         :friends_count)
+    @friendship.remove_friend!(@friend.id)
+    @friend_friendship.remove_friend!(@friend.id)
     redirect_to :back
   end
-
-  protected
-
-    #===========================================================================
-    # Фильтры
-    #===========================================================================
-
-    # Method: FriendshipController#current_stat
-    #
-    # Description:
-    #   Получение статистики текущего пользователя
-    def current_stat
-      @friends_count = current_user.friend_ids.size
-      @requests_to_count = current_user.requests_to_ids.size
-      @requests_from_count = current_user.requests_from_ids.size
-    end
-
-    # Method: FriendshipController#other_stat
-    #
-    # Description:
-    #   Получение статистики указанного пользователя.
-    def other_stat
-      @friedns_count = @user.friend_ids.size
-      @mutual_friends_count = (current_user.friend_ids & @user.friend_ids).size
-      @not_mutual_friends_count = (@user.friend_ids - current_user.friend_ids - [current_user.id, @user.id]).size
-    end
 
 end
