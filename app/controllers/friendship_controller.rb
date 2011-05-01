@@ -52,6 +52,34 @@ class FriendshipController < ApplicationController
   before_filter :other_stat, :only => [:show, :mutual_friends, :not_mutual_friends]
 
   #=============================================================================
+  # Списки друзей
+  #=============================================================================
+
+  def friends_list
+    @friends = @friendship.friends.only(:id, "user_profile.first_name",
+                                        "user_profile.last_name",
+                                        "user_profile.org_name",
+                                        "user_profile.org_unit",
+                                        "user_profile.org_position")
+  end
+
+  def requests_to_list
+    @requests = @friendship.requests_to.only(:id, "user_profile.first_name",
+                                             "user_profile.last_name",
+                                             "user_profile.org_name",
+                                             "user_profile.org_unit",
+                                             "user_profile.org_position")
+  end
+
+  def requests_from_list
+    @requests = @friendship.requests_from.only(:id, "user_profile.first_name",
+                                               "user_profile.last_name",
+                                               "user_profile.org_name",
+                                               "user_profile.org_unit",
+                                               "user_profile.org_position")
+  end
+
+  #=============================================================================
   # Списки друзей текущего пользователя
   #=============================================================================
 
