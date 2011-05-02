@@ -1,0 +1,26 @@
+<article class="content-menu">
+  <ul>
+    <% if @personal %>
+      <li><%= to_friends %></li>
+      <li><%= to_requests_to %></li>
+      <li><%= to_requests_from %></li>
+    <% else %>
+      <li><%= to_user_friends(@user) %></li>
+      <li><%= to_mutual_friends(@user) %></li>
+      <li><%= to_not_mutual_friends(@user) %></li>
+      <% if @friend_status == :friend %>
+        <li class="separator"></li>
+        <li><%= to_remove_friend(@user) %></li>
+      <% end %>
+      <% if @friend_status == :request_to %>
+        <li class="separator"></li>
+        <li><%= to_confirm_friend(@user) %></li>
+        <li><%= to_refuse_friend(@user) %></li>
+      <% end %>
+      <% if @friend_status == :not_friend %>
+        <li class="separator"></li>
+        <li><%= to_add_friend(@user) %></li>
+      <% end %>
+    <% end %>
+  </ul>
+</article>

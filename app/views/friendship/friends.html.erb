@@ -1,0 +1,52 @@
+<% content_for :title do %>
+  Friends
+<% end %>
+
+<%= render "links" %>
+
+<% if @friends.size > 0 %>
+  <article class="friends">
+    <% @friends.each do |friend| %>
+      <table>
+        <tr>
+          <td class="avatar"><%= image_tag friend.user_profile.avatar %></td>
+          <td class="user-info">
+            <% if friend.username == current_user.username %>
+              <h1><%= link_to "#{friend.full_name} (it's you)", profiles__show_path(:username => friend.username) %></h1>
+            <% else %>
+              <h1><%= link_to friend.full_name, profiles__show_path(:username => friend.username) %></h1>
+            <% end %>
+            <p><%= friend.user_profile.org_name %></p>
+            <p><%= friend.user_profile.org_unit %></p>
+            <p><%= friend.user_profile.org_position %></p>
+          </td>
+          <td class="menu">
+            <% if @personal %>
+              <p><%= link_to "View profile", profiles__show_path(:username => friend.username) %></p>
+              <p><%= to_remove_friend(friend) %></p>
+            <% else %>
+              <p><%= link_to "View profile", profiles__show_path(:username => friend.username) %></p>
+              <% if friend.username == current_user.username %>
+                <p><%= to_friends %></p>
+              <% end %>
+            <% end %>
+          </td>
+        </tr>
+      </table>
+    <% end %>
+    <div class="pagination">
+      <div class="entries"><%= page_entries_info @friends %></div>
+      <div>
+        <% if @personal %>
+          <%= will_paginate @friends, :container => false, :inner_window => 1, :params => { :username => nil } %>
+        <% else %>
+          <%= will_paginate @friends, :container => false, :inner_window => 1 %>
+        <% end %>
+      </div>
+    </div>
+  </article>
+<% else %>
+  <article class="friends-empty">
+    <p>You have not friends.</p>
+  </article>
+<% end %>

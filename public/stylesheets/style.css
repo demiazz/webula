@@ -20,6 +20,16 @@ a:focus {
 	text-decoration: underline;
 }
 
+
+a.constructive {
+  color: #383;
+}
+
+a.destructive {
+  color: #833;
+
+}
+
 header {
 	position: fixed;
 	z-index: 1;

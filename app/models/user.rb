@@ -22,14 +22,7 @@ class User
   embeds_one :user_profile      # Имеет встроенный документ профиля пользователя
 
   # Friendship Framework
-  # Включает статистику отношений
-  embeds_one :friendship_stat
-  # Друзья пользователя
-  has_and_belongs_to_many :friends, :class_name => "User", :inverse_of => :friends
-  # Запросы на дружбу от пользователя
-  has_and_belongs_to_many :requests_from, :class_name => "User", :inverse_of => :requests_to
-  # Запросы на дружбу к пользователю
-  has_and_belongs_to_many :requests_to, :class_name => "User", :inverse_of => :requests_from
+  has_one :friendship, :class_name => "Friendship", :inverse_of => :owner
   # Посты в микроблоге пользователя
   has_many :microblog_posts, :class_name => "MicroblogPost", :inverse_of => :author
   # Имеет один микроблог
@@ -49,7 +42,8 @@ class User
 
   # Обратные вызовы
   before_create :create_profile
-  before_create :create_friendship_stat
+  before_create :create_friendship
+  before_create :create_microblog
 
   # Настройки расширения Devise
   devise :database_authenticatable,
@@ -115,8 +109,16 @@ class User
       self.user_profile = UserProfile.new
     end
 
-    def create_friendship_stat
-      self.friendship_stat = FriendshipStat.new
+    def create_friendship
+      friendship = Friendship.new
+      friendship.owner = self
+      friendship.save
+    end
+
+    def create_microblog
+      microblog = Microblog.new
+      microblog.owner = self
+      microblog.save
     end
 
 end
