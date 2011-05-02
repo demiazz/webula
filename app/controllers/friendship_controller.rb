@@ -27,10 +27,9 @@ Description:
 ================================================================================
 
 Actions:
-  * index
+  * friends
   * requests_to
   * requests_from
-  * show
   * mutual_friends
   * not_mutual_friends
   * add_friend
@@ -47,6 +46,10 @@ Copyright (c) 2011, Alexey Plutalov <demiazz.py@gmail.com>
 =end
 
 class FriendshipController < ApplicationController
+
+  before_filter :friend_flag, :only => [:friends,
+                                        :mutual_friends,
+                                        :not_mutual_friends]
 
   #=============================================================================
   # Списки друзей
@@ -148,11 +151,13 @@ class FriendshipController < ApplicationController
       @requests_to_count = @friendship.requests_to_count
       @requests_from_count = @friendship.requests_from_count
       if @friends_count > 0
-        @friends = @friendship.mutual_friends.only(:id, "user_profile.first_name",
-                                                   "user_profile.last_name",
-                                                   "user_profile.org_name",
-                                                   "user_profile.org_unit",
-                                                   "user_profile.org_position")
+        @friends = @friendship.mutual_friends(current_user.id).
+                               only(:id, :username,
+                                    "user_profile.first_name",
+                                    "user_profile.last_name",
+                                    "user_profile.org_name",
+                                    "user_profile.org_unit",
+                                    "user_profile.org_position")
         @mutual_friends_count = @friends.count
       else
         @mutual_friends_count = 0
@@ -178,11 +183,13 @@ class FriendshipController < ApplicationController
       @requests_to_count = @friendship.requests_to_count
       @requests_from_count = @friendship.requests_from_count
       if @friends_count > 0
-        @friends = @friendship.not_mutual_friends.only(:id, "user_profile.first_name",
-                                                       "user_profile.last_name",
-                                                       "user_profile.org_name",
-                                                       "user_profile.org_unit",
-                                                       "user_profile.org_position")
+        @friends = @friendship.not_mutual_friends(current_user.id).
+                               only(:id, :username,
+                                    "user_profile.first_name",
+                                    "user_profile.last_name",
+                                    "user_profile.org_name",
+                                    "user_profile.org_unit",
+                                    "user_profile.org_position")
         @not_mutual_friends_count = @friends.count
       else
         @not_mutual_friends_count = 0
@@ -288,6 +295,38 @@ class FriendshipController < ApplicationController
     @friendship.remove_friend!(@friend.id)
     @friend_friendship.remove_friend!(@friend.id)
     redirect_to :back
+  end
+
+  protected
+
+  #=============================================================================
+  # Фильтры
+  #=============================================================================
+
+  # Method: FriendshipController#friend_flag
+  #
+  # Description:
+  #   Если страница не текущего пользователя, то устанавливает флаг отношения
+  #   между текущим пользователем и указанным.
+  def friend_flag
+    unless @personal
+      if Friendship.owner_id(current_user.id).
+                    where(:friend_ids => @user.id).exists?
+        @friend_status = :friend
+        return
+      end
+      if Friendship.owner_id(current_user.id).
+                    where(:request_to_ids => @user.id).exists?
+        @friend_status = :request_to
+        return
+      end
+      if Friendship.owner_id(current_user.id).
+                    where(:request_from_ids => @user.id).exists?
+        @friend_status = :request_from
+        return
+      end
+      @friend_status = :not_friend
+    end
   end
 
 end
