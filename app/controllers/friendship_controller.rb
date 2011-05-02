@@ -67,7 +67,8 @@ class FriendshipController < ApplicationController
     @requests_to_count = @friendship.requests_to_count
     @requests_from_count = @friendship.requests_from_count
     if @friends_count > 0
-      @friends = @friendship.friends.only(:id, "user_profile.first_name",
+      @friends = @friendship.friends.only(:id, :username,
+                                          "user_profile.first_name",
                                           "user_profile.last_name",
                                           "user_profile.org_name",
                                           "user_profile.org_unit",
@@ -91,7 +92,8 @@ class FriendshipController < ApplicationController
       @requests_to_count = @friendship.requests_to_count
       @requests_from_count = @friendship.requests_from_count
       if @requests_to_count > 0
-        @requests = @friendship.requests_to.only(:id, "user_profile.first_name",
+        @requests = @friendship.requests_to.only(:id, :username,
+                                                 "user_profile.first_name",
                                                  "user_profile.last_name",
                                                  "user_profile.org_name",
                                                  "user_profile.org_unit",
@@ -118,7 +120,8 @@ class FriendshipController < ApplicationController
       @requests_to_count = @friendship.requests_to_count
       @requests_from_count = @friendship.requests_from_count
       if @requests_from_count > 0
-        @requests = @friendship.requests_from.only(:id, "user_profile.first_name",
+        @requests = @friendship.requests_from.only(:id, :username,
+                                                   "user_profile.first_name",
                                                    "user_profile.last_name",
                                                    "user_profile.org_name",
                                                    "user_profile.org_unit",
@@ -145,12 +148,14 @@ class FriendshipController < ApplicationController
       @requests_to_count = @friendship.requests_to_count
       @requests_from_count = @friendship.requests_from_count
       if @friends_count > 0
-        @friends = @friendship.not_mutual_friends.only(:id, "user_profile.first_name",
-                                                       "user_profile.last_name",
-                                                       "user_profile.org_name",
-                                                       "user_profile.org_unit",
-                                                       "user_profile.org_position")
-        @not_mutual_friends_count = @friends.count
+        @friends = @friendship.mutual_friends.only(:id, "user_profile.first_name",
+                                                   "user_profile.last_name",
+                                                   "user_profile.org_name",
+                                                   "user_profile.org_unit",
+                                                   "user_profile.org_position")
+        @mutual_friends_count = @friends.count
+      else
+        @mutual_friends_count = 0
       end
     else
       redirect_to friendship__index_path
@@ -173,12 +178,14 @@ class FriendshipController < ApplicationController
       @requests_to_count = @friendship.requests_to_count
       @requests_from_count = @friendship.requests_from_count
       if @friends_count > 0
-        @friends = @friendship.mutual_friends.only(:id, "user_profile.first_name",
-                                                   "user_profile.last_name",
-                                                   "user_profile.org_name",
-                                                   "user_profile.org_unit",
-                                                   "user_profile.org_position")
-        @mutual_friends_count = @friends.count
+        @friends = @friendship.not_mutual_friends.only(:id, "user_profile.first_name",
+                                                       "user_profile.last_name",
+                                                       "user_profile.org_name",
+                                                       "user_profile.org_unit",
+                                                       "user_profile.org_position")
+        @not_mutual_friends_count = @friends.count
+      else
+        @not_mutual_friends_count = 0
       end
     else
       redirect_to friendship__index_path
