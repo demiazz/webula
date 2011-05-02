@@ -4,7 +4,7 @@
 
 <%= render "links" %>
 
-<% if @requests_to_count > 0 %>
+<% if @requests.size > 0 %>
   <article class="friends">
     <% @requests.each do |request| %>
       <table>
@@ -24,6 +24,12 @@
         </tr>
       </table>
     <% end %>
+    <div class="pagination">
+      <div class="entries"><%= page_entries_info @requests %></div>
+      <div>
+        <%= will_paginate @requests, :container => false, :inner_window => 1 %>
+      </div>
+    </div>
   </article>
 <% else %>
   <article class="friends-empty">
