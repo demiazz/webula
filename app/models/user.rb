@@ -42,7 +42,8 @@ class User
 
   # Обратные вызовы
   before_create :create_profile
-  before_create :create_friendship_stat
+  before_create :create_friendship
+  before_create :create_microblog
 
   # Настройки расширения Devise
   devise :database_authenticatable,
@@ -108,8 +109,16 @@ class User
       self.user_profile = UserProfile.new
     end
 
-    def create_friendship_stat
-      self.friendship_stat = FriendshipStat.new
+    def create_friendship
+      friendship = Friendship.new
+      friendship.owner = self
+      friendship.save
+    end
+
+    def create_microblog
+      microblog = Microblog.new
+      microblog.owner = self
+      microblog.save
     end
 
 end
