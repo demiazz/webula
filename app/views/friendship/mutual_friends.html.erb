@@ -4,7 +4,7 @@
 
 <%= render "links" %>
 
-<% if @mutual_friends_count > 0 %>
+<% if @friends.size > 0 %>
   <article class="friends">
     <% @friends.each do |friend| %>
       <table>
@@ -23,6 +23,12 @@
         </tr>
       </table>
     <% end %>
+    <div class="pagination">
+      <div class="entries"><%= page_entries_info @friends %></div>
+      <div>
+        <%= will_paginate @friends, :container => false, :inner_window => 1 %>
+      </div>
+    </div>
   </article>
 <% else %>
   <article class="empty">

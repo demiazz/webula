@@ -71,24 +71,29 @@ Webula::Application.routes.draw do
 
   get "((:username)/)friends",
           :to => "friendship#friends",
+          :default => {:page => 1},
           :as => :friendship__friends
 
   get ":username/friends/mutual",
           :to => "friendship#mutual_friends",
+          :default => {:page => 1},
           :as => :friendship__mutual_friends
 
   get ":username/friends/not/mutual",
           :to => "friendship#not_mutual_friends",
+          :default => {:page => 1},
           :as => :friendship__not_mutual_friends
 
   #== Запросы на добавление в список друзей ====================================
 
   get "friends/requests/to",
           :to => "friendship#requests_to",
+          :default => {:page => 1},
           :as => :friendship__requests_to
 
   get "friends/requests/from",
           :to => "friendship#requests_from",
+          :default => {:page => 1},
           :as => :friendship__requests_from
 
   #== Управление списком друзей ================================================

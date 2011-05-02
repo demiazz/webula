@@ -69,14 +69,14 @@ class FriendshipController < ApplicationController
     @friends_count = @friendship.friends_count
     @requests_to_count = @friendship.requests_to_count
     @requests_from_count = @friendship.requests_from_count
-    if @friends_count > 0
-      @friends = @friendship.friends.only(:id, :username,
-                                          "user_profile.first_name",
-                                          "user_profile.last_name",
-                                          "user_profile.org_name",
-                                          "user_profile.org_unit",
-                                          "user_profile.org_position")
-    end
+    @friends = @friendship.friends.only(:id, :username,
+                                        "user_profile.first_name",
+                                        "user_profile.last_name",
+                                        "user_profile.org_name",
+                                        "user_profile.org_unit",
+                                        "user_profile.org_position").
+                                   paginate(:page => params[:page],
+                                            :per_page => 15)
   end
 
   # Method: Friendship#requests_to
@@ -94,14 +94,14 @@ class FriendshipController < ApplicationController
       @friends_count = @friendship.friends_count
       @requests_to_count = @friendship.requests_to_count
       @requests_from_count = @friendship.requests_from_count
-      if @requests_to_count > 0
-        @requests = @friendship.requests_to.only(:id, :username,
-                                                 "user_profile.first_name",
-                                                 "user_profile.last_name",
-                                                 "user_profile.org_name",
-                                                 "user_profile.org_unit",
-                                                 "user_profile.org_position")
-      end
+      @requests = @friendship.requests_to.only(:id, :username,
+                                               "user_profile.first_name",
+                                               "user_profile.last_name",
+                                               "user_profile.org_name",
+                                               "user_profile.org_unit",
+                                               "user_profile.org_position").
+                                          paginate(:page => params[:page],
+                                                   :per_page => 15)
     else
       redirect_to friendship__index_path
     end
@@ -122,14 +122,14 @@ class FriendshipController < ApplicationController
       @friends_count = @friendship.friends_count
       @requests_to_count = @friendship.requests_to_count
       @requests_from_count = @friendship.requests_from_count
-      if @requests_from_count > 0
-        @requests = @friendship.requests_from.only(:id, :username,
-                                                   "user_profile.first_name",
-                                                   "user_profile.last_name",
-                                                   "user_profile.org_name",
-                                                   "user_profile.org_unit",
-                                                   "user_profile.org_position")
-      end
+      @requests = @friendship.requests_from.only(:id, :username,
+                                                 "user_profile.first_name",
+                                                 "user_profile.last_name",
+                                                 "user_profile.org_name",
+                                                 "user_profile.org_unit",
+                                                 "user_profile.org_position").
+                                            paginate(:page => params[:page],
+                                                     :per_page => 15)
     else
       redirect_to friendship__index_path
     end
@@ -150,18 +150,15 @@ class FriendshipController < ApplicationController
       @friends_count = @friendship.friends_count
       @requests_to_count = @friendship.requests_to_count
       @requests_from_count = @friendship.requests_from_count
-      if @friends_count > 0
-        @friends = @friendship.mutual_friends(current_user.id).
-                               only(:id, :username,
-                                    "user_profile.first_name",
-                                    "user_profile.last_name",
-                                    "user_profile.org_name",
-                                    "user_profile.org_unit",
-                                    "user_profile.org_position")
-        @mutual_friends_count = @friends.count
-      else
-        @mutual_friends_count = 0
-      end
+      @friends = @friendship.mutual_friends(current_user.id).
+                             only(:id, :username,
+                                  "user_profile.first_name",
+                                  "user_profile.last_name",
+                                  "user_profile.org_name",
+                                  "user_profile.org_unit",
+                                  "user_profile.org_position").
+                             paginate(:page => params[:page],
+                                      :per_page => 15)
     else
       redirect_to friendship__index_path
     end
@@ -182,18 +179,15 @@ class FriendshipController < ApplicationController
       @friends_count = @friendship.friends_count
       @requests_to_count = @friendship.requests_to_count
       @requests_from_count = @friendship.requests_from_count
-      if @friends_count > 0
-        @friends = @friendship.not_mutual_friends(current_user.id).
-                               only(:id, :username,
-                                    "user_profile.first_name",
-                                    "user_profile.last_name",
-                                    "user_profile.org_name",
-                                    "user_profile.org_unit",
-                                    "user_profile.org_position")
-        @not_mutual_friends_count = @friends.count
-      else
-        @not_mutual_friends_count = 0
-      end
+      @friends = @friendship.not_mutual_friends(current_user.id).
+                             only(:id, :username,
+                                  "user_profile.first_name",
+                                  "user_profile.last_name",
+                                  "user_profile.org_name",
+                                  "user_profile.org_unit",
+                                  "user_profile.org_position").
+                             paginate(:page => params[:page],
+                                      :per_page => 15)
     else
       redirect_to friendship__index_path
     end
