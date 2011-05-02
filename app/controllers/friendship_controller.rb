@@ -103,7 +103,7 @@ class FriendshipController < ApplicationController
                                           paginate(:page => params[:page],
                                                    :per_page => 15)
     else
-      redirect_to friendship__index_path
+      redirect_to friendship__friends_path(:username => nil)
     end
   end
 
@@ -131,7 +131,7 @@ class FriendshipController < ApplicationController
                                             paginate(:page => params[:page],
                                                      :per_page => 15)
     else
-      redirect_to friendship__index_path
+      redirect_to friendship__friends_path(:username => nil)
     end
   end
 
@@ -160,7 +160,7 @@ class FriendshipController < ApplicationController
                              paginate(:page => params[:page],
                                       :per_page => 15)
     else
-      redirect_to friendship__index_path
+      redirect_to friendship__friends_path(:username => nil)
     end
   end
 
@@ -189,7 +189,7 @@ class FriendshipController < ApplicationController
                              paginate(:page => params[:page],
                                       :per_page => 15)
     else
-      redirect_to friendship__index_path
+      redirect_to friendship__friends_path(:username => nil)
     end
   end
 
