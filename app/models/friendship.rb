@@ -105,12 +105,12 @@ class Friendship
   #
   # Description:
   #   Получение общих друзей.
-  def mutual_friends
+  def mutual_friends(id)
     if self.friends_count > 0
-      current_friendship = Friendship.owner_id(current_user.id).
+      current_friendship = Friendship.owner_id(id).
                                       only(:owner_id,
                                            :friend_ids,
-                                           :friends_count)
+                                           :friends_count).first
       if current_friendship.friends_count > 0
         return User.ids(self.friend_ids & current_friendship.friend_ids)
       end
@@ -124,10 +124,10 @@ class Friendship
   #   Получение не общих друзей.
   def not_mutual_friends(id)
     if self.friends_count > 0
-      current_friendship = Friendship.owner_id(current_user.id).
+      current_friendship = Friendship.owner_id(id).
                                       only(:owner_id,
                                            :friend_ids,
-                                           :friends_count)
+                                           :friends_count).first
       if current_friendship.friends_count > 0
         return User.ids(self.friend_ids - current_friendship.friend_ids -
                    [self.owner_id, current_friendship.owner_id])
