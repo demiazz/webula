@@ -17,7 +17,7 @@
             <p><%= request.user_profile.org_position %></p>
           </td>
           <td class="menu">
-
+            <p><%= link_to "View profile", profiles__show_path(:username => request.username) %></p>
           </td>
         </tr>
       </table>

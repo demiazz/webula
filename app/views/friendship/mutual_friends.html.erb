@@ -2,6 +2,8 @@
   Mutual friends
 <% end %>
 
+<%= render "links" %>
+
 <% if @mutual_friends_count > 0 %>
   <article class="friends">
     <% @friends.each do |friend| %>
@@ -15,7 +17,8 @@
             <p><%= friend.user_profile.org_position %></p>
           </td>
           <td class="menu">
-
+            <p><%= link_to "View profile", profiles__show_path(:username => friend.username) %></p>
+            <p><%= to_remove_friend(friend) %></p>
           </td>
         </tr>
       </table>

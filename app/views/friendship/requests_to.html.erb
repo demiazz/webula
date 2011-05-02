@@ -17,7 +17,9 @@
             <p><%= request.user_profile.org_position %></p>
           </td>
           <td class="menu">
-
+            <p><%= link_to "View profile", profiles__show_path(:username => request.username) %></p>
+            <p><%= to_confirm_friend(request) %></p>
+            <p><%= to_refuse_friend(request) %></p>
           </td>
         </tr>
       </table>
