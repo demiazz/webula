@@ -126,7 +126,7 @@ Webula::Application.routes.draw do
   
   get "mail/outbox",
           :to => "mail#outbox",
-          :as => :mail_outbox
+          :as => :mail__outbox
 
   #=============================================================================
   # Settings Controller
