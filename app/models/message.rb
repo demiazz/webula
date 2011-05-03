@@ -35,4 +35,11 @@ class Message
   # текст сообщения
   field :text, :type => String, :default => ""
 
+  #=============================================================================
+  # Связи
+  #=============================================================================
+
+  belongs_to :sender, :class_name => "User", :inverse_of => :outbox_messages
+  belongs_to :recipient, :class_name => "User", :inverse_of => :inbox_messages
+
 end

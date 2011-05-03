@@ -27,6 +27,10 @@ class User
   has_many :microblog_posts, :class_name => "MicroblogPost", :inverse_of => :author
   # Имеет один микроблог
   has_one :microblog, :class_name => "Microblog", :inverse_of => :owner
+  # Имеет исходящую почту
+  has_many :outbox_messages, :class => "Message", :inverse_of => :sender
+  # Имеет входящую почту
+  has_many :inbox_messages, :class => "Message", :inverse_of => :recipient
 
   # Scopes
   scope :ids, ->(ids) { where(:_id.in => ids) }
