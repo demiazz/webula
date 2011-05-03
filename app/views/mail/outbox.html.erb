@@ -1,0 +1,33 @@
+<% content_for :title do %>
+  Outbox messages
+<% end %>
+
+<%= render "links" %>
+
+<% if @messages_count > 0 %>
+  <article class="microblog">
+  <% @messages.each do |message| %>
+    <table>
+      <tr>
+        <td rowspan=2 class="avatar"><%= image_tag message.recipient.user_profile.avatar %></td>
+        <td class="user-info">
+          <h1><%= message.recipient.full_name %></h1>
+          <p class="post-text"><%= message.text %></p>
+        </td>
+        <td rowspan=2 class="menu">
+
+        </td>
+      </tr>
+      <tr>
+        <td class="posted-at"><p><%= message.created_at.strftime("Posted at %e %B %Y in %H:%M") %></p></td>
+      </tr>
+    </table>
+  <% end %>
+  </article>
+<% else %>
+  <article class="microblog">
+    <article class="microblog-empty">
+      You have not outbox messages.
+    </article>
+  </article>
+<% end %>
