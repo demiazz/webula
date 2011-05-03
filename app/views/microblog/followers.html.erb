@@ -17,7 +17,13 @@
             <p><%= follower.user_profile.org_position %></p>
           </td>
           <td class="menu">
-
+            <p><%= to_microblog_user_personal_feed(follower, "View feed") %></p>
+            <% if follower.buffer == :follow %>
+              <p><%= to_unfollow(follower) %></p>
+            <% end %>
+            <% if follower.buffer == :unfollow %></p>
+              <p><%= to_follow(follower) %></p>
+            <% end %>
           </td>
         </tr>
       </table>
