@@ -25,6 +25,7 @@ Copyright (c) 2011, Alexey Plutalov <demiazz.py@gmail.com>
 
 class Message
   include Mongoid::Document
+  include Mongoid::Timestamps
 
   #=============================================================================
   # Поля модели
