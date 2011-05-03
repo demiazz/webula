@@ -46,4 +46,12 @@ class Message
   belongs_to :sender, :class_name => "User", :inverse_of => :outbox_messages
   belongs_to :recipient, :class_name => "User", :inverse_of => :inbox_messages
 
+  #=============================================================================
+  # Scopes
+  #=============================================================================
+
+  scope :sender_id, ->(id) { where(:sender_id => id) }
+  scope :recipient_id, ->(id) { where(:recipient_id => id) }
+  scope :status, ->(st) { where(:status => st) }
+
 end
