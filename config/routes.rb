@@ -1,16 +1,118 @@
 Webula::Application.routes.draw do
 
+  #=============================================================================
+  # Microblog Controller
+  #=============================================================================
+
+  #== Microblog Feeds ==========================================================
+
+  get "microblog/feeds/global", 
+          :to => "microblog#global_feed", 
+          :default => {:page => 1},
+          :as => :microblog__global_feed
+
+  get "((:username)/)microblog/feeds/local",
+          :to => "microblog#local_feed", 
+          :default => {:page => 1},
+          :as => :microblog__local_feed
+
+  get "((:username)/)microblog/feeds/personal",
+          :to => "microblog#personal_feed",
+          :default => {:page => 1},
+          :as => :microblog__personal_feed
+
+  get "((:username)/)microblog/feeds/followings",
+          :to => "microblog#followings_feed",
+          :default => {:page => 1},
+          :as => :microblog__followings_feed
+
+  get "((:username)/)microblog/feeds/followers",
+          :to => "microblog#followers_feed",
+          :default => {:page => 1},
+          :as => :microblog__followers_feed
+
+  #== Microblog Subscribes =====================================================
+
+  get "((:username)/)microblog/subscribes/followings",
+          :to => "microblog#followings",
+          :default => {:page => 1},
+          :as => :microblog__followings
+
+  get "((:username)/)microblog/subscribes/followers", 
+          :to => "microblog#followers", 
+          :default => {:page => 1},
+          :as => :microblog__followers
+
+  #== Posts manage =============================================================
+
+  put "microblog/create_post",
+          :to => "microblog#create_post",
+          :as => :microblog__create_post
+
+  put "microblog/delete_post/:id",
+          :to => "microblog#delete_post",
+          :as => :microblog__delete_post
+
+  #== Subscribes manage ========================================================
+
+  put "microblog/subscribes/followings/add/:following", 
+          :to => "microblog#add_following",
+          :as => :microblog__add_following
+
+  put "microblog/subscribes/followings/remove/:following", 
+          :to => "microblog#remove_following",
+          :as => :microblog__remove_following
+
+  #=============================================================================
   # Friendship Controller
-  get "friends" => "friendship#index", :as => :friendship__index
-  get "friends/requests/to" => "friendship#requests_to", :as => :friendship__requests_to
-  get "friends/requests/from" => "friendship#requests_from", :as => :friendship__requests_from
-  get ":username/friends" => "friendship#show", :as => :friendship__show
-  get ":username/friends/mutual" => "friendship#mutual_friends", :as => :friendship__mutual_friends
-  get ":username/friends/not/mutual" => "friendship#not_mutual_friends", :as => :friendship__not_mutual_friends
-  put "friends/add/:username" => "friendship#add_friend", :as => :friendship__add_friend
-  put "friends/confirm/:username" => "friendship#confirm_friend", :as => :friendship__confirm_friend
-  put "friends/refuse/:username" => "friendship#refuse_friend", :as => :friendship__refuse_friend
-  put "friends/remove/:username" => "friendship#remove_friend", :as => :friendship__remove_friend
+  #=============================================================================
+
+  #== Списки друзей ============================================================
+
+  get "((:username)/)friends",
+          :to => "friendship#friends",
+          :default => {:page => 1},
+          :as => :friendship__friends
+
+  get ":username/friends/mutual",
+          :to => "friendship#mutual_friends",
+          :default => {:page => 1},
+          :as => :friendship__mutual_friends
+
+  get ":username/friends/not/mutual",
+          :to => "friendship#not_mutual_friends",
+          :default => {:page => 1},
+          :as => :friendship__not_mutual_friends
+
+  #== Запросы на добавление в список друзей ====================================
+
+  get "friends/requests/to",
+          :to => "friendship#requests_to",
+          :default => {:page => 1},
+          :as => :friendship__requests_to
+
+  get "friends/requests/from",
+          :to => "friendship#requests_from",
+          :default => {:page => 1},
+          :as => :friendship__requests_from
+
+  #== Управление списком друзей ================================================
+
+  put "friends/add/friend/:friend",
+          :to => "friendship#add_friend",
+          :as => :friendship__add_friend
+
+  put "friends/confirm/request/:friend",
+          :to => "friendship#confirm_friend",
+          :as => :friendship__confirm_friend
+
+  put "friends/refuse/request/:friend",
+          :to => "friendship#refuse_friend",
+          :as => :friendship__refuse_friend
+
+  put "friends/remove/:friend",
+          :to => "friendship#remove_friend",
+          :as => :friendship__remove_friend
 
   # Settings Controller
   get "settings/avatar" => "settings#avatar_edit", :as => :settings__avatar_edit

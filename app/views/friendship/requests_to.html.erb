@@ -2,28 +2,34 @@
   Requests for you
 <% end %>
 
-<%= render "current_links" %>
+<%= render "links" %>
 
-<% if @requests.count > 0 %>
+<% if @requests.size > 0 %>
   <article class="friends">
     <% @requests.each do |request| %>
       <table>
         <tr>
           <td class="avatar"><%= image_tag request.user_profile.avatar %></td>
           <td class="user-info">
-            <h1><%= link_to "#{request.user_profile.first_name} #{request.user_profile.last_name}", profiles__show_path(:username => request.username) %></h1>
+            <h1><%= link_to request.full_name, profiles__show_path(:username => request.username) %></h1>
             <p><%= request.user_profile.org_name %></p>
             <p><%= request.user_profile.org_unit %></p>
             <p><%= request.user_profile.org_position %></p>
           </td>
           <td class="menu">
             <p><%= link_to "View profile", profiles__show_path(:username => request.username) %></p>
-            <p><%= link_to "Confirm request", friendship__confirm_friend_path(:username => request.username), :method => :put %></p>
-            <p><%= link_to "Refuse request", friendship__refuse_friend_path(:username => request.username), :method => :put %></p>
+            <p><%= to_confirm_friend(request) %></p>
+            <p><%= to_refuse_friend(request) %></p>
           </td>
         </tr>
       </table>
     <% end %>
+    <div class="pagination">
+      <div class="entries"><%= page_entries_info @requests %></div>
+      <div>
+        <%= will_paginate @requests, :container => false, :inner_window => 1 %>
+      </div>
+    </div>
   </article>
 <% else %>
   <article class="friends-empty">

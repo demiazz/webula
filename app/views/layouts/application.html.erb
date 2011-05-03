@@ -53,7 +53,12 @@
             		
             		<!-- Content Header -->
             		<section id="content-header">
-            			<h1><%= @user_profile.first_name %> <%= @user_profile.last_name %> : <%= yield :title %></h1>
+                        <h1 style="float: left"><%= @user.full_name %>
+                            <% if @personal %>
+                            (it's you)
+                            <% end %>
+                        </h1>
+                        <h1 style="float: right"><%= yield :title %></h1>
             		</section>
 
             		<!-- Content Body -->

@@ -1,0 +1,44 @@
+<% content_for :title do %>
+  Local feed
+<% end %>
+
+<%= render "microblog/links/feeds_links" %>
+
+<% if @posts_count > 0 %>
+  <article class="microblog">
+  <%= render "form" %>
+  <% @posts.each do |post| %>
+    <table>
+      <tr>
+        <td rowspan=2 class="avatar"><%= image_tag post.author.user_profile.avatar %></td>
+        <td class="user-info">
+          <h1><%= to_microblog_user_home post.author, post.author.full_name %> written:</h1>
+          <p class="post-text"><%= post.text %></p>
+        </td>
+        <td rowspan=2 class="menu">
+
+        </td>
+      </tr>
+      <tr>
+        <td class="posted-at"><p><%= post.created_at.strftime("Posted at %e %B %Y in %H:%M") %></p></td>
+      </tr>
+    </table>
+  <% end %>
+  <div class="pagination">
+    <div class="entries"><%= page_entries_info @posts %></div>
+    <div>
+    <% if @personal %>
+      <%= will_paginate @posts, :container => false, :inner_window => 1, :params => { :username => nil } %>
+    <% else %>
+      <%= will_paginate @posts, :container => false, :inner_window => 1 %>
+    <% end %>
+    </div>
+  </div>
+  </article>
+<% else %>
+  <article class="microblog">
+    <article class="microblog-empty">
+
+    </article>
+  </article>
+<% end %>

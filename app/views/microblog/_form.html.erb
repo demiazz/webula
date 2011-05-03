@@ -1,0 +1,6 @@
+<% if @personal %>
+  <%= form_for(@new_post, :url => url_for(:controller => :microblog, :action => :create_post), :html => {:method => :put }) do |f| %>
+    <%= f.text_area :text, :rows => 3 %>
+    <%= f.submit "Post it" %>
+  <% end %>
+<% end %>
