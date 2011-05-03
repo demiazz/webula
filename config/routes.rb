@@ -122,11 +122,33 @@ Webula::Application.routes.draw do
 
   get "mail/inbox",
           :to => "mail#inbox",
+          :default => {:page => 1},
           :as => :mail__inbox
+
+  get "mail/inbox/read",
+          :to => "mail#inbox_read",
+          :default => {:page => 1},
+          :as => :mail__inbox_read
+
+  get "mail/inbox/unread",
+          :to => "mail#inbox_unread",
+          :default => {:page => 1},
+          :as => :mail__inbox_unread
   
   get "mail/outbox",
           :to => "mail#outbox",
+          :default => {:page => 1},
           :as => :mail__outbox
+
+  get "mail/outbox/read",
+          :to => "mail#outbox_read",
+          :default => {:page => 1},
+          :as => :mail__outbox_read
+
+  get "mail/outbox/unread",
+          :to => "mail#outbox_unread",
+          :default => {:page => 1},
+          :as => :mail__outbox_unread
 
   #=============================================================================
   # Settings Controller

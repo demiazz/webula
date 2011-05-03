@@ -25,18 +25,66 @@ Copyright (c) 2011, Alexey Plutalov <demiazz.py@gmail.com>
 
 class MailController < ApplicationController
 
+  #=============================================================================
+  # Списки сообщений
+  #=============================================================================
+
+  # Method: Mail#inbox
+  #
+  # Description:
+  #   Выводит список входящих сообщений.
   def inbox
-    @messages_count = Message.where(:recipient_id => @user.id).count
-    if @messages_count > 0
-      @messages = Message.where(:recipient_id => @user.id)
-    end
+    @messages = Message.recipient_id(@user.id).
+                        paginate(:page => params[:page], :per_page => 20)
   end
 
+  # Method: Mail#inbox_read
+  #
+  # Description:
+  #   Выводит список входящих прочитанных сообщений.
+  def inbox_read
+    @messages = Message.recipient_id(@user.id).
+                        status(true).
+                        paginate(:page => params[:page], :per_page => 20)
+  end
+
+  # Method: Mail#inbox_unread
+  #
+  # Description:
+  #   Выводит список входящих непрочитанных сообщений.
+  def inbox_unread
+    @messages = Message.recipient_id(@user.id).
+                        status(false).
+                        paginate(:page => params[:page], :per_page => 20)
+  end
+
+  # Method: Mail#outbox
+  #
+  # Description:
+  #   Выводит список исходящих сообщений.
   def outbox
-    @messages_count = Message.where(:sender_id => @user.id).count
-    if @messages_count > 0
-      @messages = Message.where(:sender_id => @user.id)
-    end
+    @messages = Message.sender_id(@user.id).
+                        paginate(:page => params[:page], :per_page => 20)
+  end
+
+  # Method: Mail#outbox_read
+  #
+  # Description:
+  #   Выводит список исходящих прочитанных сообщений.
+  def outbox_read
+    @messages = Message.sender_id(@user.id).
+                        status(true).
+                        paginate(:page => params[:page], :per_page => 20)
+  end
+
+  # Method: Mail#outbox_unread
+  #
+  # Description:
+  #   Выводит список исходящих непрочитанных сообщений.
+  def outbox_unread
+    @messages = Message.sender_id(@user.id).
+                        status(false).
+                        paginate(:page => params[:page], :per_page => 20)
   end
 
 end

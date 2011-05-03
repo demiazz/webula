@@ -1,5 +1,5 @@
 <% content_for :title do %>
-  Inbox (all) messages
+  Outbox (read) messages
 <% end %>
 
 <%= render "links" %>
@@ -7,19 +7,15 @@
 <% if @messages.size > 0 %>
   <article class="microblog">
   <% @messages.each do |message| %>
-    <% if message.status %>
-      <table>
-    <% else %>
-      <table class="unread">
-    <% end %>
+    <table>
       <tr>
-        <td rowspan=2 class="avatar"><%= image_tag message.sender.user_profile.avatar %></td>
+        <td rowspan=2 class="avatar"><%= image_tag message.recipient.user_profile.avatar %></td>
         <td class="user-info">
-          <h1><%= message.sender.full_name %></h1>
+          <h1><%= message.recipient.full_name %></h1>
           <p class="post-text"><%= message.subject %></p>
         </td>
         <td rowspan=2 class="menu">
-          <p><%= link_to "Show message", mail__show_inbox_message_path(:id => message.id) %></p>
+          <p><%= link_to "Show message", mail__show_outbox_message_path(:id => message.id) %></p>
         </td>
       </tr>
       <tr>
@@ -37,7 +33,7 @@
 <% else %>
   <article class="microblog">
     <article class="microblog-empty">
-      You have not inbox messages.
+      You have not outbox messages.
     </article>
   </article>
 <% end %>

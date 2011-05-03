@@ -1,10 +1,10 @@
 <% content_for :title do %>
-  Outbox messages
+  Outbox (all) messages
 <% end %>
 
 <%= render "links" %>
 
-<% if @messages_count > 0 %>
+<% if @messages.size > 0 %>
   <article class="microblog">
   <% @messages.each do |message| %>
     <table>
@@ -12,17 +12,23 @@
         <td rowspan=2 class="avatar"><%= image_tag message.recipient.user_profile.avatar %></td>
         <td class="user-info">
           <h1><%= message.recipient.full_name %></h1>
-          <p class="post-text"><%= message.text %></p>
+          <p class="post-text"><%= message.subject %></p>
         </td>
         <td rowspan=2 class="menu">
-
+          <p><%= link_to "Show message", mail__show_outbox_message_path(:id => message.id) %></p>
         </td>
       </tr>
       <tr>
-        <td class="posted-at"><p><%= message.created_at.strftime("Posted at %e %B %Y in %H:%M") %></p></td>
+        <td class="posted-at"><p><%= message.created_at.strftime("Sended at %e %B %Y in %H:%M") %></p></td>
       </tr>
     </table>
   <% end %>
+  <div class="pagination">
+    <div class="entries"><%= page_entries_info @messages %></div>
+    <div>
+      <%= will_paginate @messages, :container => false, :inner_window => 1 %>
+    </div>
+  </div>
   </article>
 <% else %>
   <article class="microblog">
