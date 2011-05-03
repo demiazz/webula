@@ -150,6 +150,37 @@ Webula::Application.routes.draw do
           :default => {:page => 1},
           :as => :mail__outbox_unread
 
+  #== История сообщений ========================================================
+
+  get "mail/history/with/:other_username",
+          :to => "mail#history",
+          :default => {:page => 1},
+          :as => :mail__history
+
+  #== Просмотр сообщений =======================================================
+
+  get "mail/inbox/show/message/:id",
+          :to => "mail#show_inbox_message",
+          :as => :mail__show_inbox_message
+
+  get "mail/outbox/show/message/:id",
+          :to => "mail#show_outbox_message",
+          :as => :mail__show_outbox_message
+
+  #== Управление сообщениями ===================================================
+
+  get "mail/new/message/:for",
+          :to => "mail#new_message",
+          :as => :mail__new_message
+
+  put "mail/create/message",
+          :to => "mail#create_message",
+          :as => :mail__create_message
+
+  delete "mail/delete/message/:id",
+          :to => "mail#delete_message",
+          :as => :mail__delete_message
+
   #=============================================================================
   # Settings Controller
   #=============================================================================

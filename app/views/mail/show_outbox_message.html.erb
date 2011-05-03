@@ -1,0 +1,37 @@
+<% content_for :title do %>
+  <% unless @message.nil? %>
+    Outbox message for <%= @message.recipient.full_name %>
+  <% else %>
+    Outbox message
+  <% end %>
+<% end %>
+
+<%= render "links" %>
+
+<% unless @message.nil? %>
+  <article class="action-menu">
+    Actions:
+    <%= link_to "Show history", mail__history_path(:other_username => @message.recipient.username), :class => "left" %>
+  </article>
+  <article class="message">
+    <table>
+      <tr>
+        <td rowspan=3 class="avatar"><%= image_tag @message.recipient.user_profile.avatar %></td>
+        <td class="sender"><h1><%= @message.recipient.full_name %></h1></td>
+        <td class="created"><p><%= @message.created_at.strftime("%e %B %Y in %H:%M") %></p></td>
+      </tr>
+      <tr>
+        <td colspan=2 class="subject"><p><%= @message.subject %></p></td>
+      </tr>
+      <tr>
+        <td colspan=2 class="text"><p><%= @message.text %></p></td>
+      </tr>
+    </table>
+  </article>
+<% else %>
+  <article class="microblog">
+    <article class="microblog-empty">
+      Can not find this message.
+    </article>
+  </article>
+<% end %>

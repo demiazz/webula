@@ -50,8 +50,17 @@ class Message
   # Scopes
   #=============================================================================
 
+  scope :id, ->(id) { where(:_id => id) }
   scope :sender_id, ->(id) { where(:sender_id => id) }
   scope :recipient_id, ->(id) { where(:recipient_id => id) }
   scope :status, ->(st) { where(:status => st) }
+  scope :history, ->(first_id, second_id) { any_of({
+                                                    :recipient_id => first_id,
+                                                    :sender_id => second_id
+                                                   },
+                                                   {
+                                                    :recipient_id => second_id,
+                                                    :sender_id => first_id
+                                                   }) }
 
 end
