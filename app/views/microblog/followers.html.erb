@@ -11,7 +11,7 @@
         <tr>
           <td class="avatar"><%= image_tag follower.user_profile.avatar %></td>
           <td class="user-info">
-            <h1><%= to_microblog_user_home @user, @user.full_name %> written:</h1>
+            <h1><%= to_microblog_user_home follower, follower.full_name %> written:</h1>
             <p><%= follower.user_profile.org_name %></p>
             <p><%= follower.user_profile.org_unit %></p>
             <p><%= follower.user_profile.org_position %></p>
