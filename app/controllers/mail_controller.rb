@@ -25,6 +25,8 @@ Copyright (c) 2011, Alexey Plutalov <demiazz.py@gmail.com>
 
 class MailController < ApplicationController
 
+  before_filter :get_mail
+
   #=============================================================================
   # Списки сообщений
   #=============================================================================
@@ -171,5 +173,15 @@ class MailController < ApplicationController
     end
     redirect_to mail__inbox_path
   end
+
+  protected
+
+    #===========================================================================
+    # Фильтры
+    #===========================================================================
+
+    def get_mail
+      @mail = Mail.owner_id(@user.id)
+    end
 
 end
