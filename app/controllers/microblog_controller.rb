@@ -73,7 +73,9 @@ class MicroblogController < ApplicationController
   before_filter :get_posts_count_filter, :only => [:global_feed,
                                                    :personal_feed,
                                                    :create_post,
-                                                   :delete_post]
+                                                   :delete_post,
+                                                   :recommend_post,
+                                                   :unrecommend_post]
 
   before_filter :top
 
@@ -165,6 +167,41 @@ class MicroblogController < ApplicationController
     redirect_to :back
   end
 
+  def recommend_post
+    # Поиск нужного поста с указанием автора
+    post = MicroblogPost.where(:_id => params[:id]).
+                         where(:author_id.ne => @user.id).
+                         where(:recommend_ids.ne => @user.id).
+                         only(:recommend_ids, :recommends_count).
+                         first
+    unless post.nil?
+      post.recommend_ids << @user.id
+      post.recommends_count = post.recommend_ids.size
+      post.save
+
+      @microblog.recommends_count += 1
+      @microblog.save
+    end
+    redirect_to :back
+  end
+
+  def unrecommend_post
+    # Поиск нужного поста с указанием автора
+    post = MicroblogPost.where(:_id => params[:id]).
+                         where(:author_id.ne => @user.id).
+                         where(:recommend_ids.ne => @user.id).
+                         only(:recommend_ids, :recommends_count).
+                         first
+    unless post.nil?
+      post.recommend_ids.delete(@user.id)
+      post.recommends_count = post.recommend_ids.size
+      post.save
+
+      @microblog.recommends_count -= 1
+      @microblog.save
+    end
+    redirect_to :back
+  end
 
   #=============================================================================
   # Subscribes - управление подписками
@@ -309,7 +346,8 @@ class MicroblogController < ApplicationController
     def get_posts_count_filter
       @microblog = Microblog.where(:owner_id => @user.id).
                              only(:owner_id, :posts_count,
-                                  :followings_count, :followers_count).
+                                  :followings_count, :followers_count,
+                                  :recommends_count).
                              first
     end
 
