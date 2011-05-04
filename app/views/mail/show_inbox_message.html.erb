@@ -1,0 +1,45 @@
+<% content_for :title do %>
+  <% unless @message.nil? %>
+    Inbox message from <%= @message.sender.full_name %>
+  <% else %>
+    Inbox message
+  <% end %>
+<% end %>
+
+<%= render "links" %>
+
+<% unless @message.nil? %>
+  <article class="action-menu">
+    Actions:
+    <%= to_mail_history(@message.sender, "Show history", { :class => "left" }) %>
+    <%= to_mail_delete_message(message) %>
+  </article>
+  <article class="message">
+    <table>
+      <tr>
+        <td rowspan=3 class="avatar"><%= image_tag @message.sender.user_profile.avatar %></td>
+        <td class="sender"><h1><%= @message.sender.full_name %></h1></td>
+        <td class="created"><p><%= @message.created_at.strftime("%e %B %Y in %H:%M") %></p></td>
+      </tr>
+      <tr>
+        <td colspan=2 class="subject"><p><%= @message.subject %></p></td>
+      </tr>
+      <tr>
+        <td colspan=2 class="text"><p><%= @message.text %></p></td>
+      </tr>
+    </table>
+    <%= form_for(@new_message, :url => mail__create_message_path, :html => {:method => :put}) do |f| %>
+      <h1>Reply on message:</h1>
+      <%= f.hidden_field :recipient_id %>
+      <%= f.hidden_field :subject %>
+      <p><%= f.text_area :text, :cols => 40, :rows => 4 %></p>
+      <p><%= f.submit "Send message" %></p>
+    <% end %>
+  </article>
+<% else %>
+  <article class="microblog">
+    <article class="microblog-empty">
+      Can not find this message.
+    </article>
+  </article>
+<% end %>

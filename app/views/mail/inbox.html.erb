@@ -1,0 +1,51 @@
+<% content_for :title do %>
+  Inbox (all) messages
+<% end %>
+
+<%= render "links" %>
+
+<% if @messages_count > 0 %>
+  <article class="messages">
+  <% @messages.each do |message| %>
+    <% if message.status %>
+      <table>
+    <% else %>
+      <table class="unread">
+    <% end %>
+      <tr>
+        <td rowspan=2 class="avatar"><%= image_tag message.sender.user_profile.avatar %></td>
+        <td>
+          <p class="sender-name"><%= message.sender.full_name %></h1>
+          <p class="message-subject"><%= message.subject %></p>
+          <p class="message-text">
+            <% if message.text.size > 100 %>
+              <%= message.text.slice(0..100) %>...
+            <% else %>
+              <%= message.text %>
+            <% end %>
+          </p>
+        </td>
+        <td rowspan=2 class="menu">
+          <p><%= to_mail_show_inbox_message(message) %></p>
+          <p><%= to_mail_delete_message(message) %></p>
+        </td>
+      </tr>
+      <tr>
+        <td class="posted-at"><p><%= message.created_at.strftime("Sended at %e %B %Y in %H:%M") %></p></td>
+      </tr>
+    </table>
+  <% end %>
+  <div class="pagination">
+    <div class="entries"><%= page_entries_info @messages %></div>
+    <div>
+      <%= will_paginate @messages, :container => false, :inner_window => 1 %>
+    </div>
+  </div>
+  </article>
+<% else %>
+  <article class="messages">
+    <article class="messages-empty">
+      You have not inbox messages.
+    </article>
+  </article>
+<% end %>

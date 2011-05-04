@@ -27,6 +27,12 @@ class User
   has_many :microblog_posts, :class_name => "MicroblogPost", :inverse_of => :author
   # Имеет один микроблог
   has_one :microblog, :class_name => "Microblog", :inverse_of => :owner
+  # Имеет исходящую почту
+  has_many :outbox_messages, :class_name => "Message", :inverse_of => :sender
+  # Имеет входящую почту
+  has_many :inbox_messages, :class_name => "Message", :inverse_of => :recipient
+  # Имеет один почтовый аккаунт
+  has_one :mail, :class_name => "Microblog", :inverse_of => :owner
 
   # Scopes
   scope :ids, ->(ids) { where(:_id.in => ids) }
@@ -44,6 +50,7 @@ class User
   before_create :create_profile
   before_create :create_friendship
   before_create :create_microblog
+  before_create :create_mail
 
   # Настройки расширения Devise
   devise :database_authenticatable,
@@ -119,6 +126,12 @@ class User
       microblog = Microblog.new
       microblog.owner = self
       microblog.save
+    end
+
+    def create_mail
+      mail = Mail.new
+      mail.owner = self
+      mail.save
     end
 
 end

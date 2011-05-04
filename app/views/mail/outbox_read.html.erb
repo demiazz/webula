@@ -1,0 +1,46 @@
+<% content_for :title do %>
+  Outbox (read) messages
+<% end %>
+
+<%= render "links" %>
+
+<% if @messages_count > 0 %>
+  <article class="messages">
+  <% @messages.each do |message| %>
+    <table>
+      <tr>
+        <td rowspan=2 class="avatar"><%= image_tag message.recipient.user_profile.avatar %></td>
+        <td>
+          <p class="recipient-name"><%= message.recipient.full_name %></h1>
+          <p class="message-subject"><%= message.subject %></p>
+          <p class="message-text">
+            <% if message.text.size > 100 %>
+              <%= message.text.slice(0..100) %>...
+            <% else %>
+              <%= message.text %>
+            <% end %>
+          </p>
+        </td>
+        <td rowspan=2 class="menu">
+          <p><%= to_mail_show_outbox_message(message) %></p>
+        </td>
+      </tr>
+      <tr>
+        <td class="posted-at"><p><%= message.created_at.strftime("Sended at %e %B %Y in %H:%M") %></p></td>
+      </tr>
+    </table>
+  <% end %>
+  <div class="pagination">
+    <div class="entries"><%= page_entries_info @messages %></div>
+    <div>
+      <%= will_paginate @messages, :container => false, :inner_window => 1 %>
+    </div>
+  </div>
+  </article>
+<% else %>
+  <article class="messages">
+    <article class="messages-empty">
+      You have not outbox messages.
+    </article>
+  </article>
+<% end %>

@@ -1,0 +1,46 @@
+<% content_for :title do %>
+  <% unless @message.nil? %>
+    New message for <%= @other.full_name %>
+  <% else %>
+    New message
+  <% end %>
+<% end %>
+
+<%= render "links" %>
+
+<% unless @message.nil? %>
+  <article class="new-message">
+    <%= form_for(@message, :url => mail__create_message_path, :html => {:method => :put }) do |f| %>
+      <%= f.hidden_field :recipient_id %>
+      <table>
+        <tr>
+          <td rowspan=3 class="avatar"><%= image_tag @other.user_profile.avatar %></td>
+          <td><h1><%= @other.full_name %></h1></td>
+        </tr>
+        <tr>
+          <td>
+            <p><%= f.label :subject %>:</p>
+            <p><%= f.text_field :subject %></p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p><%= f.label :text %>:</p>
+            <p><%= f.text_area :text, :cols => 54, :rows => 4 %></p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <td><p style="text-align: right; margin-bottom: 5px;"><%= f.submit "Send message" %></p></td>
+          </td>
+        </tr>
+      </table>
+    <% end %>
+  </article>
+<% else %>
+  <article class="microblog">
+    <article class="microblog-empty">
+      Can not find this message.
+    </article>
+  </article>
+<% end %>

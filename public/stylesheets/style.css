@@ -232,6 +232,7 @@ nav a:active {
 	margin-top: 5px;
 	margin-bottom: 5px;
 	float: left;
+  background: white;
 }
 
 #content-header {
@@ -421,6 +422,36 @@ footer {
 	border-bottom: 1px solid white;
 	padding-bottom: 5px;
 	
+}
+
+/* Action Menu */
+
+.action-menu {
+  text-align: right;
+  font-size: 13px;
+  color: #444;
+}
+
+.action-menu a {
+  border-left: 0px;
+  border-right: 0px;
+  background: white;
+  margin-left: -4px;
+  padding: 5px;
+  display: inline-block;
+  background: #fffebb;
+}
+
+.action-menu a.left {
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  margin-left: 5px;
+} 
+
+.action-menu a:focus,
+.action-menu a:hover {
+  text-decoration: none;
+  background: #ffed88;
 }
 
 /**
@@ -690,4 +721,351 @@ footer {
   text-decoration: none;
   border-color: #ccc;
   box-shadow: 0px 0px 2px 1px #ddd;
+}
+
+/**
+  * Messages
+  */
+
+.messages {
+  padding: 0px;
+}
+
+.messages table {
+  border: 1px solid #ddd;
+  width: 568px;
+  margin: 5px;
+  border-spacing: 0px;
+  border-collapse: collapse;
+}
+
+.messages table:hover {
+  border-color: #ccc;
+  box-shadow: 0px 0px 2px 1px #ddd;
+}
+
+.messages table .avatar {
+  padding: 0px;
+  margin: 0px;
+  width: 60px;
+  vertical-align: top;
+  /*border-right: 1px solid #ddd;*/
+}
+
+.messages table .avatar img {
+  width: 50px;
+  height: 50px;
+  margin: 5px;
+  margin-bottom: 1px;
+}
+
+.messages table .recipient-name,
+.messages table .sender-name {
+  padding: 3px;
+  font-size: 14px;
+  color: #999;
+  margin-bottom: -8px;
+}
+
+.messages table .message-subject {
+  font-size: 13px;
+  font-weight: bold;
+  color: #444;
+  padding-left: 5px;
+  margin-top: 5px;
+  text-align: justify;
+  padding: 5px 5px;
+}
+
+.messages table .message-text {
+  font-size: 13px;
+  color: #444;
+  padding-left: 5px;
+  text-align: justify;
+  padding: 5px 5px;
+}
+
+.messages table .posted-at {
+  font-size: 12px;
+  color: #666;
+  vertical-align: bottom;
+}
+
+.messages table .posted-at p {
+  /*border-top: 1px solid #ddd;*/
+  padding: 2px 5px;
+}
+
+.messages table .menu {
+  width: 125px;
+  text-align: center;
+  vertical-align: top;
+  padding: 5px 0px;
+  /*border-left: 1px solid #ddd;*/
+}
+
+.messages table .menu a {
+  width: 105px;
+  padding: 2px 3px;
+  margin: 0px 5px;
+  display: inline-block;
+}
+
+.messages table .menu a:hover {
+  text-decoration: none;
+  background: #eee;
+}
+
+.messages-empty {
+  margin: 5px;
+  padding: 20px;
+  text-align: center;
+  color: #666;
+}
+
+/*
+ * Mail
+ */
+
+.message {
+  padding: 0px;
+}
+
+.message table {
+  width: 568px;
+  margin: 5px;
+  border-spacing: 0px;
+  border-collapse: collapse;
+  border: 1px solid #ddd;
+}
+
+.message table .avatar {
+  padding: 0px;
+  margin: 0px;
+  width: 60px;
+  vertical-align: top;
+}
+
+.message table .avatar img {
+  width: 100px;
+  height: 100px;
+  margin: 5px;
+  margin-bottom: 1px;
+}
+
+.message table .sender h1 {
+  font-size: 16px;
+  padding: 3px;
+  font-weight: normal;
+  color: #666;
+}
+
+.message .created p { 
+  padding-right: 5px;
+}
+
+.message .created p {
+  font-size: 12px;
+  padding: 5px;
+  text-align: right;
+  font-weight: normal;
+  color: #999;
+  margin-right: 5px;
+}
+
+.message .subject,
+.message .text {
+  font-size: 13px;
+  color: #444;
+}
+
+.message .subject p {
+  margin-right: 5px;
+  border-top: 1px solid #ddd;
+  border-bottom: 0px;
+  padding: 5px;
+  font-weight: bold;
+}
+
+.message textarea,
+.message input[type="text"] {
+  width: 300px;
+  padding: 5px;
+  font-size: 13px;
+  color: #222;
+  border: 1px solid #ccc;
+  box-shadow: 0px 0px 3px 1px #ccc inset;
+}
+
+.message .subject textarea:focus,
+.message .text input[type="text"]:focus {
+  color: #444;
+  border: 1px solid #aaa;
+  outline: none;
+}
+
+.message .text p {
+  margin-right: 5px;
+  border-top: 0px;
+  padding: 5px;
+  margin-bottom: 5px;
+}
+
+.message form {
+  text-align: right;
+  margin: 5px 5px;
+}
+
+.message form h1 {
+  text-align: center;
+  padding: 5px;
+  font-size: 16px;
+  color: #666;
+  font-weight: normal;
+}
+
+.message p {
+  padding: 3px;
+}
+
+.message form label {
+  font-size: 12px;
+  text-align: left;
+  color: #666;
+  width: 568px;
+  display: inline-block;
+}
+
+.message textarea,
+.message input[type="text"] {
+  width: 550px;
+  padding: 5px;
+  font-size: 13px;
+  color: #222;
+  border: 1px solid #ccc;
+  box-shadow: 0px 0px 3px 1px #ccc inset;
+}
+
+.message textarea:focus,
+.message input[type="text"]:focus {
+  color: #444;
+  border: 1px solid #aaa;
+  outline: none;
+}
+
+.message input[type="submit"],
+.message input[type="button"] {
+    border: 1px solid #ccc;
+    border-bottom: 1px solid #bbb;
+    padding: 5px 30px;
+    font-weight: bold;
+    color: #222;
+    text-shadow: #fff 1px 1px 1px;
+    font-size: 12px;
+    background: -webkit-gradient(linear, left top, left bottom, from(#ddd), to(#bbb));
+    cursor: pointer;
+}
+
+.message input[type="submit"]:active,
+.message input[type="button"]:active {
+    background: -webkit-gradient(linear, left top, left bottom, from(#999), to(#bbb));
+    text-shadow: #ccc 1px 1px 1px;
+}
+
+.microblog-empty {
+  margin: 5px;
+  padding: 20px;
+  text-align: center;
+  color: #666;
+}
+
+.new-message {
+  padding: 0px;
+}
+
+.new-message table {
+  width: 568px;
+  margin: 5px;
+  border-spacing: 0px;
+  border-collapse: collapse;
+  border: 1px solid #ddd;
+  vertical-align: top;
+}
+
+.new-message table .avatar {
+  padding: 0px;
+  margin: 0px;
+  width: 100px;
+  vertical-align: top;
+}
+
+.new-message table .avatar img {
+  width: 100px;
+  height: 100px;
+  margin: 5px;
+  margin-bottom: 1px;
+}
+
+.new-message h1 {
+  font-size: 16px;
+  padding: 3px;
+  font-weight: normal;
+  color: #666;
+  border-bottom: 1px solid #ccc;
+  margin-right: 5px;
+}
+
+.new-message p {
+  font-size: 12px;
+  text-align: left;
+  font-weight: normal;
+  color: #999;
+  margin: 3px 5px 3px 0px;
+}
+
+.new-message p {
+  border-bottom: 0px
+}
+
+.new-message textarea,
+.new-message input[type="text"] {
+  width: 438px;
+  padding: 5px;
+  font-size: 13px;
+  color: #222;
+  border: 1px solid #ccc;
+  box-shadow: 0px 0px 3px 1px #ccc inset;
+}
+
+.new-message textarea:focus,
+.new-message input[type="text"]:focus {
+  color: #444;
+  border: 1px solid #aaa;
+  outline: none;
+}
+
+.new-message input[type="submit"],
+.new-message input[type="button"] {
+    border: 1px solid #ccc;
+    border-bottom: 1px solid #bbb;
+    padding: 5px 30px;
+    font-weight: bold;
+    color: #222;
+    text-shadow: #fff 1px 1px 1px;
+    font-size: 12px;
+    background: -webkit-gradient(linear, left top, left bottom, from(#ddd), to(#bbb));
+    cursor: pointer;
+}
+
+.new-message input[type="submit"]:active,
+.new-message input[type="button"]:active {
+    background: -webkit-gradient(linear, left top, left bottom, from(#999), to(#bbb));
+    text-shadow: #ccc 1px 1px 1px;
+}
+
+.microblog-empty {
+  margin: 5px;
+  padding: 20px;
+  text-align: center;
+  color: #666;
 }

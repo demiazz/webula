@@ -1,0 +1,63 @@
+<% content_for :title do %>
+  <% if @messages.size > 0 %>
+    Messages history with <%= @other.full_name %>
+  <% else %>
+    Messages history
+  <% end %>
+<% end %>
+
+<%= render "links" %>
+
+<% if @messages.size > 0 %>
+  <article class="microblog">
+  <% @messages.each do |message| %>
+    <% if message.status %>
+      <table>
+    <% else %>
+      <table class="unread">
+    <% end %>
+    <% if message.sender_id == @user.id %>
+      <tr>
+        <td rowspan=2 class="avatar"><%= image_tag @user.user_profile.avatar %></td>
+        <td class="user-info">
+          <h1><%= @user.full_name %></h1>
+          <p class="post-text"><%= message.subject %></p>
+        </td>
+        <td rowspan=2 class="menu">
+          <p><%= link_to "Show message", mail__show_outbox_message_path(:id => message.id) %></p>
+        </td>
+      </tr>
+      <tr>
+        <td class="posted-at"><p><%= message.created_at.strftime("Sended at %e %B %Y in %H:%M") %></p></td>
+      </tr>
+    <% else %>
+      <tr>
+        <td rowspan=2 class="avatar"><%= image_tag @other.user_profile.avatar %></td>
+        <td class="user-info">
+          <h1><%= @other.full_name %></h1>
+          <p class="post-text"><%= message.subject %></p>
+        </td>
+        <td rowspan=2 class="menu">
+          <p><%= link_to "Show message", mail__show_inbox_message_path(:id => message.id) %></p>
+        </td>
+      </tr>
+      <tr>
+        <td class="posted-at"><p><%= message.created_at.strftime("Sended at %e %B %Y in %H:%M") %></p></td>
+      </tr>
+    <% end %>
+    </table>
+  <% end %>
+  <div class="pagination">
+    <div class="entries"><%= page_entries_info @messages %></div>
+    <div>
+      <%= will_paginate @messages, :container => false, :inner_window => 1 %>
+    </div>
+  </div>
+  </article>
+<% else %>
+  <article class="microblog">
+    <article class="microblog-empty">
+      You have not inbox messages.
+    </article>
+  </article>
+<% end %>
