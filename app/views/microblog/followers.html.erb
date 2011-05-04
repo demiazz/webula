@@ -2,6 +2,14 @@
   Followers
 <% end %>
 
+<%= content_for :left_aside do %>
+  <%= render "left_aside" %>
+<% end %>
+
+<%= content_for :right_aside do %>
+  <%= render "right_aside" %>
+<% end %>
+
 <%= render "microblog/links/subscribes_links" %>
 
 <% if @microblog.followers_count > 0 %>
