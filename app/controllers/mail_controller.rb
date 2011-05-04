@@ -36,8 +36,8 @@ class MailController < ApplicationController
   # Description:
   #   Выводит список входящих сообщений.
   def inbox
-    @messages = Message.recipient_id(@user.id).
-                        paginate(:page => params[:page], :per_page => 20)
+    @messages_count,
+    @messages = get_messages(@user.inbox_messages, true, false)
   end
 
   # Method: MailController#inbox_read
@@ -45,9 +45,8 @@ class MailController < ApplicationController
   # Description:
   #   Выводит список входящих прочитанных сообщений.
   def inbox_read
-    @messages = Message.recipient_id(@user.id).
-                        status(true).
-                        paginate(:page => params[:page], :per_page => 20)
+    @messages_count,
+    @messages = get_messages(@user.inbox_messages.status(true), true, false)
   end
 
   # Method: MailController#inbox_unread
@@ -55,9 +54,8 @@ class MailController < ApplicationController
   # Description:
   #   Выводит список входящих непрочитанных сообщений.
   def inbox_unread
-    @messages = Message.recipient_id(@user.id).
-                        status(false).
-                        paginate(:page => params[:page], :per_page => 20)
+    @messages_count,
+    @messages = get_messages(@user.inbox_messages.status(false), true, false)
   end
 
   # Method: MailController#outbox
@@ -65,8 +63,8 @@ class MailController < ApplicationController
   # Description:
   #   Выводит список исходящих сообщений.
   def outbox
-    @messages = Message.sender_id(@user.id).
-                        paginate(:page => params[:page], :per_page => 20)
+    @messages_count,
+    @messages = get_messages(@user.outbox_messages, false, true)
   end
 
   # Method: MailController#outbox_read
@@ -74,9 +72,8 @@ class MailController < ApplicationController
   # Description:
   #   Выводит список исходящих прочитанных сообщений.
   def outbox_read
-    @messages = Message.sender_id(@user.id).
-                        status(true).
-                        paginate(:page => params[:page], :per_page => 20)
+    @messages_count,
+    @messages = get_messages(@user.outbox_messages.status(true), false, true)
   end
 
   # Method: MailController#outbox_unread
@@ -84,9 +81,8 @@ class MailController < ApplicationController
   # Description:
   #   Выводит список исходящих непрочитанных сообщений.
   def outbox_unread
-    @messages = Message.sender_id(@user.id).
-                        status(false).
-                        paginate(:page => params[:page], :per_page => 20)
+    @messages_count,
+    @messages = get_messages(@user.outbox_messages.status(false), false, true)
   end
 
   #=============================================================================
@@ -230,9 +226,11 @@ class MailController < ApplicationController
 
   protected
 
-    #===========================================================================
-    # Фильтры
-    #===========================================================================
+  #=============================================================================
+  # Фильтры
+  #=============================================================================
+
+  protected
 
     # Method: MailController#get_mail
     #
@@ -240,6 +238,69 @@ class MailController < ApplicationController
     #   Получение почтовой статистики.
     def get_mail
       @mail = Mail.owner_id(@user.id)
+    end
+
+  #=============================================================================
+  # Внутренние функции
+  #=============================================================================
+
+  private
+
+    # Method: MailController#get_messages
+    #
+    # Description:
+    #   Получение сообщений с pagination, и буферизованными получателем и 
+    #   отправителем.
+    def get_messages(query, sender=true, recipient=true)
+      # Получаем paginate-коллекцию
+      collection = query.paginate(:page => params[:page], :per_page => 20)
+      # Определяем размер коллекции
+      count = collection.size
+      unless count == 0
+        # Буферизация отправителя
+        if sender
+          # Собираем id отправителей сообщений
+          sender_ids = collection.map { |message| message.sender_id }
+          sender_ids.uniq!
+          # Собираем хэш отправителей
+          senders = Hash.new
+          User.ids(sender_ids).only(:id, :username, "user_profile.first_name",
+                                    "user_profile.last_name", "user_profile.avatar").
+                             each do |sender|
+            senders[sender.id] = sender
+          end
+          # Прикрепляем отправителей к сообщениям
+          collection.each do |message|
+            message.sender = senders[message.sender_id]
+          end
+        else
+          collection.each do |message|
+            message.sender = sender
+          end
+        end
+        # Буферизация получателя
+        if recipient
+          # Собираем id получателей сообщений
+          recipient_ids = collection.map { |message| message.recipient_id }
+          recipient_ids.uniq!
+          # Собираем хэш получателей
+          recipients = Hash.new
+          User.ids(recipient_ids).only(:id, :username, "user_profile.first_name",
+                                        "user_profile.last_name", "user_profile.avatar").
+                             each do |recipient|
+            recipients[recipient.id] = recipient
+          end
+          # Прикрепляем получателей к сообщениям
+          collection.each do |message|
+            message.recipient = recipients[message.recipient_id]
+          end
+        else
+          collection.each do |message|
+            message.recipient = recipient
+          end
+        end
+      end
+      return count, collection
     end
 
 end
