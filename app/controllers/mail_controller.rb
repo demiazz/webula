@@ -107,6 +107,15 @@ class MailController < ApplicationController
       unless @message.status
         @message.status = true
         @message.save
+        
+        @mail.inbox_unread_count -= 1
+        @mail.inbox_read_ccount += 1
+        @mail.save
+
+        @other_mail = Mail.owner_id(@message.sender_id)
+        @other_mail.outbox_unread_count -= 1
+        @other_mail.outbox_read_count += 1
+        @other_mail.save
       end
     end
   end
@@ -162,6 +171,15 @@ class MailController < ApplicationController
       @message.text = params[:message][:text]
       @message.status = false
       @message.save
+
+      @mail.outbox_count += 1
+      @mail.outbox_unread += 1
+      @mail.save
+
+      @other_mail = Mail.owner_id(params[:recipient_id])
+      @other_mail.inbox_count += 1
+      @other_mail.inbox_unread += 1
+      @other_mail.save
     end
     redirect_to mail__show_outbox_message_path(:id => @message.id)
   end
@@ -169,7 +187,27 @@ class MailController < ApplicationController
   def delete_message
     @message = Message.id(params[:id]).recipient_id(@user.id).first
     unless @message.nil?
+      status = @message.status
+      sender_id = @message.sender_id
+      
       @message.destroy
+
+      @mail.inbox_count -= 1
+      if status
+        @mail.inbox_read_count -= 1
+      else
+        @mail.inbox_unread_count -= 1
+      end
+      @mail.save
+
+      @other_mail = Mail.owner_id(sender_id)
+      @other_mail.outbox_count -= 1
+      if status
+        @other_mail.outbox_read_count -= 1
+      else
+        @other_mail.outbox_unread_count -= 1
+      end
+      @other_mail.save
     end
     redirect_to mail__inbox_path
   end
