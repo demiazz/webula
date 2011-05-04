@@ -21,6 +21,7 @@ Description:
   * followings_count    число пользователей, на кого подписан
   * followers_count     число пользователей, кто подписан
   * posts_count         число постов
+  * recommends_count    число рекомендованных постов
 
 Связи:
   * owner               1 к 1 - имеет одного владельца
@@ -63,6 +64,8 @@ class Microblog
   field :followers_count, :type => Integer, :default => 0
   # количество постов пользователя
   field :posts_count, :type => Integer, :default => 0
+  # количество рекомендованных постов
+  field :recommends_count, :type => Integer, :default => 0
 
   #=============================================================================
   # Связи
