@@ -70,8 +70,12 @@ class MicroblogController < ApplicationController
   before_filter :get_followers_filter, :only => [:followers_feed,
                                                  :followers]
 
-  before_filter :get_posts_count_filter, :only => [:create_post,
+  before_filter :get_posts_count_filter, :only => [:global_feed,
+                                                   :personal_feed,
+                                                   :create_post,
                                                    :delete_post]
+
+  before_filter :top
 
   #=============================================================================
   # Feeds - Агрегаторы постов
@@ -278,7 +282,8 @@ class MicroblogController < ApplicationController
     def get_followings_filter
       @microblog = Microblog.where(:owner_id => @user.id).
                              only(:owner_id, :following_ids, 
-                                  :followings_count, :followers_count).
+                                  :followings_count, :followers_count,
+                                  :posts_count).
                              first
     end
 
@@ -291,7 +296,8 @@ class MicroblogController < ApplicationController
     def get_followers_filter
       @microblog = Microblog.where(:owner_id => @user.id).
                              only(:owner_id, :follower_ids, 
-                                  :followings_count, :followers_count).
+                                  :followings_count, :followers_count,
+                                  :posts_count).
                              first
     end
 
@@ -302,8 +308,44 @@ class MicroblogController < ApplicationController
     #   Вытягивается только счетчик постов пользователя.
     def get_posts_count_filter
       @microblog = Microblog.where(:owner_id => @user.id).
-                             only(:owner_id, :posts_count).
+                             only(:owner_id, :posts_count,
+                                  :followings_count, :followers_count).
                              first
+    end
+
+    #===========================================================================
+    # Фильтры для сбора статистики
+    #===========================================================================
+
+    def top
+      @top_actives = top_users(:posts_count)
+      @top_followings = top_users(:followings_count)
+      @top_followers = top_users(:followers_count)
+    end
+
+    def top_users(parameter)
+      # Хэш микроблогов
+      microblogs = Hash.new
+      # Массив id активных пользователей
+      actives = Array.new
+      # Получаем id самых активных пользователей, и заполняем хэш микроблогов
+      Microblog.all.
+                desc(parameter).
+                limit(10).
+                only(parameter, :owner_id).
+                each do |microblog|
+        microblogs[microblog.owner_id] = microblog
+        actives << microblog.owner_id
+      end
+      # Получаем самых активных пользователей и привязываем микроблоги
+      User.ids(actives).only(:id, :username,
+                             "user_profile.first_name", 
+                             "user_profile.last_name",
+                             "user_profile.avatar").
+                        each do |user|
+        microblogs[user.id].owner = user
+      end
+      microblogs.map { |m| m[1] }
     end
 
   #=============================================================================

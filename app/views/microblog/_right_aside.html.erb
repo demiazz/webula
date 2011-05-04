@@ -1,0 +1,70 @@
+<article>
+  <h1>Search posts by tags</h1>
+  <form>
+    <p><input type="text"></input></p>
+    <p><input type="submit" value="Search posts"></input></p>
+  </form>
+</article>
+<% if @personal %>
+  <article>
+    <h1>Subscribes statistics</h1>
+    <p>Followings: <%= to_microblog_followings(@microblog.followings_count) %></p>
+    <p>Followers: <%= to_microblog_followers(@microblog.followers_count) %></p>
+  </article>
+  <article>
+    <h1>Posts statistics</h1>
+    <p>Posts: <%= to_microblog_personal_feed(@microblog.posts_count) %></p>
+  </article>
+<% else %>
+  <article>
+    <h1>Subscribes statistics</h1>
+    <p>Followings: <%= to_microblog_user_followings(@user, @microblog.followings_count) %></p>
+    <p>Followers: <%= to_microblog_user_followers(@user, @microblog.followers_count) %></p>
+  </article>
+  <article>
+    <h1>Posts statistics</h1>
+    <p>Posts: <%= to_microblog_user_personal_feed(@user, @microblog.posts_count) %></p>
+  </article>
+<% end %>
+<article>
+  <h1>Most active users</h1>
+  <ul class="users-list">
+    <% @top_actives.each do |microblog| %>
+      <li>
+        <%= image_tag microblog.owner.user_profile.avatar, :width => 36, :height => 36 %>
+        <p>
+          <span class="user-name"><%= to_microblog_user_personal_feed microblog.owner, microblog.owner.full_name %></span><br />
+          <span class="user-stat">Posts count: <%= microblog.posts_count %></span>
+        </p>
+      </li>
+    <% end %>
+  </ul>
+</article>
+<article>
+  <h1>Most following users</h1>
+  <ul class="users-list">
+    <% @top_followings.each do |microblog| %>
+      <li>
+        <%= image_tag microblog.owner.user_profile.avatar, :width => 36, :height => 36 %>
+        <p>
+          <span class="user-name"><%= to_microblog_user_personal_feed microblog.owner, microblog.owner.full_name %></span><br />
+          <span class="user-stat">Followings count: <%= microblog.followings_count %></span>
+        </p>
+      </li>
+    <% end %>
+  </ul>
+</article>
+<article>
+  <h1>Most follower users</h1>
+  <ul class="users-list">
+    <% @top_followers.each do |microblog| %>
+      <li>
+        <%= image_tag microblog.owner.user_profile.avatar, :width => 36, :height => 36 %>
+        <p>
+          <span class="user-name"><%= to_microblog_user_personal_feed microblog.owner, microblog.owner.full_name %></span><br />
+          <span class="user-stat">Followers count: <%= microblog.followers_count %></span>
+        </p>
+      </li>
+    <% end %>
+  </ul>
+</article>

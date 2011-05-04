@@ -2,6 +2,14 @@
   Local feed
 <% end %>
 
+<%= content_for :left_aside do %>
+  <%= render "left_aside" %>
+<% end %>
+
+<%= content_for :right_aside do %>
+  <%= render "right_aside" %>
+<% end %>
+
 <%= render "microblog/links/feeds_links" %>
 
 <% if @posts_count > 0 %>

@@ -191,20 +191,13 @@ nav a:active {
 }
 
 #left-aside .menu {
-	width: 158px;
-	border: 1px solid #ccc;
-}
-
-#left-aside .menu:hover {
-	border: 1px solid #50b5f8;
-	box-shadow: 0px 0px 2px 1px #50b5f8;
+	width: 160px;
 }
 
 #left-aside .menu h1 {
-	font-size: 14px;
-	font-weight: 14px;
+	font-size: 13px;
+	font-weight: normal;
 	background: -webkit-gradient(linear, left top, left bottom, from(#bbb), to(#aaa));
-	border-bottom: 1px solid #ccc;
 	text-shadow: #ddd 1px 1px 1px;
 	color: #222;
 	padding: 3px;
@@ -218,14 +211,23 @@ nav a:active {
 	list-style: none;
 	font-size: 12px;
 	font-weight: normal;
-	padding: 3px;
 	color: #222;
 	background: #ccc;
 }
 
-#left-aside .menu li:hover {
-	background: #eee;
+#left-aside .menu li a {
+  display: inline-block;
+  width: 154px;
+  padding: 3px;
+  color: #222;
 }
+
+#left-aside .menu li a:hover,
+#left-aside .menu li a:focus {
+  background: #ddd;
+  text-decoration: none;
+}
+
 
 #content {
 	width: 580px;
@@ -291,11 +293,116 @@ nav a:active {
 	width: 200px;
 	margin: 5px;
 	float: left;
+  margin-top: 34px;
 }
 
 #left-aside, #right-aside, #content {
 	height: 100px;
 }
+
+/**
+  * Right ASide
+  */
+
+#right-aside article {
+  width: 194px;
+  margin-bottom: 10px;
+  background: #eee;
+}
+
+#right-aside article h1 {
+  font-size: 13px;
+  font-weight: normal;
+  background: -webkit-gradient(linear, left top, left bottom, from(#bbb), to(#aaa));
+  text-shadow: #ddd 1px 1px 1px;
+  color: #222;
+  padding: 3px;
+}
+
+#right-aside article p {
+  font-size: 13px;
+  padding: 2px;
+}
+
+#right-aside textarea,
+#right-aside input[type="text"] {
+  width: 182px;
+  padding: 3px;
+  font-size: 13px;
+  color: #222;
+  border: 1px solid #ccc;
+  margin-top: 4px;
+  margin-bottom: 2px;
+}
+
+#right-aside textarea:focus,
+#right-aside input[type="text"]:focus {
+  color: #444;
+  border: 1px solid #aaa;
+  outline: none;
+}
+
+#right-aside input[type="submit"],
+#right-aside input[type="button"] {
+    border: 1px solid #ccc;
+    border-bottom: 1px solid #bbb;
+    padding: 5px 30px;
+    width: 190px;
+    font-weight: bold;
+    color: #222;
+    text-shadow: #fff 1px 1px 1px;
+    font-size: 12px;
+    background: -webkit-gradient(linear, left top, left bottom, from(#ddd), to(#bbb));
+    cursor: pointer;
+}
+
+#right-aside input[type="submit"]:active,
+#right-aside input[type="button"]:active {
+    background: -webkit-gradient(linear, left top, left bottom, from(#999), to(#bbb));
+    text-shadow: #ccc 1px 1px 1px;
+}
+
+#right-aside .users-list {
+  padding-top: 1px;
+  /*display: inline-block;*/
+}
+
+#right-aside .users-list li {
+  list-style: none;
+  border-bottom: 1px solid #ddd;
+  padding: 5px;
+  width: 184px;
+  display: inline-block;
+  margin-bottom: -2px;
+  margin-top: -1px;
+}
+
+#right-aside .users-list li:hover {
+  background: #ddd;
+}
+
+#right-aside .users-list li img,
+#right-aside .users-list li p {
+  float: left;
+}
+
+#right-aside .users-list li p {
+  margin-top: -3px;
+}
+
+#right-aside .users-list li p .user-name {
+  color: #444;
+  font-size: 13px;
+}
+
+#right-aside .users-list li p .user-stat {
+  color: #999;
+  font-size: 12px;
+}
+
+/**
+  * Footer
+  */
 
 footer {
     position: absolute;
