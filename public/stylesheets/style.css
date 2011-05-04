@@ -552,18 +552,9 @@ footer {
   border-collapse: collapse;
 }
 
-.microblog table.unread {
-  border-color: #bbb;
-}
-
 .microblog table:hover {
   border-color: #ccc;
   box-shadow: 0px 0px 2px 1px #ddd;
-}
-
-.microblog table.unread:hover {
-  border-color: #aaa;
-  box-shadow: 0px 0px 2px 1px #bbb;
 }
 
 .microblog table .avatar {
@@ -730,6 +721,106 @@ footer {
   text-decoration: none;
   border-color: #ccc;
   box-shadow: 0px 0px 2px 1px #ddd;
+}
+
+/**
+  * Messages
+  */
+
+.messages {
+  padding: 0px;
+}
+
+.messages table {
+  border: 1px solid #ddd;
+  width: 568px;
+  margin: 5px;
+  border-spacing: 0px;
+  border-collapse: collapse;
+}
+
+.messages table:hover {
+  border-color: #ccc;
+  box-shadow: 0px 0px 2px 1px #ddd;
+}
+
+.messages table .avatar {
+  padding: 0px;
+  margin: 0px;
+  width: 60px;
+  vertical-align: top;
+  /*border-right: 1px solid #ddd;*/
+}
+
+.messages table .avatar img {
+  width: 50px;
+  height: 50px;
+  margin: 5px;
+  margin-bottom: 1px;
+}
+
+.messages table .recipient-name,
+.messages table .sender-name {
+  padding: 3px;
+  font-size: 14px;
+  color: #999;
+  margin-bottom: -8px;
+}
+
+.messages table .message-subject {
+  font-size: 13px;
+  font-weight: bold;
+  color: #444;
+  padding-left: 5px;
+  margin-top: 5px;
+  text-align: justify;
+  padding: 5px 5px;
+}
+
+.messages table .message-text {
+  font-size: 13px;
+  color: #444;
+  padding-left: 5px;
+  text-align: justify;
+  padding: 5px 5px;
+}
+
+.messages table .posted-at {
+  font-size: 12px;
+  color: #666;
+  vertical-align: bottom;
+}
+
+.messages table .posted-at p {
+  /*border-top: 1px solid #ddd;*/
+  padding: 2px 5px;
+}
+
+.messages table .menu {
+  width: 125px;
+  text-align: center;
+  vertical-align: top;
+  padding: 5px 0px;
+  /*border-left: 1px solid #ddd;*/
+}
+
+.messages table .menu a {
+  width: 105px;
+  padding: 2px 3px;
+  margin: 0px 5px;
+  display: inline-block;
+}
+
+.messages table .menu a:hover {
+  text-decoration: none;
+  background: #eee;
+}
+
+.messages-empty {
+  margin: 5px;
+  padding: 20px;
+  text-align: center;
+  color: #666;
 }
 
 /*

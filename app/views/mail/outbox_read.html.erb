@@ -5,14 +5,21 @@
 <%= render "links" %>
 
 <% if @messages.size > 0 %>
-  <article class="microblog">
+  <article class="messages">
   <% @messages.each do |message| %>
     <table>
       <tr>
         <td rowspan=2 class="avatar"><%= image_tag message.recipient.user_profile.avatar %></td>
-        <td class="user-info">
-          <h1><%= message.recipient.full_name %></h1>
-          <p class="post-text"><%= message.subject %></p>
+        <td>
+          <p class="recipient-name"><%= message.recipient.full_name %></h1>
+          <p class="message-subject"><%= message.subject %></p>
+          <p class="message-text">
+            <% if message.text.size > 100 %>
+              <%= message.text.slice(0..100) %>...
+            <% else %>
+              <%= message.text %>
+            <% end %>
+          </p>
         </td>
         <td rowspan=2 class="menu">
           <p><%= to_mail_show_outbox_message(message) %></p>
@@ -31,8 +38,8 @@
   </div>
   </article>
 <% else %>
-  <article class="microblog">
-    <article class="microblog-empty">
+  <article class="messages">
+    <article class="messages-empty">
       You have not outbox messages.
     </article>
   </article>
