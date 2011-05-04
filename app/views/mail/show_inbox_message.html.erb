@@ -11,8 +11,8 @@
 <% unless @message.nil? %>
   <article class="action-menu">
     Actions:
-    <%= link_to "Show history", mail__history_path(:other_username => @message.sender.username), :class => "left" %>
-    <%= link_to "Delete message", mail__delete_message_path(:id => @message.id), :class => "destructive", :method => :delete %>
+    <%= to_mail_history(@message.sender, "Show history", { :class => "left" }) %>
+    <%= to_mail_delete_message(message) %>
   </article>
   <article class="message">
     <table>

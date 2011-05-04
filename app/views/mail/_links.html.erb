@@ -1,35 +1,10 @@
 <article class="content-menu">
   <ul>
-    <% if action_name == "inbox" %>
-      <li><%= link_to "Inbox", mail__inbox_path, :class => "selected" %></li>
-    <% else %>
-      <li><%= link_to "Inbox", mail__inbox_path %></li>
-    <% end %>
-    <% if action_name == "inbox_read" %>
-      <li><%= link_to "Inbox(read)", mail__inbox_read_path, :class => "selected" %></li>
-    <% else %>
-      <li><%= link_to "Inbox(read)", mail__inbox_read_path %></li>
-    <% end %>
-    <% if action_name == "inbox_unread" %>
-      <li><%= link_to "Inbox(unread)", mail__inbox_unread_path, :class => "selected" %></li>
-    <% else %>
-      <li><%= link_to "Inbox(unread)", mail__inbox_unread_path %></li>
-    <% end %>
-    <li class="separator"></li>
-    <% if action_name == "outbox" %>
-      <li><%= link_to "Outbox", mail__outbox_path, :class => "selected" %></li>
-    <% else %>
-      <li><%= link_to "Outbox", mail__outbox_path %></li>
-    <% end %>
-    <% if action_name == "outbox_read" %>
-      <li><%= link_to "Outbox(read)", mail__outbox_read_path, :class => "selected" %></li>
-    <% else %>
-      <li><%= link_to "Outbox(read)", mail__outbox_read_path %></li>
-    <% end %>
-    <% if action_name == "outbox_unread" %>
-      <li><%= link_to "Outbox(unread)", mail__outbox_unread_path, :class => "selected" %></li>
-    <% else %>
-      <li><%= link_to "Outbox(unread)", mail__outbox_unread_path %></li>
-    <% end %>
+    <li><%= to_mail_inbox %></li>
+    <li><%= to_mail_inbox_read %></li>
+    <li><%= to_mail_inbox_unread %></li>
+    <li><%= to_mail_outbox %></li>
+    <li><%= to_mail_outbox_read %></li>
+    <li><%= to_mail_outbox_unread %></li>
   </ul>
 </article>

@@ -15,7 +15,7 @@
           <p class="post-text"><%= message.subject %></p>
         </td>
         <td rowspan=2 class="menu">
-          <p><%= link_to "Show message", mail__show_outbox_message_path(:id => message.id) %></p>
+          <p><%= to_mail_show_outbox_message(message) %></p>
         </td>
       </tr>
       <tr>
