@@ -4,7 +4,7 @@
 
 ================================================================================
 
-Class: MicroblogController
+Class: MailController
 
 Description:
   Контроллер почтовых сообщений.
@@ -31,7 +31,7 @@ class MailController < ApplicationController
   # Списки сообщений
   #=============================================================================
 
-  # Method: Mail#inbox
+  # Method: MailController#inbox
   #
   # Description:
   #   Выводит список входящих сообщений.
@@ -40,7 +40,7 @@ class MailController < ApplicationController
                         paginate(:page => params[:page], :per_page => 20)
   end
 
-  # Method: Mail#inbox_read
+  # Method: MailController#inbox_read
   #
   # Description:
   #   Выводит список входящих прочитанных сообщений.
@@ -50,7 +50,7 @@ class MailController < ApplicationController
                         paginate(:page => params[:page], :per_page => 20)
   end
 
-  # Method: Mail#inbox_unread
+  # Method: MailController#inbox_unread
   #
   # Description:
   #   Выводит список входящих непрочитанных сообщений.
@@ -60,7 +60,7 @@ class MailController < ApplicationController
                         paginate(:page => params[:page], :per_page => 20)
   end
 
-  # Method: Mail#outbox
+  # Method: MailController#outbox
   #
   # Description:
   #   Выводит список исходящих сообщений.
@@ -69,7 +69,7 @@ class MailController < ApplicationController
                         paginate(:page => params[:page], :per_page => 20)
   end
 
-  # Method: Mail#outbox_read
+  # Method: MailController#outbox_read
   #
   # Description:
   #   Выводит список исходящих прочитанных сообщений.
@@ -79,7 +79,7 @@ class MailController < ApplicationController
                         paginate(:page => params[:page], :per_page => 20)
   end
 
-  # Method: Mail#outbox_unread
+  # Method: MailController#outbox_unread
   #
   # Description:
   #   Выводит список исходящих непрочитанных сообщений.
@@ -93,7 +93,7 @@ class MailController < ApplicationController
   # Просмотр сообщений
   #=============================================================================
 
-  # Method: Mail#show_inbox_message
+  # Method: MailController#show_inbox_message
   #
   # Description:
   #   Показать входящее сообщение.
@@ -120,7 +120,7 @@ class MailController < ApplicationController
     end
   end
 
-  # Method: Mail#show_outbox_message
+  # Method: MailController#show_outbox_message
   #
   # Description:
   #   Показать исходящее сообщение.
@@ -132,6 +132,10 @@ class MailController < ApplicationController
   # История переписки с пользователем
   #=============================================================================
 
+  # Method: MailController
+  #
+  # Description:
+  #   История переписки с пользователем.
   def history
     @other = User.username(params[:other_username]).
                   only(:id, :username, "user_profile.first_name",
@@ -149,6 +153,10 @@ class MailController < ApplicationController
   # Управление сообщениями
   #=============================================================================
 
+  # Method: MailController#new_message
+  #
+  # Description:
+  #   Форма нового сообщения.
   def new_message
     @other = User.username(params[:for]).
                   only(:id, :username, "user_profile.first_name",
@@ -162,6 +170,10 @@ class MailController < ApplicationController
     end
   end
 
+  # Method: MailController#create_message
+  #
+  # Description:
+  #   Создание сообщения.
   def create_message
     if @recipient = User.where(:_id => params[:message][:recipient_id]).exists?
       @message = Message.new
@@ -184,6 +196,10 @@ class MailController < ApplicationController
     redirect_to mail__show_outbox_message_path(:id => @message.id)
   end
 
+  # Method: MailController#delete_message
+  #
+  # Description:
+  #   Удаление сообщения.
   def delete_message
     @message = Message.id(params[:id]).recipient_id(@user.id).first
     unless @message.nil?
@@ -218,6 +234,10 @@ class MailController < ApplicationController
     # Фильтры
     #===========================================================================
 
+    # Method: MailController#get_mail
+    #
+    # Description:
+    #   Получение почтовой статистики.
     def get_mail
       @mail = Mail.owner_id(@user.id)
     end
