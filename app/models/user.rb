@@ -28,9 +28,9 @@ class User
   # Имеет один микроблог
   has_one :microblog, :class_name => "Microblog", :inverse_of => :owner
   # Имеет исходящую почту
-  has_many :outbox_messages, :class => "Message", :inverse_of => :sender
+  has_many :outbox_messages, :class_name => "Message", :inverse_of => :sender
   # Имеет входящую почту
-  has_many :inbox_messages, :class => "Message", :inverse_of => :recipient
+  has_many :inbox_messages, :class_name => "Message", :inverse_of => :recipient
   # Имеет один почтовый аккаунт
   has_one :mail, :class_name => "Microblog", :inverse_of => :owner
 
