@@ -92,7 +92,9 @@ class MicroblogController < ApplicationController
   #   Лента постов всех пользователей.
   #   Возможно создание постов.
   def global_feed
-    @posts_count, @posts = get_posts(MicroblogPost.all_posts)
+    @posts_count, @posts = get_posts(MicroblogPost.all_posts.
+                                                   only(:id, :author_id, :text,
+                                                        :created_at))
   end
 
   # Method: MicroblogController#local_feed
@@ -106,17 +108,25 @@ class MicroblogController < ApplicationController
     when "enable"
       @posts_count,
       @posts = get_posts(MicroblogPost.any_of({:author_id.in => @user.microblog.following_ids << @user.id},
-                                              {:recommend_ids.in => @user.microblog.following_ids << @user.id}))
+                                              {:recommend_ids.in => @user.microblog.following_ids << @user.id}).
+                                       only(:id, :author_id, :text,
+                                            :created_at))
     when "disable"
       @posts_count,
-      @posts = get_posts(MicroblogPost.where(:author_id.in => @user.microblog.following_ids << @user.id))
+      @posts = get_posts(MicroblogPost.where(:author_id.in => @user.microblog.following_ids << @user.id).
+                                       only(:id, :author_id, :text,
+                                            :created_at))
     when "only"
       @posts_count,
-      @posts = get_posts(MicroblogPost.where(:recommend_ids.in => @user.microblog.following_ids << @user.id))
+      @posts = get_posts(MicroblogPost.where(:recommend_ids.in => @user.microblog.following_ids << @user.id).
+                                       only(:id, :author_id, :text,
+                                            :created_at))
     else
       @posts_count,
       @posts = get_posts(MicroblogPost.any_of({:author_id.in => @user.microblog.following_ids << @user.id},
-                                              {:recommend_ids.in => @user.microblog.following_ids << @user.id}))
+                                              {:recommend_ids.in => @user.microblog.following_ids << @user.id}).
+                                       only(:id, :author_id, :text,
+                                            :created_at))
     end
   end
 
