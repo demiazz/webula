@@ -1,5 +1,5 @@
 <% content_for :title do %>
-  Followings feed
+  Favorites feed
 <% end %>
 
 <%= content_for :left_aside do %>
@@ -14,18 +14,6 @@
 
 <% if @posts_count > 0 %>
   <article class="microblog">
-    <article class="action-menu">
-      Recommends:
-      <% if @personal %>
-        <%= link_to "Enable", microblog__followings_feed_path(:username => nil, :recommends => "enable"), :class => "left" %>
-        <%= link_to "Only", microblog__followings_feed_path(:username => nil, :recommends => "only") %>
-        <%= link_to "Disable", microblog__followings_feed_path(:username => nil, :recommends => "disable") %>    
-      <% else %>
-        <%= link_to "Enable", microblog__followings_feed_path(:username => @user.username, :recommends => "enable"), :class => "left" %>
-        <%= link_to "Only", microblog__followings_feed_path(:username => @user.username, :recommends => "only") %>
-        <%= link_to "Disable", microblog__followings_feed_path(:username => @user.username, :recommends => "disable") %>
-      <% end %>
-    </article>
   <% @posts.each do |post| %>
     <table>
       <tr>
@@ -46,8 +34,6 @@
             <% else %>
               <p><%= link_to "Favorite", microblog__favorite_post_path(:id => post.id), :method => :put %></p>
             <% end %>
-          <% else %>
-            <p><%= to_delete_post(post) %>
           <% end %>
         </td>
       </tr>
@@ -59,11 +45,7 @@
   <div class="pagination">
     <div class="entries"><%= page_entries_info @posts %></div>
     <div>
-    <% if @personal %>
-      <%= will_paginate @posts, :container => false, :inner_window => 1, :params => { :username => nil } %>
-    <% else %>
       <%= will_paginate @posts, :container => false, :inner_window => 1 %>
-    <% end %>
     </div>
   </div>
   </article>

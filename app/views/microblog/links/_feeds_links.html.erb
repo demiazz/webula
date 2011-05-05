@@ -6,6 +6,11 @@
       <li><%= to_microblog_personal_feed %></li>
       <li><%= to_microblog_followings_feed %></li>
       <li><%= to_microblog_followers_feed %></li>
+      <% if action_name == "favorites_feed" %>
+        <li><%= link_to "Favorites", microblog__favorites_feed_path, :class => "selected" %></li>
+      <% else %>
+        <li><%= link_to "Favorites", microblog__favorites_feed_path %></li>
+      <% end %>
       <li class="separator"></li>
       <li><%= to_microblog_subscribes %></li>
     <% else %>
