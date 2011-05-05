@@ -199,7 +199,7 @@ nav a:active {
 	font-weight: normal;
 	background: -webkit-gradient(linear, left top, left bottom, from(#bbb), to(#aaa));
 	text-shadow: #ddd 1px 1px 1px;
-	color: #222;
+	color: #black;
 	padding: 3px;
 }
 
@@ -209,7 +209,7 @@ nav a:active {
 
 #left-aside .menu li {
 	list-style: none;
-	font-size: 12px;
+	font-size: 13px;
 	font-weight: normal;
 	color: #222;
 	background: #ccc;
@@ -220,6 +220,7 @@ nav a:active {
   width: 154px;
   padding: 3px;
   color: #222;
+  font-size: 13px;
 }
 
 #left-aside .menu li a:hover,
@@ -239,16 +240,18 @@ nav a:active {
 
 #content-header {
   padding: 3px 10px;
-  background: #eee;
-  border: 1px solid #ccc;
   display: inline-block;
-  width: 558px;
+  width: 560px;
+  font-size: 13px;
+  font-weight: normal;
+  background: -webkit-gradient(linear, left top, left bottom, from(#bbb), to(#aaa));
+  text-shadow: #ddd 1px 1px 1px;
 }
 
 #content-header h1 {
 	font-size: 14px;
 	font-weight: bold;
-	color: #666;
+	color: #444;
 }
 
 #content-body {
@@ -293,7 +296,7 @@ nav a:active {
 	width: 200px;
 	margin: 5px;
 	float: left;
-  margin-top: 34px;
+  margin-top: 32px;
 }
 
 #left-aside, #right-aside, #content {
@@ -307,7 +310,7 @@ nav a:active {
 #right-aside article {
   width: 194px;
   margin-bottom: 10px;
-  background: #eee;
+  background: #ececec;
 }
 
 #right-aside article h1 {
@@ -315,7 +318,7 @@ nav a:active {
   font-weight: normal;
   background: -webkit-gradient(linear, left top, left bottom, from(#bbb), to(#aaa));
   text-shadow: #ddd 1px 1px 1px;
-  color: #222;
+  color: black;
   padding: 3px;
 }
 
@@ -326,13 +329,13 @@ nav a:active {
 
 #right-aside textarea,
 #right-aside input[type="text"] {
-  width: 182px;
+  width: 172px;
+  margin: 5px;
   padding: 3px;
   font-size: 13px;
   color: #222;
   border: 1px solid #ccc;
-  margin-top: 4px;
-  margin-bottom: 2px;
+  margin-bottom: 0px;
 }
 
 #right-aside textarea:focus,
@@ -347,7 +350,8 @@ nav a:active {
     border: 1px solid #ccc;
     border-bottom: 1px solid #bbb;
     padding: 5px 30px;
-    width: 190px;
+    width: 180px;
+    margin: 5px;
     font-weight: bold;
     color: #222;
     text-shadow: #fff 1px 1px 1px;
@@ -369,7 +373,7 @@ nav a:active {
 
 #right-aside .users-list li {
   list-style: none;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid #ccc;
   padding: 5px;
   width: 184px;
   display: inline-block;
@@ -378,7 +382,7 @@ nav a:active {
 }
 
 #right-aside .users-list li:hover {
-  background: #ddd;
+  background: #eee;
 }
 
 #right-aside .users-list li img,
@@ -396,7 +400,7 @@ nav a:active {
 }
 
 #right-aside .users-list li p .user-stat {
-  color: #999;
+  color: #666;
   font-size: 12px;
 }
 
@@ -537,6 +541,7 @@ footer {
   text-align: right;
   font-size: 13px;
   color: #444;
+  margin-bottom: 5px;
 }
 
 .action-menu a {

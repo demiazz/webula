@@ -73,7 +73,9 @@ class MicroblogController < ApplicationController
   before_filter :get_posts_count_filter, :only => [:global_feed,
                                                    :personal_feed,
                                                    :create_post,
-                                                   :delete_post]
+                                                   :delete_post,
+                                                   :recommend_post,
+                                                   :unrecommend_post]
 
   before_filter :top
 
@@ -97,9 +99,22 @@ class MicroblogController < ApplicationController
   #   самого пользователя.
   #   Возможно создание постов, если это лента текущего пользователя.
   def local_feed
-    @posts_count,
-    @posts = get_posts(MicroblogPost.
-                         author_ids(@user.microblog.following_ids << @user.id))
+    case params[:recommends]
+    when "enable"
+      @posts_count,
+      @posts = get_posts(MicroblogPost.any_of({:author_id.in => @user.microblog.following_ids << @user.id},
+                                              {:recommend_ids.in => @user.microblog.following_ids << @user.id}))
+    when "disable"
+      @posts_count,
+      @posts = get_posts(MicroblogPost.where(:author_id.in => @user.microblog.following_ids << @user.id))
+    when "only"
+      @posts_count,
+      @posts = get_posts(MicroblogPost.where(:recommend_ids.in => @user.microblog.following_ids << @user.id))
+    else
+      @posts_count,
+      @posts = get_posts(MicroblogPost.any_of({:author_id.in => @user.microblog.following_ids << @user.id},
+                                              {:recommend_ids.in => @user.microblog.following_ids << @user.id}))
+    end
   end
 
   # Method: MicroblogController#personal_feed
@@ -108,8 +123,22 @@ class MicroblogController < ApplicationController
   #   Выводит сообщения пользователя.
   #   Если пользователь не текущий, то отображает кнопку Follow/Unfollow.
   def personal_feed
-    @posts = MicroblogPost.author_id(@user.id).paginate(:page => params[:page], :per_page => 15)
-    @posts_count = @posts.size
+    case params[:recommends]
+    when "enable"
+      @posts_count,
+      @posts = get_posts(MicroblogPost.any_of({:author_id => @user.id},
+                                              {:recommend_ids => @user.id}))
+    when "disable"
+      @posts_count,
+      @posts = get_posts(MicroblogPost.where(:author_id => @user.id))
+    when "only"
+      @posts_count,
+      @posts = get_posts(MicroblogPost.where(:recommend_ids => @user.id))
+    else
+      @posts_count,
+      @posts = get_posts(MicroblogPost.any_of({:author_id => @user.id},
+                                              {:recommend_ids => @user.id}))
+    end
   end
 
   # Method: MicroblogController#following_feed
@@ -117,8 +146,22 @@ class MicroblogController < ApplicationController
   # Description:
   #   Лента постов пользователей, на кого подписан текущий пользователь.
   def followings_feed
-    @posts_count,
-    @posts = get_posts(MicroblogPost.author_ids(@user.microblog.following_ids))
+    case params[:recommends]
+    when "enable"
+      @posts_count,
+      @posts = get_posts(MicroblogPost.any_of({:author_id.in => @user.microblog.following_ids},
+                                              {:recommend_ids.in => @user.microblog.following_ids}))
+    when "disable"
+      @posts_count,
+      @posts = get_posts(MicroblogPost.where(:author_id.in => @user.microblog.following_ids))
+    when "only"
+      @posts_count,
+      @posts = get_posts(MicroblogPost.where(:recommend_ids.in => @user.microblog.following_ids))
+    else
+      @posts_count,
+      @posts = get_posts(MicroblogPost.any_of({:author_id.in => @user.microblog.following_ids},
+                                              {:recommend_ids.in => @user.microblog.following_ids}))
+    end
   end
 
   # Method: MicroblogController#follower_feed
@@ -126,8 +169,22 @@ class MicroblogController < ApplicationController
   # Description:
   #   Лента постов пользователей, кто подписан на текущего пользователя.
   def followers_feed
-    @posts_count,
-    @posts = get_posts(MicroblogPost.author_ids(@user.microblog.follower_ids))
+    case params[:recommends]
+    when "enable"
+      @posts_count,
+      @posts = get_posts(MicroblogPost.any_of({:author_id.in => @user.microblog.follower_ids},
+                                              {:recommend_ids.in => @user.microblog.follower_ids}))
+    when "disable"
+      @posts_count,
+      @posts = get_posts(MicroblogPost.where(:author_id.in => @user.microblog.follower_ids))
+    when "only"
+      @posts_count,
+      @posts = get_posts(MicroblogPost.where(:recommend_ids.in => @user.microblog.follower_ids))
+    else
+      @posts_count,
+      @posts = get_posts(MicroblogPost.any_of({:author_id.in => @user.microblog.follower_ids},
+                                              {:recommend_ids.in => @user.microblog.follower_ids}))
+    end
   end
 
   # Method: MicroblogController#create_post
@@ -165,6 +222,41 @@ class MicroblogController < ApplicationController
     redirect_to :back
   end
 
+  def recommend_post
+    # Поиск нужного поста с указанием автора
+    post = MicroblogPost.where(:_id => params[:id]).
+                         where(:author_id.ne => @user.id).
+                         where(:recommend_ids.ne => @user.id).
+                         only(:recommend_ids, :recommends_count).
+                         first
+    unless post.nil?
+      post.recommend_ids << @user.id
+      post.recommends_count = post.recommend_ids.size
+      post.save
+
+      @microblog.recommends_count += 1
+      @microblog.save
+    end
+    redirect_to :back
+  end
+
+  def unrecommend_post
+    # Поиск нужного поста с указанием автора
+    post = MicroblogPost.where(:_id => params[:id]).
+                         where(:author_id.ne => @user.id).
+                         where(:recommend_ids => @user.id).
+                         only(:recommend_ids, :recommends_count).
+                         first
+    unless post.nil?
+      post.recommend_ids.delete(@user.id)
+      post.recommends_count = post.recommend_ids.size
+      post.save
+
+      @microblog.recommends_count -= 1
+      @microblog.save
+    end
+    redirect_to :back
+  end
 
   #=============================================================================
   # Subscribes - управление подписками
@@ -283,7 +375,7 @@ class MicroblogController < ApplicationController
       @microblog = Microblog.where(:owner_id => @user.id).
                              only(:owner_id, :following_ids, 
                                   :followings_count, :followers_count,
-                                  :posts_count).
+                                  :posts_count, :recommends_count).
                              first
     end
 
@@ -297,7 +389,7 @@ class MicroblogController < ApplicationController
       @microblog = Microblog.where(:owner_id => @user.id).
                              only(:owner_id, :follower_ids, 
                                   :followings_count, :followers_count,
-                                  :posts_count).
+                                  :posts_count, :recommends_count).
                              first
     end
 
@@ -309,7 +401,8 @@ class MicroblogController < ApplicationController
     def get_posts_count_filter
       @microblog = Microblog.where(:owner_id => @user.id).
                              only(:owner_id, :posts_count,
-                                  :followings_count, :followers_count).
+                                  :followings_count, :followers_count,
+                                  :recommends_count).
                              first
     end
 
@@ -410,6 +503,19 @@ class MicroblogController < ApplicationController
         # Прикрепляем авторов к постам
         collection.each do |post|
           post.author = authors[post.author_id]
+        end
+
+        # Собираем статус рекомендаций
+        post_ids = collection.map { |post| post.id }
+        recommended_ids = MicroblogPost.where(:_id.in => post_ids, :recommend_ids => current_user.id).
+                                        only(:id).
+                                        map { |post| post.id }
+        collection.each do |post|
+          if recommended_ids.include?(post.id)
+            post[:recommend] = true
+          else
+            post[:recommend] = false
+          end
         end
       end
       return count, collection

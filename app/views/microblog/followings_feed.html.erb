@@ -14,6 +14,18 @@
 
 <% if @posts_count > 0 %>
   <article class="microblog">
+    <article class="action-menu">
+      Recommends:
+      <% if @personal %>
+        <%= link_to "Enable", microblog__followings_feed_path(:username => nil, :recommends => "enable"), :class => "left" %>
+        <%= link_to "Only", microblog__followings_feed_path(:username => nil, :recommends => "only") %>
+        <%= link_to "Disable", microblog__followings_feed_path(:username => nil, :recommends => "disable") %>    
+      <% else %>
+        <%= link_to "Enable", microblog__followings_feed_path(:username => @user.username, :recommends => "enable"), :class => "left" %>
+        <%= link_to "Only", microblog__followings_feed_path(:username => @user.username, :recommends => "only") %>
+        <%= link_to "Disable", microblog__followings_feed_path(:username => @user.username, :recommends => "disable") %>
+      <% end %>
+    </article>
   <% @posts.each do |post| %>
     <table>
       <tr>
@@ -23,7 +35,15 @@
           <p class="post-text"><%= post.text %></p>
         </td>
         <td rowspan=2 class="menu">
-
+          <% unless post.author.id == current_user.id %>
+            <% if post[:recommend] %>
+              <p><%= link_to "Unrecommend", microblog__unrecommend_post_path(:id => post.id), :method => :put %></p>
+            <% else %>
+              <p><%= link_to "Recommend", microblog__recommend_post_path(:id => post.id), :method => :put %></p>
+            <% end %>
+          <% else %>
+            <p><%= to_delete_post(post) %>
+          <% end %>
         </td>
       </tr>
       <tr>

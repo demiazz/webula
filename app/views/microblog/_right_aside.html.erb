@@ -1,29 +1,25 @@
 <article>
-  <h1>Search posts by tags</h1>
+  <h1>Search by tags</h1>
   <form>
     <p><input type="text"></input></p>
-    <p><input type="submit" value="Search posts"></input></p>
+    <p><input type="submit" value="Search"></input></p>
   </form>
 </article>
 <% if @personal %>
   <article>
-    <h1>Subscribes statistics</h1>
+    <h1>Statistics</h1>
     <p>Followings: <%= to_microblog_followings(@microblog.followings_count) %></p>
     <p>Followers: <%= to_microblog_followers(@microblog.followers_count) %></p>
-  </article>
-  <article>
-    <h1>Posts statistics</h1>
     <p>Posts: <%= to_microblog_personal_feed(@microblog.posts_count) %></p>
+    <p>Recommends: <%= @microblog.recommends_count %></p>
   </article>
 <% else %>
   <article>
-    <h1>Subscribes statistics</h1>
-    <p>Followings: <%= to_microblog_user_followings(@user, @microblog.followings_count) %></p>
-    <p>Followers: <%= to_microblog_user_followers(@user, @microblog.followers_count) %></p>
-  </article>
-  <article>
-    <h1>Posts statistics</h1>
-    <p>Posts: <%= to_microblog_user_personal_feed(@user, @microblog.posts_count) %></p>
+    <h1>Statistics</h1>
+    <p>Followings: <%= to_microblog_followings(@microblog.followings_count) %></p>
+    <p>Followers: <%= to_microblog_followers(@microblog.followers_count) %></p>
+    <p>Posts: <%= to_microblog_personal_feed(@microblog.posts_count) %></p>
+    <p>Recommends: <%= @microblog.recommends_count %></p>
   </article>
 <% end %>
 <article>
