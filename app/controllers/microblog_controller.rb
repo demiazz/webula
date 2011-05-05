@@ -71,11 +71,14 @@ class MicroblogController < ApplicationController
                                                  :followers]
 
   before_filter :get_posts_count_filter, :only => [:global_feed,
+                                                   :favorites_feed,
                                                    :personal_feed,
                                                    :create_post,
                                                    :delete_post,
                                                    :recommend_post,
-                                                   :unrecommend_post]
+                                                   :unrecommend_post,
+                                                   :favorite_post,
+                                                   :unfavorite_post]
 
   before_filter :top
 
@@ -89,7 +92,9 @@ class MicroblogController < ApplicationController
   #   Лента постов всех пользователей.
   #   Возможно создание постов.
   def global_feed
-    @posts_count, @posts = get_posts(MicroblogPost.all_posts)
+    @posts_count, @posts = get_posts(MicroblogPost.all_posts.
+                                                   only(:id, :author_id, :text,
+                                                        :created_at))
   end
 
   # Method: MicroblogController#local_feed
@@ -103,17 +108,25 @@ class MicroblogController < ApplicationController
     when "enable"
       @posts_count,
       @posts = get_posts(MicroblogPost.any_of({:author_id.in => @user.microblog.following_ids << @user.id},
-                                              {:recommend_ids.in => @user.microblog.following_ids << @user.id}))
+                                              {:recommend_ids.in => @user.microblog.following_ids << @user.id}).
+                                       only(:id, :author_id, :text,
+                                            :created_at))
     when "disable"
       @posts_count,
-      @posts = get_posts(MicroblogPost.where(:author_id.in => @user.microblog.following_ids << @user.id))
+      @posts = get_posts(MicroblogPost.where(:author_id.in => @user.microblog.following_ids << @user.id).
+                                       only(:id, :author_id, :text,
+                                            :created_at))
     when "only"
       @posts_count,
-      @posts = get_posts(MicroblogPost.where(:recommend_ids.in => @user.microblog.following_ids << @user.id))
+      @posts = get_posts(MicroblogPost.where(:recommend_ids.in => @user.microblog.following_ids << @user.id).
+                                       only(:id, :author_id, :text,
+                                            :created_at))
     else
       @posts_count,
       @posts = get_posts(MicroblogPost.any_of({:author_id.in => @user.microblog.following_ids << @user.id},
-                                              {:recommend_ids.in => @user.microblog.following_ids << @user.id}))
+                                              {:recommend_ids.in => @user.microblog.following_ids << @user.id}).
+                                       only(:id, :author_id, :text,
+                                            :created_at))
     end
   end
 
@@ -187,6 +200,11 @@ class MicroblogController < ApplicationController
     end
   end
 
+  def favorites_feed
+    @posts_count,
+    @posts = get_posts(MicroblogPost.where(:favorite_ids => @user.id))
+  end
+
   # Method: MicroblogController#create_post
   #
   # Desctiption:
@@ -253,6 +271,42 @@ class MicroblogController < ApplicationController
       post.save
 
       @microblog.recommends_count -= 1
+      @microblog.save
+    end
+    redirect_to :back
+  end
+
+  def favorite_post
+    # Поиск нужного поста с указанием автора
+    post = MicroblogPost.where(:_id => params[:id]).
+                         where(:author_id.ne => @user.id).
+                         where(:favorite_ids.ne => @user.id).
+                         only(:favorite_ids, :favorites_count).
+                         first
+    unless post.nil?
+      post.favorite_ids << @user.id
+      post.favorites_count = post.favorite_ids.size
+      post.save
+
+      @microblog.favorites_count += 1
+      @microblog.save
+    end
+    redirect_to :back
+  end
+
+  def unfavorite_post
+    # Поиск нужного поста с указанием автора
+    post = MicroblogPost.where(:_id => params[:id]).
+                         where(:author_id.ne => @user.id).
+                         where(:favorite_ids => @user.id).
+                         only(:favorite_ids, :favorites_count).
+                         first
+    unless post.nil?
+      post.favorite_ids.delete(@user.id)
+      post.favorites_count = post.favorite_ids.size
+      post.save
+
+      @microblog.favorites_count -= 1
       @microblog.save
     end
     redirect_to :back
@@ -375,7 +429,8 @@ class MicroblogController < ApplicationController
       @microblog = Microblog.where(:owner_id => @user.id).
                              only(:owner_id, :following_ids, 
                                   :followings_count, :followers_count,
-                                  :posts_count, :recommends_count).
+                                  :posts_count, :recommends_count,
+                                  :favorites_count).
                              first
     end
 
@@ -389,7 +444,8 @@ class MicroblogController < ApplicationController
       @microblog = Microblog.where(:owner_id => @user.id).
                              only(:owner_id, :follower_ids, 
                                   :followings_count, :followers_count,
-                                  :posts_count, :recommends_count).
+                                  :posts_count, :recommends_count,
+                                  :favorites_count).
                              first
     end
 
@@ -402,7 +458,7 @@ class MicroblogController < ApplicationController
       @microblog = Microblog.where(:owner_id => @user.id).
                              only(:owner_id, :posts_count,
                                   :followings_count, :followers_count,
-                                  :recommends_count).
+                                  :recommends_count, :favorites_count).
                              first
     end
 
@@ -505,8 +561,9 @@ class MicroblogController < ApplicationController
           post.author = authors[post.author_id]
         end
 
-        # Собираем статус рекомендаций
         post_ids = collection.map { |post| post.id }
+
+        # Собираем статус рекомендаций
         recommended_ids = MicroblogPost.where(:_id.in => post_ids, :recommend_ids => current_user.id).
                                         only(:id).
                                         map { |post| post.id }
@@ -515,6 +572,18 @@ class MicroblogController < ApplicationController
             post[:recommend] = true
           else
             post[:recommend] = false
+          end
+        end
+
+        # Собираем статус понравившихся
+        favorited_ids = MicroblogPost.where(:_id.in => post_ids, :favorite_ids => current_user.id).
+                                        only(:id).
+                                        map { |post| post.id }
+        collection.each do |post|
+          if favorited_ids.include?(post.id)
+            post[:favorite] = true
+          else
+            post[:favorite] = false
           end
         end
       end

@@ -66,6 +66,8 @@ class Microblog
   field :posts_count, :type => Integer, :default => 0
   # количество рекомендованных постов
   field :recommends_count, :type => Integer, :default => 0
+  # количество понравившихся постов
+  field :favorites_count, :type => Integer, :default => 0
 
   #=============================================================================
   # Связи

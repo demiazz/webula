@@ -42,6 +42,11 @@
             <% else %>
               <p><%= link_to "Recommend", microblog__recommend_post_path(:id => post.id), :method => :put %></p>
             <% end %>
+            <% if post[:favorite] %>
+              <p><%= link_to "Unfavorite", microblog__unfavorite_post_path(:id => post.id), :method => :put %></p>
+            <% else %>
+              <p><%= link_to "Favorite", microblog__favorite_post_path(:id => post.id), :method => :put %></p>
+            <% end %>
           <% else %>
             <p><%= to_delete_post(post) %>
           <% end %>

@@ -35,6 +35,11 @@ Webula::Application.routes.draw do
                        :recommends => "enable"},
           :as => :microblog__followers_feed
 
+  get "microblog/feeds/favorites",
+          :to => "microblog#favorites_feed",
+          :default => {:page => 1},
+          :as => :microblog__favorites_feed
+
   #== Microblog Subscribes =====================================================
 
   get "((:username)/)microblog/subscribes/followings",
@@ -64,6 +69,14 @@ Webula::Application.routes.draw do
   put "microblog/unrecommend/:id",
           :to => "microblog#unrecommend_post",
           :as => :microblog__unrecommend_post
+
+  put "microblog/favorite/:id",
+          :to => "microblog#favorite_post",
+          :as => :microblog__favorite_post
+
+  put "microblog/unfavorite/:id",
+          :to => "microblog#unfavorite_post",
+          :as => :microblog__unfavorite_post
 
   #== Subscribes manage ========================================================
 

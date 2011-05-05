@@ -18,6 +18,8 @@ Description:
   text              текст поста
   recommend_ids     id пользователей, которые рекомендовали пост
   recommends_count  число рекомендаций поста
+  favorite_ids      id пользователей, которым понравился пост
+  favorites_count   число пользователей, которым понравился пост
 
 Связи:
   author            автор поста
@@ -48,6 +50,8 @@ class MicroblogPost
   field :text, :type => String
   field :recommend_ids, :type => Array, :default => []
   field :recommends_count, :type => Integer, :default => 0
+  field :favorite_ids, :type => Array, :default => []
+  field :favorites_count, :type => Integer, :default => 0
 
   #=============================================================================
   # Связи
