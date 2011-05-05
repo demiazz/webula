@@ -24,7 +24,15 @@
           <p class="post-text"><%= post.text %></p>
         </td>
         <td rowspan=2 class="menu">
-
+          <% unless post.author.id == current_user.id %>
+            <% if post[:recommend] %>
+              <p><%= link_to "Unrecommend", microblog__unrecommend_post_path(:id => post.id), :method => :put %></p>
+            <% else %>
+              <p><%= link_to "Recommend", microblog__recommend_post_path(:id => post.id), :method => :put %></p>
+            <% end %>
+          <% else %>
+            <p><%= to_delete_post(post) %>
+          <% end %>
         </td>
       </tr>
       <tr>

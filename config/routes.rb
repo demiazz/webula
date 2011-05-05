@@ -11,24 +11,28 @@ Webula::Application.routes.draw do
           :default => {:page => 1},
           :as => :microblog__global_feed
 
-  get "((:username)/)microblog/feeds/local",
+  get "((:username)/)microblog/feeds/local(/:recommends/recommends)",
           :to => "microblog#local_feed", 
-          :default => {:page => 1},
+          :default => {:page => 1,
+                       :recommends => "enable"},
           :as => :microblog__local_feed
 
-  get "((:username)/)microblog/feeds/personal",
+  get "((:username)/)microblog/feeds/personal(/:recommends/recommends)",
           :to => "microblog#personal_feed",
-          :default => {:page => 1},
+          :default => {:page => 1, 
+                       :recommends => "enable"},
           :as => :microblog__personal_feed
 
-  get "((:username)/)microblog/feeds/followings",
+  get "((:username)/)microblog/feeds/followings(/:recommends/recommends)",
           :to => "microblog#followings_feed",
-          :default => {:page => 1},
+          :default => {:page => 1,
+                       :recommends => "enable"},
           :as => :microblog__followings_feed
 
-  get "((:username)/)microblog/feeds/followers",
+  get "((:username)/)microblog/feeds/followers(/:recommends/recommends)",
           :to => "microblog#followers_feed",
-          :default => {:page => 1},
+          :default => {:page => 1,
+                       :recommends => "enable"},
           :as => :microblog__followers_feed
 
   #== Microblog Subscribes =====================================================
@@ -52,6 +56,14 @@ Webula::Application.routes.draw do
   put "microblog/delete_post/:id",
           :to => "microblog#delete_post",
           :as => :microblog__delete_post
+
+  put "microblog/recommend/:id",
+          :to => "microblog#recommend_post",
+          :as => :microblog__recommend_post
+
+  put "microblog/unrecommend/:id",
+          :to => "microblog#unrecommend_post",
+          :as => :microblog__unrecommend_post
 
   #== Subscribes manage ========================================================
 

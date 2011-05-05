@@ -63,4 +63,6 @@ class MicroblogPost
   scope :author_ids, ->(ids) { where(:author_id.in => ids).desc(:created_at) }
   scope :author_id, ->(id) { where(:author_id => id).desc(:created_at) }
 
+  #== Ленты ====================================================================
+
 end
