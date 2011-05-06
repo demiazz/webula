@@ -88,6 +88,16 @@ Webula::Application.routes.draw do
           :to => "microblog#remove_following",
           :as => :microblog__remove_following
 
+  #== Tags =====================================================================
+
+  get "microblog/by/tag/:tag",
+          :to => "microblog#tag_feed",
+          :as => :microblog__tag_feed
+
+  post "microblog/search",
+          :to => "microblog#search",
+          :as => :microblog__search
+
   #=============================================================================
   # Friendship Controller
   #=============================================================================

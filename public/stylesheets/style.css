@@ -697,8 +697,7 @@ footer {
 }
 
 .microblog table .user-info a {
-  font-size: 14px;
-  color: #444;
+  font-size: 13px;
   margin: 0px;
   padding: 0px;
 }
@@ -720,6 +719,30 @@ footer {
 .microblog table .posted-at p {
   /*border-top: 1px solid #ddd;*/
   padding: 2px 5px;
+}
+
+.microblog table .tags {
+  font-size: 12px;
+  color: #666;
+  vertical-align: bottom;
+}
+
+.microblog table .tags p {
+  /*border-top: 1px solid #ddd;*/
+  padding: 2px 5px;
+}
+
+.microblog table .tags a {
+  background: #eee;
+  padding: 1px 3px;
+  border-radius: 3px;
+  color: #444;
+}
+
+.microblog table .tags a:hover {
+  background: #ddd;
+  text-decoration: none;
+  color: black;
 }
 
 .microblog table .menu {
@@ -745,20 +768,35 @@ footer {
 .microblog form {
   text-align: right;
   margin: 0px 5px;
+  font-size: 14px;
+  color: #666;
 }
 
-.microblog textarea {
+.microblog textarea,
+.microblog input[type="text"] {
   width: 556px;
   padding: 5px;
   font-size: 13px;
-  color: #222;
+  color: #666;
   border: 1px solid #ddd;
 }
 
-.microblog textarea:focus {
+.microblog input[type="text"] {
+  width: 415px;
+  padding: 4px;
+  color: #3B5998;
+  padding-bottom: 5px;
+}
+
+.microblog textarea:focus,
+.microblog input[type="text"]:focus {
   color: #444;
   border: 1px solid #aaa;
   outline: none;
+}
+
+.microblog input[type="text"]:focus {
+  color: #0B2968;
 }
 
 .microblog input[type="submit"],
@@ -785,6 +823,15 @@ footer {
   padding: 20px;
   text-align: center;
   color: #666;
+}
+
+.microblog .search-form input[type="text"] {
+  width: 451px;
+  color: #666;
+}
+
+.microblog .search-form input[type="text"]:focus {
+  color: #444;
 }
 
 /*

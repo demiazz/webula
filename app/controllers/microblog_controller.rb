@@ -78,7 +78,9 @@ class MicroblogController < ApplicationController
                                                    :recommend_post,
                                                    :unrecommend_post,
                                                    :favorite_post,
-                                                   :unfavorite_post]
+                                                   :unfavorite_post,
+                                                   :tag_feed,
+                                                   :search]
 
   before_filter :top
 
@@ -94,7 +96,7 @@ class MicroblogController < ApplicationController
   def global_feed
     @posts_count, @posts = get_posts(MicroblogPost.all_posts.
                                                    only(:id, :author_id, :text,
-                                                        :created_at))
+                                                        :created_at, :tags))
   end
 
   # Method: MicroblogController#local_feed
@@ -110,23 +112,23 @@ class MicroblogController < ApplicationController
       @posts = get_posts(MicroblogPost.any_of({:author_id.in => @user.microblog.following_ids << @user.id},
                                               {:recommend_ids.in => @user.microblog.following_ids << @user.id}).
                                        only(:id, :author_id, :text,
-                                            :created_at))
+                                            :created_at, :tags))
     when "disable"
       @posts_count,
       @posts = get_posts(MicroblogPost.where(:author_id.in => @user.microblog.following_ids << @user.id).
                                        only(:id, :author_id, :text,
-                                            :created_at))
+                                            :created_at, :tags))
     when "only"
       @posts_count,
       @posts = get_posts(MicroblogPost.where(:recommend_ids.in => @user.microblog.following_ids << @user.id).
                                        only(:id, :author_id, :text,
-                                            :created_at))
+                                            :created_at, :tags))
     else
       @posts_count,
       @posts = get_posts(MicroblogPost.any_of({:author_id.in => @user.microblog.following_ids << @user.id},
                                               {:recommend_ids.in => @user.microblog.following_ids << @user.id}).
                                        only(:id, :author_id, :text,
-                                            :created_at))
+                                            :created_at, :tags))
     end
   end
 
@@ -205,6 +207,30 @@ class MicroblogController < ApplicationController
     @posts = get_posts(MicroblogPost.where(:favorite_ids => @user.id))
   end
 
+  def tag_feed
+    @tag = params[:tag]
+    @posts_count,
+    @posts = get_posts(MicroblogPost.where(:tags => params[:tag]).desc(:created_at))
+  end
+
+  def search 
+    unless params.nil? or params[:query].size == 0
+      @query = params[:query]
+      query_tags = params[:query].split(" ").map! { |tag| tag.mb_chars.strip.downcase.to_s }
+      if query_tags.size > 0
+        @posts_count,
+        @posts = get_posts(MicroblogPost.where(:tags.in => query_tags).desc(:created_at))
+      else
+        @posts_count,
+        @posts = get_posts(MicroblogPost.all.desc(:created_at))
+      end
+    else
+      @posts_count,
+      @posts = get_posts(MicroblogPost.all.desc(:created_at))
+      @query = ""
+    end
+  end
+
   # Method: MicroblogController#create_post
   #
   # Desctiption:
@@ -215,8 +241,20 @@ class MicroblogController < ApplicationController
   #   без лишних запросов к базе).
   def create_post
     post = MicroblogPost.new
-    post.author = @user 
-    post.text = params[:microblog_post][:text]
+    post.author = @user
+    # Пробел прибавляем для обхода регулярки, которая не находит тег, стоящий
+    # в самом начале строки.
+    post.text = " #{params[:microblog_post][:text]}"
+    # Парсинг текста на наличие хэш-тегов
+    hashtags = params[:microblog_post][:text].scan(/#[a-zA-Zа-яА-Я0-9]*\b/)
+    if hashtags.size > 0
+      hashtags.map! { |hashtag| hashtag[1..hashtag.size].mb_chars.downcase.to_s }
+      hashtags.uniq!
+      post.tags |= hashtags
+    end
+    # Парсинг дополнительной строки тегов
+    tags = params[:microblog_post][:tags].split(" ").map! { |tag| tag.mb_chars.strip.downcase.to_s }
+    post.tags |= tags if (not tags.nil?) and (tags.size > 0)
     @microblog.inc(:posts_count, 1) if post.save
     redirect_to :back
   end

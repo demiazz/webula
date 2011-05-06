@@ -17,12 +17,12 @@
   <% @posts.each do |post| %>
     <table>
       <tr>
-        <td rowspan=2 class="avatar"><%= image_tag post.author.user_profile.avatar %></td>
+        <td rowspan=3 class="avatar"><%= image_tag post.author.user_profile.avatar %></td>
         <td class="user-info">
           <h1><%= to_microblog_user_home post.author, post.author.full_name %> written:</h1>
-          <p class="post-text"><%= post.text %></p>
+          <p class="post-text"><%= hash_tags(post) %></p>
         </td>
-        <td rowspan=2 class="menu">
+        <td rowspan=3 class="menu">
           <% unless post.author.id == current_user.id %>
             <% if post[:recommend] %>
               <p><%= link_to "Unrecommend", microblog__unrecommend_post_path(:id => post.id), :method => :put %></p>
@@ -35,6 +35,20 @@
               <p><%= link_to "Favorite", microblog__favorite_post_path(:id => post.id), :method => :put %></p>
             <% end %>
           <% end %>
+        </td>
+      </tr>
+      <tr>
+        <td class="tags">
+          <p>
+            Tags:
+            <% if post.tags.size > 0 %>
+              <% post.tags.each do |tag| %>
+                <%= link_to "#{tag}", microblog__tag_feed_path(:tag => tag) %>
+              <% end %>
+            <% else %>
+              None
+            <% end %>
+          </p>
         </td>
       </tr>
       <tr>
