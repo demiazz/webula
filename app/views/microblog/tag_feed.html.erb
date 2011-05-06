@@ -1,5 +1,5 @@
 <% content_for :title do %>
-  Local feed
+  Posts with tag '<%= @tag %>'
 <% end %>
 
 <%= content_for :left_aside do %>
@@ -14,19 +14,6 @@
 
 <% if @posts_count > 0 %>
   <article class="microblog">
-    <article class="action-menu">
-      Recommends:
-      <% if @personal %>
-        <%= link_to "Enable", microblog__local_feed_path(:username => nil, :recommends => "enable"), :class => "left" %>
-        <%= link_to "Only", microblog__local_feed_path(:username => nil, :recommends => "only") %>
-        <%= link_to "Disable", microblog__local_feed_path(:username => nil, :recommends => "disable") %>    
-      <% else %>
-        <%= link_to "Enable", microblog__local_feed_path(:username => @user.username, :recommends => "enable"), :class => "left" %>
-        <%= link_to "Only", microblog__local_feed_path(:username => @user.username, :recommends => "only") %>
-        <%= link_to "Disable", microblog__local_feed_path(:username => @user.username, :recommends => "disable") %>
-      <% end %>
-    </article>
-  <%= render "form" %>
   <% @posts.each do |post| %>
     <table>
       <tr>
@@ -74,11 +61,7 @@
   <div class="pagination">
     <div class="entries"><%= page_entries_info @posts %></div>
     <div>
-    <% if @personal %>
-      <%= will_paginate @posts, :container => false, :inner_window => 1, :params => { :username => nil } %>
-    <% else %>
       <%= will_paginate @posts, :container => false, :inner_window => 1 %>
-    <% end %>
     </div>
   </div>
   </article>

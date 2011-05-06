@@ -89,4 +89,14 @@ module MicroblogHelper
     link_to name, microblog__delete_post_path(:id => post.id), html_options
   end
 
+  def hash_tags(post)
+    text = simple_format(h(post.text))
+    tags = post.tags
+
+    tags.each do |tag|
+      text.gsub!(/\s##{tag}\b/, " #{link_to("##{tag}", microblog__tag_feed_path(:tag => tag))}")
+    end
+    return text
+  end
+
 end

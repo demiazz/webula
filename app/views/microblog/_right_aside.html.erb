@@ -1,10 +1,12 @@
+<% unless action_name == "search" %>
 <article>
   <h1>Search by tags</h1>
-  <form>
-    <p><input type="text"></input></p>
-    <p><input type="submit" value="Search"></input></p>
-  </form>
+  <%= form_tag(microblog__search_path) do %>
+    <%= text_field_tag :query %>
+    <%= submit_tag "Search" %>
+  <% end %>
 </article>
+<% end %>
 <% if @personal %>
   <article>
     <h1>Statistics</h1>
