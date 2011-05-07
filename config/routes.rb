@@ -78,6 +78,10 @@ Webula::Application.routes.draw do
           :to => "microblog#unfavorite_post",
           :as => :microblog__unfavorite_post
 
+  get "((:username)/)microblog/show/post/:id",
+          :to => "microblog#show_post",
+          :as => :microblog__show_post
+
   #== Subscribes manage ========================================================
 
   put "microblog/subscribes/followings/add/:following", 
@@ -97,6 +101,13 @@ Webula::Application.routes.draw do
   post "microblog/search",
           :to => "microblog#search",
           :as => :microblog__search
+
+  #== Комментарии ==============================================================
+
+  put "microblog/add/comment/:post_id(/:reply_id)",
+          :to => "microblog#add_comment",
+          :defaults => {:reply_id => nil},
+          :as => :microblog__add_comment
 
   #=============================================================================
   # Friendship Controller

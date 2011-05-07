@@ -17,12 +17,12 @@
   <% @posts.each do |post| %>
     <table>
       <tr>
-        <td rowspan=3 class="avatar"><%= image_tag post.author.user_profile.avatar %></td>
+        <td rowspan=4 class="avatar"><%= image_tag post.author.user_profile.avatar %></td>
         <td class="user-info">
           <h1><%= to_microblog_user_home post.author, post.author.full_name %> written:</h1>
           <p class="post-text"><%= hash_tags(post) %></p>
         </td>
-        <td rowspan=3 class="menu">
+        <td rowspan=4 class="menu">
           <% unless post.author.id == current_user.id %>
             <% if post[:recommend] %>
               <p><%= link_to "Unrecommend", microblog__unrecommend_post_path(:id => post.id), :method => :put %></p>
@@ -37,6 +37,8 @@
           <% else %>
             <p><%= to_delete_post(post) %>
           <% end %>
+          <p><a href="">Comments(<%= post.comments_count %>)</a></p>
+          <p><a style="cursor: pointer;" onclick="$('#<%= post.id %>').show(); $('#<%= post.id %> > textarea').focus();">Add Comment</a></p>
         </td>
       </tr>
       <tr>
@@ -55,6 +57,15 @@
       </tr>
       <tr>
         <td class="posted-at"><p><%= post.created_at.strftime("Posted at %e %B %Y in %H:%M") %></p></td>
+      </tr>
+      <tr>
+        <td class="reply-form">
+          <%= form_tag microblog__add_comment_path(:post_id => post.id), :method => :put, :id => post.id do %>
+            <%= text_area_tag :text %>
+            <%= submit_tag "Comment" %>
+            <input type="reset" onclick="$('#<%= post.id %>').hide();" value="Close"></input>
+          <% end %>
+        </td>
       </tr>
     </table>
   <% end %>

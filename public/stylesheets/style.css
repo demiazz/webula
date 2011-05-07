@@ -665,8 +665,8 @@ footer {
 }
 
 .microblog table:hover {
-  border-color: #ccc;
-  box-shadow: 0px 0px 2px 1px #ddd;
+  border-color: #aaa;
+  box-shadow: 0px 0px 4px 1px #bbb;
 }
 
 .microblog table .avatar {
@@ -694,6 +694,10 @@ footer {
   font-size: 14px;
   color: #999;
   margin-bottom: -8px;
+}
+
+.microblog table .user-info h1 a {
+  font-size: 14px;
 }
 
 .microblog table .user-info a {
@@ -765,6 +769,20 @@ footer {
   background: #eee;
 }
 
+.microblog table .reply-form {
+  width: 360px;
+}
+
+.microblog table .reply-form form {
+  border-top: 1px solid #ddd;
+  padding: 5px;
+  display: none;
+}
+
+.microblog table .reply-form textarea {
+  width: 350px;
+}
+
 .microblog form {
   text-align: right;
   margin: 0px 5px;
@@ -800,7 +818,8 @@ footer {
 }
 
 .microblog input[type="submit"],
-.microblog input[type="button"] {
+.microblog input[type="button"],
+.microblog input[type="reset"] {
     border: 1px solid #ccc;
     border-bottom: 1px solid #bbb;
     padding: 5px 30px;
@@ -813,7 +832,8 @@ footer {
 }
 
 .microblog input[type="submit"]:active,
-.microblog input[type="button"]:active {
+.microblog input[type="button"]:active,
+.microblog input[type="reset"]:active {
     background: -webkit-gradient(linear, left top, left bottom, from(#999), to(#bbb));
     text-shadow: #ccc 1px 1px 1px;
 }
