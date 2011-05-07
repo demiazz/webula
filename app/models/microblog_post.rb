@@ -54,12 +54,14 @@ class MicroblogPost
   field :favorite_ids, :type => Array, :default => []
   field :favorites_count, :type => Integer, :default => 0
   field :tags, :type => Array, :default => []
+  field :comments_count, :type => Integer, :default => 0
 
   #=============================================================================
   # Связи
   #=============================================================================
 
   belongs_to :author, :class_name => "User", :inverse_of => :microblog_posts
+  embeds_many :comments, :class_name => "MicroblogPostComment", :inverse_of => :post
 
   #=============================================================================
   # Scopes

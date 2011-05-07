@@ -1,0 +1,92 @@
+<% content_for :title do %>
+  Global feed
+<% end %>
+
+<%= content_for :left_aside do %>
+  <%= render "left_aside" %>
+<% end %>
+
+<%= content_for :right_aside do %>
+  <%= render "right_aside" %>
+<% end %>
+
+<%= render "microblog/links/feeds_links" %>
+
+<% unless @post.nil? %>
+  <article class="microblog">
+    <a name="<%= @post.id %>" id="link<%= @post.id %>">
+    <table>
+      <tr>
+        <td rowspan=4 class="avatar"><%= image_tag @post.author.user_profile.avatar %></td>
+        <td class="user-info">
+          <h1><%= to_microblog_user_home @post.author, @post.author.full_name %> written:</h1>
+          <p class="post-text"><%= hash_tags(@post) %></p>
+        </td>
+        <td rowspan=4 class="menu">
+          <p><a style="cursor: pointer;" onclick="$('#<%= @post.id %>').show(); $('#<%= @post.id %> > textarea').focus();">Add Comment</a></p>
+        </td>
+      </tr>
+      <tr>
+        <td class="tags">
+          <p>
+            Tags:
+            <% if @post.tags.size > 0 %>
+              <% @post.tags.each do |tag| %>
+                <%= link_to "#{tag}", microblog__tag_feed_path(:tag => tag) %>
+              <% end %>
+            <% else %>
+              None
+            <% end %>
+          </p>
+        </td>
+      </tr>
+      <tr>
+        <td class="posted-at"><p><%= @post.created_at.strftime("Posted at %e %B %Y in %H:%M") %></p></td>
+      </tr>
+      <tr>
+        <td class="reply-form">
+          <%= form_tag microblog__add_comment_path(:post_id => @post.id), :method => :put, :id => @post.id do %>
+            <%= text_area_tag :text %>
+            <%= submit_tag "Comment" %>
+            <input type="reset" onclick="$('#<%= @post.id %>').hide();" value="Close"></input>
+          <% end %>
+        </td>
+      </tr>
+    </table>
+    </a>
+    <% @comments.each do |comment| %>
+      <a name="<%= comment.id %>" id="link<%= comment.id %>">
+      <table>
+        <tr>
+          <td rowspan=3 class="avatar"><%= image_tag comment.author.user_profile.avatar %></td>
+          <td class="user-info">
+            <h1><%= to_microblog_user_home comment.author, comment.author.full_name %> written <a href="#<% comment.parent %>" onclick="$('#link<%= comment.parent %> > table').animate({opacity: 0.5}, 300).animate({opacity: 1.0}, 500);">comment to</a>:</h1>
+            <p class="post-text"><%= comment.text %></p>
+          </td>
+          <td rowspan=3 class="menu">
+            <p><a style="cursor: pointer;" onclick="$('#<%= comment.id %>').show(); $('#<%= comment.id %> > textarea').focus();">Add Comment</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td class="posted-at"><p><%= comment.created_at.strftime("Posted at %e %B %Y in %H:%M") %></p></td>
+        </tr>
+        <tr>
+          <td class="reply-form">
+            <%= form_tag microblog__add_comment_path(:post_id => @post.id, :reply_id => comment.id), :method => :put, :id => comment.id do %>
+              <%= text_area_tag :text %>
+              <%= submit_tag "Comment" %>
+              <input type="reset" onclick="$('#<%= comment.id %>').hide();" value="Close"></input>
+            <% end %>
+          </td>
+        </tr>
+      </table>
+      </a>
+    <% end %>
+  </article>
+<% else %>
+  <article class="microblog">
+    <article class="microblog-empty">
+
+    </article>
+  </article>
+<% end %>

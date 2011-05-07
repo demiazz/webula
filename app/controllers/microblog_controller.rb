@@ -80,7 +80,8 @@ class MicroblogController < ApplicationController
                                                    :favorite_post,
                                                    :unfavorite_post,
                                                    :tag_feed,
-                                                   :search]
+                                                   :search,
+                                                   :show_post]
 
   before_filter :top
 
@@ -96,7 +97,9 @@ class MicroblogController < ApplicationController
   def global_feed
     @posts_count, @posts = get_posts(MicroblogPost.all_posts.
                                                    only(:id, :author_id, :text,
-                                                        :created_at, :tags))
+                                                        :created_at, :tags,
+                                                        :comments_count).
+                                                   desc(:created_at))
   end
 
   # Method: MicroblogController#local_feed
@@ -112,23 +115,27 @@ class MicroblogController < ApplicationController
       @posts = get_posts(MicroblogPost.any_of({:author_id.in => @user.microblog.following_ids << @user.id},
                                               {:recommend_ids.in => @user.microblog.following_ids << @user.id}).
                                        only(:id, :author_id, :text,
-                                            :created_at, :tags))
+                                            :created_at, :tags, :comments_count).
+                                       desc(:created_at))
     when "disable"
       @posts_count,
       @posts = get_posts(MicroblogPost.where(:author_id.in => @user.microblog.following_ids << @user.id).
                                        only(:id, :author_id, :text,
-                                            :created_at, :tags))
+                                            :created_at, :tags, :comments_count).
+                                       desc(:created_at))
     when "only"
       @posts_count,
       @posts = get_posts(MicroblogPost.where(:recommend_ids.in => @user.microblog.following_ids << @user.id).
                                        only(:id, :author_id, :text,
-                                            :created_at, :tags))
+                                            :created_at, :tags, :comments_count).
+                                       desc(:created_at))
     else
       @posts_count,
       @posts = get_posts(MicroblogPost.any_of({:author_id.in => @user.microblog.following_ids << @user.id},
                                               {:recommend_ids.in => @user.microblog.following_ids << @user.id}).
                                        only(:id, :author_id, :text,
-                                            :created_at, :tags))
+                                            :created_at, :tags, :comments_count).
+                                       desc(:created_at))
     end
   end
 
@@ -142,17 +149,29 @@ class MicroblogController < ApplicationController
     when "enable"
       @posts_count,
       @posts = get_posts(MicroblogPost.any_of({:author_id => @user.id},
-                                              {:recommend_ids => @user.id}))
+                                              {:recommend_ids => @user.id}).
+                                       only(:id, :author_id, :text,
+                                            :created_at, :tags, :comments_count).
+                                       desc(:created_at))
     when "disable"
       @posts_count,
-      @posts = get_posts(MicroblogPost.where(:author_id => @user.id))
+      @posts = get_posts(MicroblogPost.where(:author_id => @user.id).
+                                       only(:id, :author_id, :text,
+                                            :created_at, :tags, :comments_count).
+                                       desc(:created_at))
     when "only"
       @posts_count,
-      @posts = get_posts(MicroblogPost.where(:recommend_ids => @user.id))
+      @posts = get_posts(MicroblogPost.where(:recommend_ids => @user.id).
+                                       only(:id, :author_id, :text,
+                                            :created_at, :tags, :comments_count).
+                                       desc(:created_at))
     else
       @posts_count,
       @posts = get_posts(MicroblogPost.any_of({:author_id => @user.id},
-                                              {:recommend_ids => @user.id}))
+                                              {:recommend_ids => @user.id}).
+                                       only(:id, :author_id, :text,
+                                            :created_at, :tags, :comments_count).
+                                       desc(:created_at))
     end
   end
 
@@ -165,17 +184,29 @@ class MicroblogController < ApplicationController
     when "enable"
       @posts_count,
       @posts = get_posts(MicroblogPost.any_of({:author_id.in => @user.microblog.following_ids},
-                                              {:recommend_ids.in => @user.microblog.following_ids}))
+                                              {:recommend_ids.in => @user.microblog.following_ids}).
+                                       only(:id, :author_id, :text,
+                                            :created_at, :tags, :comments_count).
+                                       desc(:created_at))
     when "disable"
       @posts_count,
-      @posts = get_posts(MicroblogPost.where(:author_id.in => @user.microblog.following_ids))
+      @posts = get_posts(MicroblogPost.where(:author_id.in => @user.microblog.following_ids).
+                                       only(:id, :author_id, :text,
+                                            :created_at, :tags, :comments_count).
+                                       desc(:created_at))
     when "only"
       @posts_count,
-      @posts = get_posts(MicroblogPost.where(:recommend_ids.in => @user.microblog.following_ids))
+      @posts = get_posts(MicroblogPost.where(:recommend_ids.in => @user.microblog.following_ids).
+                                       only(:id, :author_id, :text,
+                                            :created_at, :tags, :comments_count).
+                                       desc(:created_at))
     else
       @posts_count,
       @posts = get_posts(MicroblogPost.any_of({:author_id.in => @user.microblog.following_ids},
-                                              {:recommend_ids.in => @user.microblog.following_ids}))
+                                              {:recommend_ids.in => @user.microblog.following_ids}).
+                                       only(:id, :author_id, :text,
+                                            :created_at, :tags, :comments_count).
+                                       desc(:created_at))
     end
   end
 
@@ -188,29 +219,46 @@ class MicroblogController < ApplicationController
     when "enable"
       @posts_count,
       @posts = get_posts(MicroblogPost.any_of({:author_id.in => @user.microblog.follower_ids},
-                                              {:recommend_ids.in => @user.microblog.follower_ids}))
+                                              {:recommend_ids.in => @user.microblog.follower_ids}).
+                                       only(:id, :author_id, :text,
+                                            :created_at, :tags, :comments_count).
+                                       desc(:created_at))
     when "disable"
       @posts_count,
-      @posts = get_posts(MicroblogPost.where(:author_id.in => @user.microblog.follower_ids))
+      @posts = get_posts(MicroblogPost.where(:author_id.in => @user.microblog.follower_ids).
+                                       only(:id, :author_id, :text,
+                                            :created_at, :tags, :comments_count).
+                                       desc(:created_at))
     when "only"
       @posts_count,
-      @posts = get_posts(MicroblogPost.where(:recommend_ids.in => @user.microblog.follower_ids))
+      @posts = get_posts(MicroblogPost.where(:recommend_ids.in => @user.microblog.follower_ids).
+                                       only(:id, :author_id, :text,
+                                            :created_at, :tags, :comments_count).
+                                       desc(:created_at))
     else
       @posts_count,
       @posts = get_posts(MicroblogPost.any_of({:author_id.in => @user.microblog.follower_ids},
-                                              {:recommend_ids.in => @user.microblog.follower_ids}))
+                                              {:recommend_ids.in => @user.microblog.follower_ids}).
+                                       only(:id, :author_id, :text,
+                                            :created_at, :tags, :comments_count).
+                                       desc(:created_at))
     end
   end
 
   def favorites_feed
     @posts_count,
-    @posts = get_posts(MicroblogPost.where(:favorite_ids => @user.id))
+    @posts = get_posts(MicroblogPost.where(:favorite_ids => @user.id).
+                                     only(:id, :author_id, :text,
+                                          :created_at, :tags, :comments_count).
+                                       desc(:created_at))
   end
 
   def tag_feed
     @tag = params[:tag]
     @posts_count,
-    @posts = get_posts(MicroblogPost.where(:tags => params[:tag]).desc(:created_at))
+    @posts = get_posts(MicroblogPost.where(:tags => params[:tag]).desc(:created_at).
+                                     only(:id, :author_id, :text,
+                                          :created_at, :tags, :comments_count))
   end
 
   def search 
@@ -219,15 +267,63 @@ class MicroblogController < ApplicationController
       query_tags = params[:query].split(" ").map! { |tag| tag.mb_chars.strip.downcase.to_s }
       if query_tags.size > 0
         @posts_count,
-        @posts = get_posts(MicroblogPost.where(:tags.in => query_tags).desc(:created_at))
+        @posts = get_posts(MicroblogPost.where(:tags.in => query_tags).desc(:created_at).
+                                         only(:id, :author_id, :text,
+                                            :created_at, :tags, :comments_count))
       else
         @posts_count,
-        @posts = get_posts(MicroblogPost.all.desc(:created_at))
+        @posts = get_posts(MicroblogPost.all.desc(:created_at).
+                                             only(:id, :author_id, :text,
+                                                  :created_at, :tags, 
+                                                  :comments_count))
       end
     else
       @posts_count,
-      @posts = get_posts(MicroblogPost.all.desc(:created_at))
+      @posts = get_posts(MicroblogPost.all.desc(:created_at).
+                                           only(:id, :author_id, :text,
+                                                :created_at, :tags, :comments_count))
       @query = ""
+    end
+  end
+
+  def add_comment
+    post = MicroblogPost.where(:_id => params[:post_id]).first
+    unless post.nil?
+      comment = MicroblogPostComment.new
+      comment.author = @user
+      comment.text = params[:text]
+      if params[:reply_id].nil?
+        comment.parent = post.id
+      else
+        comment.parent = params[:reply_id]
+      end
+      post.comments << comment
+      post.comments_count += 1
+      post.save
+    end
+    redirect_to :back
+  end
+
+  def show_post
+    @post = MicroblogPost.where(:_id => params[:id], :author_id => @user.id).first
+    unless @post.nil?
+      @comments = @post.comments
+      # получение и привязка авторов к постам
+      author_ids = []
+      @comments.each do |comment|
+        author_ids << comment.author_id
+      end
+      author_ids.uniq!
+      authors = {}
+      User.where(:_id.in => author_ids).
+           only(:id, :username, "user_profile.first_name",
+                "user_profile.last_name", "user_profile.avatar").
+           each do |author|
+        authors[author.id] = author
+      end
+      @comments.each do |comment|
+        comment.author = authors[comment.author_id]
+      end
     end
   end
 
