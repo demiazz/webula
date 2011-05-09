@@ -33,6 +33,8 @@ class User
   has_many :inbox_messages, :class_name => "Message", :inverse_of => :recipient
   # Имеет один почтовый аккаунт
   has_one :mail, :class_name => "Microblog", :inverse_of => :owner
+  # Имеет много вопросов
+  has_many :questions, :class_name => "Question", :inverse_of => :author
 
   # Scopes
   scope :ids, ->(ids) { where(:_id.in => ids) }
