@@ -1,0 +1,9 @@
+<% unless action_name == "search" %>
+<article>
+  <h1>Search by tags</h1>
+  <%= form_tag(questions__search_path) do %>
+    <%= text_field_tag :query %>
+    <%= submit_tag "Search" %>
+  <% end %>
+</article>
+<% end %>

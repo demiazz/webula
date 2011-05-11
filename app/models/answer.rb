@@ -3,7 +3,7 @@ class Answer
   include Mongoid::Timestamps
 
   field :text, :type => String, :default => ""
-  field :vote, :type => Integer, :default => ""
+  field :vote, :type => Integer, :default => 0
   field :voter_ids, :type => Array, :default => []
 
   belongs_to :author, :class_name => "User"

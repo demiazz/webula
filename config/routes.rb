@@ -228,6 +228,57 @@ Webula::Application.routes.draw do
           :as => :mail__delete_message
 
   #=============================================================================
+  # QA
+  #=============================================================================
+
+  get "questions/all",
+            :to => "questions#index",
+            :default => {:page => 1},
+            :as => :questions__index
+  
+  get "((:username)/)questions/from/personal",
+            :to => "questions#personal_questions",
+            :default => {:page => 1},
+            :as => :questions__personal_questions
+
+  get "((:username)/)questions/from/friends",
+            :to => "questions#friends_questions",
+            :default => {:page => 1},
+            :as => :questions__friends_questions
+
+  get "questions/by/tag/:tag",
+            :to => "questions#questions_by_tag",
+            :as => :questions__questions_by_tag
+
+  get "questions/show/:id",
+            :to => "questions#show",
+            :as => :questions__show
+
+  put "questions/new",
+            :to => "questions#create_question",
+            :as => :questions__create_question
+
+  delete "questions/delete/:id",
+            :to => "questions#delete_question",
+            :as => :questions__delete_question
+
+  put "questions/add/answer/:question_id",
+            :to => "questions#add_answer",
+            :as => :questions__add_answer
+
+  put "question/vote/up/answer/:question_id/:answer_id",
+            :to => "questions#vote_up_answer",
+            :as => :questions__vote_up_answer
+
+  put "question/vote/down/answer/:question_id/:answer_id",
+            :to => "questions#vote_down_answer",
+            :as => :questions__vote_down_answer
+
+  post "questions/search",
+            :to => "questions#search",
+            :as => :questions__search
+
+  #=============================================================================
   # Settings Controller
   #=============================================================================
 

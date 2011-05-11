@@ -50,7 +50,7 @@
           <% else %>
             <p><%= to_delete_post(post) %>
           <% end %>
-          <p><a href="">Comments(<%= post.comments_count %>)</a></p>
+          <p><%= link_to "Comments(#{post.comments_count})", microblog__show_post_path(:username => post.author.username, :id => post.id) %></p>
           <p><a style="cursor: pointer;" onclick="$('#<%= post.id %>').show(); $('#<%= post.id %> > textarea').focus();">Add Comment</a></p>
         </td>
       </tr>
