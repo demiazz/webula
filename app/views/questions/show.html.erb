@@ -1,0 +1,83 @@
+<% content_for :title do %>
+  Question by <%= @question.author.full_name %>
+<% end %>
+
+<%= content_for :right_aside do %>
+  <%= render "right_aside" %>
+<% end %>
+
+<%= render "links" %>
+
+<% unless @question.nil? %>
+  <article class="questions">
+    <a name="<%= @question.id %>" id="link<%= @question.id %>">
+    <table>
+      <tr>
+        <td rowspan=3 class="avatar"><%= image_tag @question.author.user_profile.avatar %></td>
+        <td class="user-info">
+          <h1><%= to_microblog_user_home @question.author, @question.author.full_name %> written:</h1>
+          <p class="post-text"><%= @question.text %></p>
+        </td>
+        <td rowspan=3 class="menu">
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="tags">
+          <p>
+            Tags:
+            <% if @question.tags.size > 0 %>
+              <% @question.tags.each do |tag| %>
+                <%= link_to "#{tag}", questions__questions_by_tag_path(:tag => tag) %>
+              <% end %>
+            <% else %>
+              None
+            <% end %>
+          </p>
+        </td>
+      </tr>
+      <tr>
+        <td class="posted-at"><p><%= @question.created_at.strftime("Posted at %e %B %Y in %H:%M") %></p></td>
+      </tr>
+    </table>
+    </a>
+    <h1>Answers</h1>
+    <% @answers.each do |answer| %>
+      <a name="<%= answer.id %>" id="link<%= answer.id %>">
+      <table>
+        <tr>
+          <td rowspan=2 class="avatar"><%= image_tag answer.author.user_profile.avatar %></td>
+          <td class="user-info">
+            <h1><%= to_microblog_user_home answer.author, answer.author.full_name %> answer to</a>:</h1>
+            <p class="post-text"><%= answer.text %></p>
+          </td>
+          <td rowspan=2 class="menu">
+            <% unless answer.author_id == @user.id or answer.voter_ids.include?(@user.id) %>
+              <%= link_to "Good answer", questions__vote_up_answer_path(:question_id => @question.id, :answer_id => answer.id), :class => "contructive", :method => :put %>
+              <%= link_to "Bad answer", questions__vote_down_answer_path(:question_id => @question.id, :answer_id => answer.id), :class => "destructive", :method => :put %>
+            <% end %>
+            <% if answer.vote == 0%>  
+              <p class="vote" style="color: #999"><%= answer.vote %></p>                
+            <% end %>
+            <% if answer.vote > 0%>
+              <p class="vote" style="color: #090">+<%= answer.vote %></p>
+            <% end %>
+            <% if answer.vote < 0%>
+              <p class="vote" style="color: #900"><%= answer.vote %></p>
+            <% end %>
+          </td>
+        </tr>
+        <tr>
+          <td class="posted-at"><p><%= answer.created_at.strftime("Posted at %e %B %Y in %H:%M") %></p></td>
+        </tr>
+      </table>
+      </a>
+    <% end %>
+  </article>
+<% else %>
+  <article class="microblog">
+    <article class="microblog-empty">
+
+    </article>
+  </article>
+<% end %>

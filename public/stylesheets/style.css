@@ -9,6 +9,42 @@ html {
     height: 100%;
 }
 
+a.fork {
+  position: fixed;
+  z-index: 20;
+
+  font-size: 18px;
+  font-weight: bold;
+  color: #444;
+  text-shadow: 1px 1px 1px #ddd;
+
+  display: inline-block;
+  background: -webkit-gradient(linear, left top, left bottom, from(#bbb), to(#aaa));
+
+  padding: 5px 45px;
+
+  border-top: 3px solid #666;
+  border-bottom: 3px solid #666;
+
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+
+  top: 50px;
+  right: -50px;
+
+  box-shadow: 0px 0px 5px 1px #999;
+}
+
+a.fork:hover,
+a.fork:focus {
+  color: #666;
+  text-shadow: 1px 1px 1px #fff;
+  background: -webkit-gradient(linear, left top, left bottom, from(#ddd), to(#ccc));
+  border-top: 3px solid #888;
+  border-bottom: 3px solid #888;
+  text-decoration: none;
+}
+
 a {
 	text-decoration: none;
 	font-size: 12px;
@@ -656,6 +692,16 @@ footer {
   padding: 0px;
 }
 
+.microblog > h1 {
+  color: #666;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  text-align: center;
+  margin-left: 5px;
+  margin-right: 5px;
+  font-size: 18px;
+}
+
 .microblog table {
   border: 1px solid #ddd;
   width: 568px;
@@ -739,14 +785,19 @@ footer {
 .microblog table .tags a {
   background: #eee;
   padding: 1px 3px;
-  border-radius: 3px;
   color: #444;
+  border-left: 4px solid #ccc;
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+  margin-top: 3px;
+  display: inline-block;
 }
 
 .microblog table .tags a:hover {
-  background: #ddd;
+  background: #bbb;
   text-decoration: none;
-  color: black;
+  color: #444;
+  border-left: 4px solid #999;
 }
 
 .microblog table .menu {
@@ -815,6 +866,10 @@ footer {
 
 .microblog input[type="text"]:focus {
   color: #0B2968;
+}
+
+.microblog textarea {
+  margin-bottom: 2px;
 }
 
 .microblog input[type="submit"],
@@ -1247,4 +1302,365 @@ footer {
   padding: 20px;
   text-align: center;
   color: #666;
+}
+
+/**
+  * Questions
+  */
+
+.questions {
+  padding: 0px;
+}
+
+.questions > h1 {
+  color: #666;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  text-align: center;
+  margin-left: 5px;
+  margin-right: 5px;
+  font-size: 18px;
+}
+
+.questions table {
+  border: 1px solid #ddd;
+  width: 568px;
+  margin: 5px;
+  border-spacing: 0px;
+  border-collapse: collapse;
+}
+
+.questions table:hover {
+  border-color: #aaa;
+  box-shadow: 0px 0px 4px 1px #bbb;
+}
+
+.questions table .avatar {
+  padding: 0px;
+  margin: 0px;
+  width: 60px;
+  vertical-align: top;
+  /*border-right: 1px solid #ddd;*/
+}
+
+.questions table .avatar img {
+  width: 50px;
+  height: 50px;
+  margin: 5px;
+  margin-bottom: 1px;
+}
+
+.questions table .user-info {
+  width: 379px;
+  vertical-align: top;
+}
+
+.questions table .user-info h1 {
+  padding: 3px;
+  font-size: 14px;
+  color: #999;
+  margin-bottom: -8px;
+}
+
+.questions table .user-info h1 a {
+  font-size: 14px;
+}
+
+.questions table .user-info a {
+  font-size: 13px;
+  margin: 0px;
+  padding: 0px;
+}
+
+.questions table .user-info p {
+  font-size: 13px;
+  color: #444;
+  padding-left: 5px;
+  text-align: justify;
+  padding: 5px 5px;
+}
+
+.questions table .posted-at {
+  font-size: 12px;
+  color: #666;
+  vertical-align: bottom;
+}
+
+.questions table .posted-at p {
+  /*border-top: 1px solid #ddd;*/
+  padding: 2px 5px;
+}
+
+.questions table .tags {
+  font-size: 12px;
+  color: #666;
+  vertical-align: bottom;
+}
+
+.questions table .tags p {
+  /*border-top: 1px solid #ddd;*/
+  padding: 2px 5px;
+}
+
+.questions table .tags a {
+  background: #eee;
+  padding: 1px 3px;
+  color: #444;
+  border-left: 4px solid #ccc;
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+  margin-top: 3px;
+  display: inline-block;
+}
+
+.questions table .tags a:hover {
+  background: #bbb;
+  text-decoration: none;
+  color: #444;
+  border-left: 4px solid #999;
+}
+
+.questions table .menu {
+  width: 125px;
+  text-align: center;
+  vertical-align: top;
+  padding: 5px 0px;
+  /*border-left: 1px solid #ddd;*/
+}
+
+.questions table .menu p.vote {
+  font-size: 30px;
+  font-width: bold;
+  padding: 10px;
+}
+
+.questions table .menu a {
+  width: 105px;
+  padding: 2px 3px;
+  margin: 0px 5px;
+  display: inline-block;
+}
+
+.questions table .menu a:hover {
+  text-decoration: none;
+  background: #eee;
+}
+
+.questions table .reply-form {
+  width: 360px;
+}
+
+.questions table .reply-form form {
+  border-top: 1px solid #ddd;
+  padding: 5px;
+  display: none;
+}
+
+.questions table .reply-form textarea {
+  width: 350px;
+}
+
+.questions form {
+  text-align: right;
+  margin: 5px 5px;
+  font-size: 14px;
+  color: #666;
+}
+
+.questions textarea,
+.questions input[type="text"] {
+  width: 556px;
+  padding: 5px;
+  font-size: 13px;
+  color: #666;
+  border: 1px solid #ddd;
+}
+
+.questions input[type="text"] {
+  width: 365px;
+  padding: 4px;
+  color: #3B5998;
+  padding-bottom: 5px;
+}
+
+.questions textarea:focus,
+.questions input[type="text"]:focus {
+  color: #444;
+  border: 1px solid #aaa;
+  outline: none;
+}
+
+.questions input[type="text"]:focus {
+  color: #0B2968;
+}
+
+.questions textarea {
+  margin-bottom: 2px;
+}
+
+.questions input[type="submit"],
+.questions input[type="button"],
+.questions input[type="reset"] {
+    border: 1px solid #ccc;
+    border-bottom: 1px solid #bbb;
+    padding: 5px 30px;
+    font-weight: bold;
+    color: #222;
+    text-shadow: #fff 1px 1px 1px;
+    font-size: 12px;
+    background: -webkit-gradient(linear, left top, left bottom, from(#ddd), to(#bbb));
+    cursor: pointer;
+}
+
+.questions input[type="submit"]:active,
+.questions input[type="button"]:active,
+.questions input[type="reset"]:active {
+    background: -webkit-gradient(linear, left top, left bottom, from(#999), to(#bbb));
+    text-shadow: #ccc 1px 1px 1px;
+}
+
+.questions-empty {
+  margin: 5px;
+  padding: 20px;
+  text-align: center;
+  color: #666;
+}
+
+.questions .search-form input[type="text"] {
+  width: 451px;
+  color: #666;
+}
+
+.questions .search-form input[type="text"]:focus {
+  color: #444;
+}
+
+/*
+ * Feedback
+ */
+
+#shield {
+  z-index: 100;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  opacity: 0.8;
+  background: #ccc;
+  display: none;
+}
+
+#feedback-link {
+  position: fixed;
+  left: -65px;
+  top: 500px;
+  background: -webkit-gradient(linear, left top, left bottom, from(#666), to(#444));
+  color: #e94;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 5px 30px;
+  padding-bottom: 30px;
+  -webkit-transform: rotate(90deg);
+  cursor: pointer;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  box-shadow: 0px 0px 6px 1px #e94;
+}
+
+#feedback-link:focus,
+#feedback-link:hover {
+  background: -webkit-gradient(linear, left top, left bottom, from(#777), to(#555));
+  text-decoration: none;
+}
+
+#feedback {
+  position: fixed;
+  z-index: 1000;
+  top: 0px;
+  left: 500px;
+  width: 540px;
+  background: #111;
+  border-radius: 20px;
+  display: none;
+  opacity: 0.9;
+}
+
+#feedback form {
+  width: 460px;
+  margin: 20px;
+  border-radius: 10px;
+  background: black;
+  padding: 20px;
+  text-align: center;
+}
+
+#feedback form h1 {
+  color: #eee;
+  text-align: center;
+  padding: 5px;
+}
+
+#feedback form p {
+  font-size: 16px;
+  font-weight: bold;
+  color: #eee;
+  margin: 5px;
+}
+
+#feedback form input[type="text"],
+#feedback form textarea {
+  width: 430px;
+  font-size: 16px;
+  padding: 5px;
+  margin: 5px;
+  border: 1px solid #ccc;
+}
+
+#feedback form input[type="text"]:focus,
+#feedback form textarea:focus {
+  box-shadow: 0px 0px 5px 1px #999;
+  opacity: 1.0;
+}
+
+#feedback form textarea {
+  height: 100px;
+}
+
+#feedback form input[type="submit"],
+#feedback form input[type="reset"],
+#feedback form select {
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  background: -webkit-gradient(linear, left top, left bottom, from(#ccc), to(#777));
+  text-shadow: #ddd 1px 1px 1px;
+  border: 0px;
+}
+
+#feedback form input[type="submit"]:hover,
+#feedback form input[type="reset"]:hover {
+  background: -webkit-gradient(linear, left top, left bottom, from(#eee), to(#999));
+}
+
+#feedback form input[type="submit"]:active,
+#feedback form input[type="reset"]:active {
+  background: -webkit-gradient(linear, left top, left bottom, from(#777), to(#ccc));
+}
+
+#feedback form select {
+  padding: 5px 10px;
+  font-size: 16px;
+  font-weight: bold;
+  background: -webkit-gradient(linear, left top, left bottom, from(#ccc), to(#777));
+  text-shadow: #ddd 1px 1px 1px;
+  border: 0px;
+  margin: 5px;
+  width: 442px;
+}
+
+#feedback form select:hover {
+  background: -webkit-gradient(linear, left top, left bottom, from(#eee), to(#999));
+}
+
+#feedback form select:active {
+  background: -webkit-gradient(linear, left top, left bottom, from(#777), to(#ccc));
 }

@@ -6,9 +6,34 @@
         <%= stylesheet_link_tag "style" %>
         <%= stylesheet_link_tag "settings" %>
         <%= javascript_include_tag :defaults %>
+        <%= javascript_include_tag "feedback" %>
         <%= csrf_meta_tag %>
     </head>
     <body>
+        <a href="http://github.com/demiazz/webula" class="fork">Fork me on GitHub</a>
+
+        <!-- Feed Back Link -->
+        <a id="feedback-link">Feedback</a>
+        <!-- Feed Back Form -->
+        <div id="shield"></div>
+        <div id="feedback">
+            <form>
+                <h1>Feedback</h1>
+                <p><select>
+                    <option>Error</option>
+                    <option>Proposal</option>
+                    <option>Thanks</option>
+                    <option>Question</option>
+                </select></p>
+                <p><input type="text"></input></p>
+                <p><textarea></textarea></p>
+                <p>
+                    <input type="submit" value="Send feedback"></input>
+                    <input id="feedback-close" type="reset" value="Cancel"></input>
+                </p>
+                <p>Thank you for your help!</p>
+            </form>
+        </div>
 
     	<!-- Header -->
         <header>

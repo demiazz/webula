@@ -1,0 +1,5 @@
+<%= form_for(@new_question, :url => url_for(:controller => :questions, :action => :create_question), :html => {:method => :put }) do |f| %>
+  <%= f.text_area :text, :rows => 3 %>
+  Tags: <%= f.text_field :tags, :value => "" %>
+  <%= f.submit "Ask a question" %>
+<% end %>

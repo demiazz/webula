@@ -1,0 +1,74 @@
+<% content_for :title do %>
+  Search
+<% end %>
+
+<%= content_for :right_aside do %>
+  <%= render "right_aside" %>
+<% end %>
+
+<%= render "links" %>
+
+<% if @questions_count > 0 %>
+  <article class="questions">
+  <%= form_tag(questions__search_path, :class => "search-form") do %>
+    <%= text_field_tag :query, params[:query] %>
+    <%= submit_tag "Search" %>
+  <% end %>
+  <% @questions.each do |question| %>
+    <table>
+      <tr>
+        <td rowspan=4 class="avatar"><%= image_tag question.author.user_profile.avatar %></td>
+        <td class="user-info">
+          <h1><%= link_to question.author.full_name, questions__personal_questions_path(:username => question.author.username) %> written: </h1>
+          <p class="post-text"><%= question.text %></p>
+        </td>
+        <td rowspan=4 class="menu">
+          <%= link_to "Anwers (#{question.answers_count})", questions__show_path(:id => question.id) %>
+          <p><a style="cursor: pointer;" onclick="$('#<%= question.id %>').show(); $('#<%= question.id %> > textarea').focus();">Answer</a></p>
+          <% if question.author_id == @user.id %>
+            <%= link_to "Delete question", questions__delete_question_path(:id => question.id), :method => :delete, :class => "destructive" %>
+          <% end %>
+        </td>
+      </tr>
+      <tr>
+        <td class="tags">
+          <p>
+            Tags:
+            <% if question.tags.size > 0 %>
+              <% question.tags.each do |tag| %>
+                <%= link_to "#{tag}", questions__questions_by_tag_path(:tag => tag) %>
+              <% end %>
+            <% else %>
+              None
+            <% end %>
+          </p>
+        </td>
+      </tr>
+      <tr>
+        <td class="posted-at"><p><%= question.created_at.strftime("Posted at %e %B %Y in %H:%M") %></p></td>
+      </tr>
+      <tr>
+        <td class="reply-form">
+          <%= form_tag questions__add_answer_path(:question_id => question.id), :method => :put, :id => question.id do %>
+            <%= text_area_tag :text %>
+            <%= submit_tag "Answer" %>
+            <input type="reset" onclick="$('#<%= question.id %>').hide();" value="Close"></input>
+          <% end %>
+        </td>
+      </tr>
+    </table>
+  <% end %>
+  <div class="pagination">
+    <div class="entries"><%= page_entries_info @questions %></div>
+    <div>
+      <%= will_paginate @questions, :container => false, :inner_window => 1 %>
+    </div>
+  </div>
+  </article>
+<% else %>
+  <article class="questions">
+    <article class="microblog-empty">
+
+    </article>
+  </article>
+<% end %>
