@@ -36,3 +36,7 @@ gem "bson_ext", "~> 1.2"
 gem "devise", "~> 1.2"
 
 gem "will_paginate", "~> 3.0.pre3"
+
+gem "hiredis", "~> 0.3.1"
+gem "redis", "~> 2.2.0", :require => ["redis/connection/hiredis", "redis"]
+gem "redis-store", "1.0.0.beta5"
