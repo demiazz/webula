@@ -20,6 +20,8 @@ class ApplicationController < ActionController::Base
   before_filter :profile
   # Загрузка пользовательской информации
   before_filter :personalize
+  # Подсчет обращений
+  before_filter :counter
 
   private
     
@@ -54,6 +56,39 @@ class ApplicationController < ActionController::Base
           @personal = false
         end
         @user_profile = @user.user_profile
+      end
+    end
+
+    def counter
+      today = DateTime.now.utc
+      # Сборка статистики по контроллерам
+      #
+      # Учитывается запрос только к контроллеру.
+      $controller.multi do
+        $controller_stat.incr "#{controller_name}__#{today.year}__#{today.month}__#{today.day}__#{today.hour}"
+        $controller_stat.incr "#{controller_name}__#{today.year}__#{today.month}__#{today.day}"
+        $controller_stat.incr "#{controller_name}__#{today.year}__#{today.month}"
+        $controller_stat.incr "#{controller_name}__#{today.year}"
+      end
+      # Сборка статистики по actions
+      #
+      # Учитывается запрос только к action.
+      $action_stat.multi do
+        $action_stat.incr "#{controller_name}__#{action_name}__#{today.year}__#{today.month}__#{today.day}__#{today.hour}"
+        $action_stat.incr "#{controller_name}__#{action_name}__#{today.year}__#{today.month}__#{today.day}"
+        $action_stat.incr "#{controller_name}__#{action_name}__#{today.year}__#{today.month}"
+        $action_stat.incr "#{controller_name}__#{action_name}__#{today.year}"
+      end
+      # Сборка статистики по users
+      #
+      # Учитываются запросы пользователей к конкретным контроллерам и action.
+      if user_signed?
+        $user_stat.multi do
+          $user_stat.incr "#{current_user.id}__#{controller_name}__#{action_name}__#{today.year}__#{today.month}__#{today.day}__#{today.hour}"
+          $user_stat.incr "#{current_user.id}__#{controller_name}__#{action_name}__#{today.year}__#{today.month}__#{today.day}"
+          $user_stat.incr "#{current_user.id}__#{controller_name}__#{action_name}__#{today.year}__#{today.month}"
+          $user_stat.incr "#{current_user.id}__#{controller_name}__#{action_name}__#{today.year}"
+        end
       end
     end
 

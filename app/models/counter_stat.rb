@@ -2,7 +2,7 @@ class CounterStat
   include Mongoid::Document
 
   # Число запросов
-  field :count, :type => Integer, :default => ""
+  field :count, :type => Integer, :default => 0
 
   # Контроллер и действие
   field :controller, :type => String, :default => ""
