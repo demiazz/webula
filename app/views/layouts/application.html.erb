@@ -19,9 +19,9 @@
         <div id="feedback">
           <%= form_tag(profiles__index_path, :method => :put) do %>
             <h1>Feedback</h1>
-            <p><%= select_tag "feedback_type", options_for_select([["Error", "error"], ["Question", "question"], ["Proposal", "proposal"], ["Thanks", "thanks"]]) %></p>
-            <p><%= text_field_tag :subject %></p>
-            <p><%= text_area_tag :text %></p>
+            <p><%= select_tag :feedback_type, options_for_select([["Error", "error"], ["Question", "question"], ["Proposal", "proposal"], ["Thanks", "thanks"]]) %></p>
+            <p><%= text_field_tag :feedback_subject %></p>
+            <p><%= text_area_tag :feedback_text %></p>
             <p>
               <%= submit_tag "Send feedback" %>
               <input id="feedback-close" type="reset" value="Cancel"></input>
