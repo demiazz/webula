@@ -17,22 +17,17 @@
         <!-- Feed Back Form -->
         <div id="shield"></div>
         <div id="feedback">
-            <form>
-                <h1>Feedback</h1>
-                <p><select>
-                    <option>Error</option>
-                    <option>Proposal</option>
-                    <option>Thanks</option>
-                    <option>Question</option>
-                </select></p>
-                <p><input type="text"></input></p>
-                <p><textarea></textarea></p>
-                <p>
-                    <input type="submit" value="Send feedback"></input>
-                    <input id="feedback-close" type="reset" value="Cancel"></input>
-                </p>
-                <p>Thank you for your help!</p>
-            </form>
+          <%= form_tag(feedbacks__create_feedback_path, :method => :put) do %>
+            <h1>Feedback</h1>
+            <p><%= select_tag :feedback_type, options_for_select([["Error", "error"], ["Proposal", "proposal"]]) %></p>
+            <p><%= text_field_tag :feedback_subject %></p>
+            <p><%= text_area_tag :feedback_text %></p>
+            <p>
+              <%= submit_tag "Send feedback" %>
+              <input id="feedback-close" type="reset" value="Cancel"></input>
+            </p>
+            <p>Thanks for your help!</p>
+          <% end %>
         </div>
 
     	<!-- Header -->

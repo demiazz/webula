@@ -1664,3 +1664,137 @@ footer {
 #feedback form select:active {
   background: -webkit-gradient(linear, left top, left bottom, from(#777), to(#ccc));
 }
+
+/**
+  * Microblog
+  */
+
+.feedbacks {
+  padding: 0px;
+}
+
+.feedbacks > h1 {
+  color: #666;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  text-align: center;
+  margin-left: 5px;
+  margin-right: 5px;
+  font-size: 18px;
+}
+
+.feedbacks table {
+  border: 1px solid #ddd;
+  width: 568px;
+  margin: 5px;
+  border-spacing: 0px;
+  border-collapse: collapse;
+}
+
+.feedbacks table:hover {
+  border-color: #aaa;
+  box-shadow: 0px 0px 4px 1px #bbb;
+}
+
+.feedbacks table .avatar {
+  padding: 0px;
+  margin: 0px;
+  width: 60px;
+  vertical-align: top;
+  /*border-right: 1px solid #ddd;*/
+}
+
+.feedbacks table .avatar img {
+  width: 50px;
+  height: 50px;
+  margin: 5px;
+  margin-bottom: 1px;
+}
+
+.feedbacks table .user-info {
+  width: 379px;
+  vertical-align: top;
+}
+
+.feedbacks table .user-info h1 {
+  padding: 3px;
+  font-size: 14px;
+  color: #999;
+  margin-bottom: -8px;
+}
+
+.feedbacks table .user-info h1 a {
+  font-size: 14px;
+}
+
+.feedbacks table .user-info a {
+  font-size: 13px;
+  margin: 0px;
+  padding: 0px;
+}
+
+.feedbacks table .user-info p.feedback-subject {
+  font-weight: bold;
+  font-size: 14px;
+  color: #444;
+  padding-left: 5px;
+  text-align: justify;
+  padding: 5px 5px;
+  margin-top: 5px;
+  margin-bottom: -5px;
+}
+
+.feedbacks table .user-info p.feedback-text {
+  font-size: 13px;
+  color: #444;
+  padding-left: 5px;
+  text-align: justify;
+  padding: 5px 5px;
+}
+
+.feedbacks table .posted-at {
+  font-size: 12px;
+  color: #666;
+  vertical-align: bottom;
+}
+
+.feedbacks table .posted-at p {
+  /*border-top: 1px solid #ddd;*/
+  padding: 2px 5px;
+}
+
+.feedbacks table .menu {
+  width: 125px;
+  text-align: center;
+  vertical-align: top;
+  padding: 5px 0px;
+  /*border-left: 1px solid #ddd;*/
+}
+
+.feedbacks table .menu a {
+  width: 105px;
+  padding: 2px 3px;
+  margin: 0px 5px;
+  display: inline-block;
+}
+
+.feedbacks table .menu a:hover {
+  text-decoration: none;
+  background: #eee;
+}
+
+.feedbacks-empty {
+  margin: 5px;
+  padding: 20px;
+  text-align: center;
+  color: #666;
+}
+
+.feedbacks .search-form input[type="text"] {
+  width: 451px;
+  color: #666;
+}
+
+.feedbacks .search-form input[type="text"]:focus {
+  color: #444;
+}
