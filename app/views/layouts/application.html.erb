@@ -19,7 +19,7 @@
         <div id="feedback">
           <%= form_tag(feedbacks__create_feedback_path, :method => :put) do %>
             <h1>Feedback</h1>
-            <p><%= select_tag :feedback_type, options_for_select([["Error", "error"], ["Question", "question"], ["Proposal", "proposal"], ["Thanks", "thanks"]]) %></p>
+            <p><%= select_tag :feedback_type, options_for_select([["Error", "error"], ["Proposal", "proposal"]]) %></p>
             <p><%= text_field_tag :feedback_subject %></p>
             <p><%= text_area_tag :feedback_text %></p>
             <p>

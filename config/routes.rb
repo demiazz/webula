@@ -391,9 +391,31 @@ Webula::Application.routes.draw do
   # Feedbacks
   #=============================================================================
 
+  get "feedbacks/all(/consideres/:consideres)",
+          :to => "feedbacks#index",
+          :default => {:page => 1,
+                       :consideres => "both"},
+          :as => :feedbacks__all
+
+  get "feedbacks/proposals(/consideres/:consideres)",
+          :to => "feedbacks#proposals",
+          :default => {:page => 1,
+                       :consideres => "both"},
+          :as => :feedbacks__proposals
+
+  get "feedbacks/errors(/consideres/:consideres)",
+          :to => "feedbacks#errors",
+          :default => {:page => 1,
+                       :consideres => "both"},
+          :as => :feedbacks__errors
+
   put "feedbacks/create",
           :to => "feedbacks#create_feedback",
           :as => :feedbacks__create_feedback
+
+  put "feedbacks/conside/:id",
+          :to => "feedbacks#conside_feedback",
+          :as => :feedbacks__conside_feedback
 
   #=============================================================================
   # Root path (index)

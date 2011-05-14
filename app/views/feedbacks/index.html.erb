@@ -1,0 +1,54 @@
+<% content_for :title do %>
+  All feedbacks
+<% end %>
+
+<%= render "links" %>
+
+<% if @feedbacks_count > 0 %>
+  <article class="feedbacks">
+  <article class="action-menu">
+    Actions:
+    <%= link_to "All", feedbacks__all_path(:consideres => "both"), :class => "left" %>
+    <%= link_to "Considered", feedbacks__all_path(:consideres => "yes")%>
+    <%= link_to "Not considered", feedbacks__all_path(:consideres => "no")%>
+  </article>
+  <% @feedbacks.each do |feedback| %>
+    <table>
+      <tr>
+        <td rowspan=2 class="avatar"><%= image_tag feedback.author.user_profile.avatar %></td>
+        <td class="user-info">
+          <h1><%= to_microblog_user_home feedback.author, feedback.author.full_name %> written <%= feedback.feedback_type %> feedback:</h1>
+          <p class="feedback-subject">Subject: <%= feedback.subject %></p>
+          <p class="feedback-text"><%= feedback.text %></p>
+        </td>
+        <td rowspan=2 class="menu">
+          <% unless feedback.status %>
+            <%= link_to "Conside", feedbacks__conside_feedback_path(:id => feedback.id), :method => :put %>
+          <% end %>
+        </td>
+      </tr>
+      <tr>
+        <td class="posted-at"><p><%= feedback.created_at.strftime("Posted at %e %B %Y in %H:%M") %></p></td>
+      </tr>
+    </table>
+  <% end %>
+  <div class="pagination">
+    <div class="entries"><%= page_entries_info @feedbacks %></div>
+    <div>
+      <%= will_paginate @feedbacks, :container => false, :inner_window => 1 %>
+    </div>
+  </div>
+  </article>
+<% else %>
+  <article class="feedbacks">
+    <article class="action-menu">
+      Actions:
+      <%= link_to "All", feedbacks__all_path(:consideres => "both"), :class => "left" %>
+      <%= link_to "Considered", feedbacks__all_path(:consideres => "yes")%>
+      <%= link_to "Not considered", feedbacks__all_path(:consideres => "no")%>
+    </article>
+    <article class="feedbacks-empty">
+
+    </article>
+  </article>
+<% end %>

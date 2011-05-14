@@ -1,0 +1,19 @@
+<article class="content-menu">
+  <ul>
+    <% if action_name == "index" %>
+      <li><%= link_to "All feedbacks", feedbacks__all_path(:consideres => "both"), :class => "selected" %></li>
+    <% else %>
+      <li><%= link_to "All feedbacks", feedbacks__all_path(:consideres => "both") %></li>
+    <% end %>
+    <% if action_name == "proposals" %>
+      <li><%= link_to "Proposal feedbacks", feedbacks__proposals_path(:consideres => "both"), :class => "selected" %></li>
+    <% else %>
+      <li><%= link_to "Proposal feedbacks", feedbacks__proposals_path(:consideres => "both") %></li>
+    <% end %>
+    <% if action_name == "errors" %>
+      <li><%= link_to "Error feedbacks", feedbacks__errors_path(:consideres => "both"), :class => "selected" %></li>
+    <% else %>
+      <li><%= link_to "Error feedbacks", feedbacks__errors_path(:consideres => "both") %></li>
+    <% end %>
+  </ul>
+</article>
